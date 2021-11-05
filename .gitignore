@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/uim-entitybase
+uim-entitybase.so
+uim-entitybase.dylib
+uim-entitybase.dll
+uim-entitybase.a
+uim-entitybase.lib
+uim-entitybase-test-*
+*.exe
+*.o
+*.obj
+*.lst
