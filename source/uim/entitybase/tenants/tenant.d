@@ -29,6 +29,7 @@ class DETBTenant {
       auto tenant = ETBTenant; 
       // TODO
       }}
+  bool notNull() { return true; }
 
   void importTenant(DJBTenant jbTenant) {
     debug writeln("uim.entitybase.bases.base:DETBTenant::importTenant()");
@@ -43,7 +44,16 @@ class DETBTenant {
       // TODO
       }}
 
-  private DETBCollection[string] _collections;
+  protected DETBCollection[string] _collections;
+  
+  bool hasCollection(string collectionName) {
+    return collectionName in _collections ? true : false; }
+  unittest {
+    version(uim_entitybase) {
+      auto tenant = ETBTenant; 
+      // TODO
+      }}
+
   DETBCollection collection(string collectionName) {
     return _collections.get(collectionName, ETBNullCollection); }
   unittest {

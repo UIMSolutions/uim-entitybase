@@ -21,6 +21,16 @@ class DETBNullTenant : DETBTenant {
       auto tenant = ETBTenant; 
       // TODO
       }}
+  override bool notNull() { return false; }
+  
+  override bool hasCollection(string collectionName) {
+    return false; }
+  unittest {
+    version(uim_entitybase) {
+      auto tenant = ETBTenant; 
+      // TODO
+      }}
+
 
   // Number of Collection in a tenant
   override size_t count() {

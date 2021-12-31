@@ -131,7 +131,7 @@ class DETBBase {
       }}
 
   bool hasTenant(string name) {
-    return (name in _tenants && tenant(name)); }
+    return name in _tenants ? true : false; }
   unittest {
     version(uim_entitybase) {
       auto base = createTestDB("file");
@@ -142,6 +142,15 @@ class DETBBase {
 
   auto collection(string tenantName, string colName) {
     return tenant(tenantName)[colName]; }
+  unittest {
+    version(uim_entitybase) {
+      auto base = createTestDB("file");
+      assert(base["tenantA"]);
+      assert(!base["tenantC"]);
+      }}
+
+  auto hasCollection(string tenantName, string colName) {
+    return hasTenant(tenantName) && this[tenantName].hasCollection(colName); }
   unittest {
     version(uim_entitybase) {
       auto base = createTestDB("file");

@@ -7,6 +7,7 @@ class DETBNullCollection : DETBCollection {
   this() { super(); }
 
   override bool isNull() { return true; }
+  override bool notNull() { return false; }
 
 // #region FindMany
   alias findMany = DETBCollection.findMany;

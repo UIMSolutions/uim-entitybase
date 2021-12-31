@@ -17,7 +17,13 @@ class DETBCollection {
   
   mixin(OProperty!("DJSBCollection", "jsCollection"));
   mixin(OProperty!("DETBTenant", "tenant"));
-  mixin(OProperty!("string", "entityName"));
+
+  protected string _entityPath;
+  string entityPath() { return _entityPath; }
+  void entityPath(string path) { _entityPath = path; }
+
+  void entityPath(DOOPEntity entity) { 
+    if (entity) this.entityPath(entity.registerPath); }
 
   O options(this O)(Json newOptions) {
     // TODO - OPtion handling
@@ -25,6 +31,7 @@ class DETBCollection {
   }
 
   bool isNull() { return false; }
+  bool notNull() { return true; }
 
   bool has(Json entity, UUID id) {
     return "id" in entity ? entity["id"].get!string == id.toString : false; }
@@ -35,6 +42,14 @@ class DETBCollection {
   bool has(Json jsonData, size_t versionNumber = 0) {
     return (versionNumber != 0) && (jsonData["versionNumber"].get!size_t == versionNumber);
   }
+
+  DOOPEntity create() {
+    // TODO Should not copy id and other main data
+    if (auto entity = uimRegistryEntities[entityPath]) {
+      auto result = entity.copy();
+      result.collection(this);
+      return result; } 
+    return null; }
 
   DOOPEntity[] toEntities(Json[] jsons) {
     debug writeln(moduleName!DETBCollection~":DETBCollection::toEntities(", jsons.length,")");
@@ -47,16 +62,13 @@ class DETBCollection {
     version(uim_entitybase) {
       // TODO
     }}
+
   DOOPEntity toEntity(Json json) {
-    debug writeln("entity convert");
-    return entityName in createEntities ? createEntities[entityName](json) : OOPEntity(json);
-  }
-
-  DOOPEntity create() { return create(Json(null)); }
-
-  DOOPEntity create(Json json) {
-    debug writeln("entity create");
-    return entityName in createEntities ? createEntities[entityName](Json(null)) : OOPEntity(Json(null)); }
+    if (auto entity = uimRegistryEntities[entityPath]) {
+      auto result = entity.copy(json);
+      result.collection(this);
+      return result; } 
+    return null; }
 
 /*   Json lastVersion(string colName, UUID id) { return Json(null); }
   size_t lastVersionNumber(string colName, UUID id) { return 0; }
