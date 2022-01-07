@@ -29,7 +29,7 @@ class DETBBase {
 
     return cast(O)this; }
   unittest {
-    version(uim_entitybase) {
+    version(test_uim_entitybase) {
       auto base = createTestDB("file");
       assert(base.hasTenant("tenantA"));
       assert(base.hasTenant("tenantB"));
@@ -47,7 +47,7 @@ class DETBBase {
     debug writeln(moduleName!DETBBase~":DETBase::tenant");
     return _tenants.get(tenantName, ETBNullTenant); }
   unittest {
-    version(uim_entitybase) {
+    version(test_uim_entitybase) {
       auto base = createTestDB("file"); 
       base
         .createTenant("testA")
@@ -62,7 +62,7 @@ class DETBBase {
     debug writeln(moduleName!DETBBase~":DETBase::opIndex");
     return tenant(tenantName); }
   unittest {
-    version(uim_entitybase) {
+    version(test_uim_entitybase) {
       auto base = createTestDB("file"); 
       base
         .createTenant("testA")
@@ -78,7 +78,7 @@ class DETBBase {
     _tenants[tenantName] = newTenant;
     return cast(O)this; }
   unittest {
-    version(uim_entitybase) {
+    version(test_uim_entitybase) {
       auto base = createTestDB("file"); 
       base
         .createTenant("testA")
@@ -92,7 +92,7 @@ class DETBBase {
     tenant(tenantName, newTenant);
     return cast(O)this; }
   unittest {
-    version(uim_entitybase) {
+    version(test_uim_entitybase) {
       auto base = createTestDB("file"); 
       base
         .createTenant("testA")
@@ -103,7 +103,7 @@ class DETBBase {
   
   auto tenantNames() { return _tenants.byKey().array; }
   unittest {
-    version(uim_entitybase) {
+    version(test_uim_entitybase) {
       auto base = createTestDB("file"); 
       base
         .createTenant("testA")
@@ -117,7 +117,7 @@ class DETBBase {
       _tenants[name] = ETBTenant(options); }
     return cast(O)this; }
   unittest {
-    version(uim_entitybase) {
+    version(test_uim_entitybase) {
       auto base = createTestDB("file"); 
       base.createTenant("testA");
       assert(base.tenant("testA"));
@@ -133,7 +133,7 @@ class DETBBase {
   bool hasTenant(string name) {
     return name in _tenants ? true : false; }
   unittest {
-    version(uim_entitybase) {
+    version(test_uim_entitybase) {
       auto base = createTestDB("file");
       assert(base.hasTenant("tenantA"));
       assert(base.hasTenant("tenantB"));
@@ -143,7 +143,7 @@ class DETBBase {
   auto collection(string tenantName, string colName) {
     return tenant(tenantName)[colName]; }
   unittest {
-    version(uim_entitybase) {
+    version(test_uim_entitybase) {
       auto base = createTestDB("file");
       assert(base["tenantA"]);
       assert(!base["tenantC"]);
@@ -152,7 +152,7 @@ class DETBBase {
   auto hasCollection(string tenantName, string colName) {
     return hasTenant(tenantName) && this[tenantName].hasCollection(colName); }
   unittest {
-    version(uim_entitybase) {
+    version(test_uim_entitybase) {
       auto base = createTestDB("file");
       assert(base["tenantA"]);
       assert(!base["tenantC"]);
@@ -161,7 +161,7 @@ class DETBBase {
   DETBCollection opIndex(string tenantName, string colName) {
     return collection(tenantName, colName); }
   unittest {
-    version(uim_entitybase) {
+    version(test_uim_entitybase) {
       auto base = createTestDB("file");
       assert(base["tenantA"]);
       assert(!base["tenantC"]);
@@ -170,7 +170,7 @@ class DETBBase {
   string uniqueName(string tenantName, string collectionName, string firstName) {
     return collection(tenantName, collectionName).uniqueName(firstName); }
   unittest {
-    version(uim_entitybase) {
+    version(test_uim_entitybase) {
       auto base = createTestDB("file"); 
       // TODO 
       }}
@@ -180,7 +180,7 @@ class DETBBase {
   size_t count() {
     return _tenants.length; }
   unittest {
-    version(uim_entitybase) {
+    version(test_uim_entitybase) {
       auto base = createTestDB("file");
       assert(base.count == 2);
       }}

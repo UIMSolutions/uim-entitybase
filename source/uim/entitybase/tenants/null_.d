@@ -9,7 +9,7 @@ class DETBNullTenant : DETBTenant {
   override DETBCollection collection(string collectionName) {
     return ETBNullCollection; }
   unittest {
-    version(uim_entitybase) {
+    version(test_uim_entitybase) {
       auto base = ETBBase; 
       // TODO 
       }}
@@ -17,7 +17,7 @@ class DETBNullTenant : DETBTenant {
   override bool isNull() {
     return true; }
   unittest {
-    version(uim_entitybase) {
+    version(test_uim_entitybase) {
       auto tenant = ETBTenant; 
       // TODO
       }}
@@ -26,7 +26,7 @@ class DETBNullTenant : DETBTenant {
   override bool hasCollection(string collectionName) {
     return false; }
   unittest {
-    version(uim_entitybase) {
+    version(test_uim_entitybase) {
       auto tenant = ETBTenant; 
       // TODO
       }}
@@ -36,7 +36,7 @@ class DETBNullTenant : DETBTenant {
   override size_t count() {
     return 0; }
   unittest {
-    version(uim_entitybase) {
+    version(test_uim_entitybase) {
       auto tenant = ETBTenant; 
       // TODO
       }}
@@ -44,7 +44,7 @@ class DETBNullTenant : DETBTenant {
   override DETBCollection opIndex(string collectionName) {
     return ETBNullCollection; }
   unittest {
-    version(uim_entitybase) {
+    version(test_uim_entitybase) {
       auto tenant = ETBTenant; 
       // TODO
       }}

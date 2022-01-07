@@ -25,7 +25,7 @@ class DETBTenant {
   bool isNull() {
     return false; }
   unittest {
-    version(uim_entitybase) {
+    version(test_uim_entitybase) {
       auto tenant = ETBTenant; 
       // TODO
       }}
@@ -39,7 +39,7 @@ class DETBTenant {
       this.collection(name, ETBCollection(jsCollection));     
     }
   unittest {
-    version(uim_entitybase) {
+    version(test_uim_entitybase) {
       auto tenant = ETBTenant; 
       // TODO
       }}
@@ -49,7 +49,7 @@ class DETBTenant {
   bool hasCollection(string collectionName) {
     return collectionName in _collections ? true : false; }
   unittest {
-    version(uim_entitybase) {
+    version(test_uim_entitybase) {
       auto tenant = ETBTenant; 
       // TODO
       }}
@@ -57,7 +57,7 @@ class DETBTenant {
   DETBCollection collection(string collectionName) {
     return _collections.get(collectionName, ETBNullCollection); }
   unittest {
-    version(uim_entitybase) {
+    version(test_uim_entitybase) {
       auto tenant = ETBTenant; 
       // TODO
       }}
@@ -67,7 +67,7 @@ class DETBTenant {
     foreach(name, value; newCollections) collections(name, value);
     return cast(O)this; }
   unittest {
-    version(uim_entitybase) {
+    version(test_uim_entitybase) {
       auto tenant = ETBTenant; 
       // TODO
       }}
@@ -77,18 +77,30 @@ class DETBTenant {
     _collections[collectionName] = newCollection.tenant(this);
     return cast(O)this; }
   unittest {
-    version(uim_entitybase) {
+    version(test_uim_entitybase) {
       auto tenant = ETBTenant; 
       // TODO
       }}
 
   DETBCollection opIndex(string collectionName) {
-    return collection(collectionName); }
-  unittest {
-    version(uim_entitybase) {
+    return collection(collectionName); 
+  }
+
+  version(test_uim_entitybase) {
+    unittest {
       auto tenant = ETBTenant; 
       // TODO
       }}
+
+  void opIndexAssign(DETBCollection newCollection, string collectionName) {
+    _collections[collectionName] = newCollection; 
+  }
+  unittest {
+    version(test_uim_entitybase) {
+      auto tenant = ETBTenant; 
+      // TODO
+      }}
+
 
   auto collectionNames() { return _collections.byKey.array; }
 
@@ -96,7 +108,7 @@ class DETBTenant {
   size_t count() {
     return _collections.length; }
   unittest {
-    version(uim_entitybase) {
+    version(test_uim_entitybase) {
       auto tenant = ETBTenant; 
       // TODO
       }}
