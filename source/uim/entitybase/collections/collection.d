@@ -54,7 +54,7 @@ class DETBCollection {
   DOOPEntity[] toEntities(Json[] jsons) {
     debug writeln(moduleName!DETBCollection~":DETBCollection::toEntities(", jsons.length,")");
     auto one = jsons.map!(a => toEntity(a)).array;
-    debug writeln(moduleName!DETBCollection~":DETBCollection::toEntities - 1:", one.length);
+    debug writeln(moduleName!DETBCollection~":DETBCollection::toEntities - 1:", one.length, );
     auto two = one.filter!(a => a !is null).array;
     debug writeln(moduleName!DETBCollection~":DETBCollection::toEntities - 2:", two.length);
     return two; }
@@ -103,6 +103,13 @@ class DETBCollection {
   // #region Count 
   /// Count items in the collection with id and versions.
   /// allVersion = true include versions; = false results in existing id (1 if exists, 0 if none) 
+  size_t count(bool allVersions = false) {
+    return jsCollection.count(allVersions); }
+  unittest {
+    version(test_uim_entitybase) {
+      // TODO
+    }}
+
   size_t count(UUID id, bool allVersions = false) {
     return jsCollection.count(id, allVersions); }
   unittest {
