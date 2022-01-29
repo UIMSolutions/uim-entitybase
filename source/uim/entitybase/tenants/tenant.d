@@ -32,7 +32,7 @@ class DETBTenant {
   bool notNull() { return true; }
 
   void importTenant(DJBTenant jbTenant) {
-    debug writeln("uim.entitybase.bases.base:DETBTenant::importTenant()");
+    debug writeln(moduleName!DETBTenant, ":DETBTenant::importTenant()");
     debug writeln(jbTenant.collectionNames);
 
     if (jbTenant) foreach (name, jsCollection; jbTenant.collections)

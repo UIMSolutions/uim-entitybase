@@ -18,12 +18,14 @@ class DETBCollection {
   mixin(OProperty!("DJSBCollection", "jsCollection"));
   mixin(OProperty!("DETBTenant", "tenant"));
 
-  protected string _entityPath;
-  string entityPath() { return _entityPath; }
-  void entityPath(string path) { _entityPath = path; }
-
-  void entityPath(DOOPEntity entity) { 
-    if (entity) this.entityPath(entity.registerPath); }
+  protected DOOPEntity _entityTemplate;
+  @property DOOPEntity entityTemplate() {
+    return _entityTemplate;
+  }
+  @property O entityTemplate(this O)(DOOPEntity newEntityTemplate) {
+    _entityTemplate = (newEntityTemplate ? newEntityTemplate : OOPEntity).collection(this);
+    return cast(O)this;
+  }
 
   O options(this O)(Json newOptions) {
     // TODO - OPtion handling
@@ -43,13 +45,18 @@ class DETBCollection {
     return (versionNumber != 0) && (jsonData["versionNumber"].get!size_t == versionNumber);
   }
 
-  DOOPEntity createEntity() {
-    // TODO Should not copy id and other main data
-    if (auto entity = uimRegistryEntities[entityPath]) {
-      auto result = entity.clone();
-      result.collection(this);
-      return result; } 
-    return null; }
+  DOOPEntity getEntity() {
+    if (entityTemplate) { return entityTemplate.collection(this); }
+    return null; 
+  }
+  DOOPEntity cloneEntity() {
+    if (entityTemplate) { return entityTemplate.clone().collection(this); }
+    return null; 
+  }
+  DOOPEntity copyEntity() {
+    if (entityTemplate) { return entityTemplate.copy().collection(this); }
+    return null; 
+  }
 
   DOOPEntity[] toEntities(Json[] jsons) {
     debug writeln(moduleName!DETBCollection~":DETBCollection::toEntities(", jsons.length,")");
@@ -64,8 +71,8 @@ class DETBCollection {
     }}
 
   DOOPEntity toEntity(Json json) {
-    if (auto entity = uimRegistryEntities[entityPath]) {
-      auto result = entity.copy(json);
+    if (entityTemplate) {
+      auto result = entityTemplate.copy.fromJson(json);
       result.collection(this);
       return result; } 
     return null; }
