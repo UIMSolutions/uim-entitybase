@@ -46,6 +46,8 @@ class DETBTenant {
 
   protected DETBCollection[string] _collections;
   
+  bool hasCollection(DOOPEntity entity) {
+    return entity ? hasCollection(entity.registerPath) : false; }
   bool hasCollection(string collectionName) {
     return collectionName in _collections ? true : false; }
   unittest {
@@ -54,6 +56,8 @@ class DETBTenant {
       // TODO
       }}
 
+  DETBCollection collection(DOOPEntity entity) {
+    return entity ? collection(entity.registerPath) : null; }
   DETBCollection collection(string collectionName) {
     return _collections.get(collectionName, ETBNullCollection); }
   unittest {
@@ -82,9 +86,10 @@ class DETBTenant {
       // TODO
       }}
 
+  DETBCollection opIndex(DOOPEntity entity) {
+    return collection(entity); }
   DETBCollection opIndex(string collectionName) {
-    return collection(collectionName); 
-  }
+    return collection(collectionName);}
 
   version(test_uim_entitybase) {
     unittest {
@@ -93,8 +98,7 @@ class DETBTenant {
       }}
 
   void opIndexAssign(DETBCollection newCollection, string collectionName) {
-    _collections[collectionName] = newCollection; 
-  }
+    _collections[collectionName] = newCollection; }
   unittest {
     version(test_uim_entitybase) {
       auto tenant = ETBTenant; 

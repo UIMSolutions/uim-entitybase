@@ -13,3 +13,5 @@ uim-entitybase-test-*
 *.o
 *.obj
 *.lst
+source/uim/entitybase/package.d
+dub.selections.json

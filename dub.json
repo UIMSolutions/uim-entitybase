@@ -32,7 +32,7 @@
 		},
 		{
 			"name": "uim_entitybase",
-			"versions": ["uim_entitybase"],
+			"versions": ["test_uim_entitybase"],
 			"importPaths": [
 				"../uim-core",
 				"../uim-oop",

@@ -42,21 +42,12 @@ class DETBCollection {
     return "name" in entity ? entity["name"].get!string == name : false; }
 
   bool has(Json jsonData, size_t versionNumber = 0) {
-    return (versionNumber != 0) && (jsonData["versionNumber"].get!size_t == versionNumber);
-  }
+    return (versionNumber != 0) && (jsonData["versionNumber"].get!size_t == versionNumber); }
 
-  DOOPEntity getEntity() {
-    if (entityTemplate) { return entityTemplate.collection(this); }
-    return null; 
-  }
-  DOOPEntity cloneEntity() {
-    if (entityTemplate) { return entityTemplate.clone().collection(this); }
-    return null; 
-  }
-  DOOPEntity copyEntity() {
-    if (entityTemplate) { return entityTemplate.copy().collection(this); }
-    return null; 
-  }
+  DOOPEntity createFromTemplate() {
+    return (entityTemplate ? entityTemplate.create.collection(this) : null); }
+  DOOPEntity cloneFromTemplate() {
+    return (entityTemplate ? entityTemplate.clone.collection(this) : null); }
 
   DOOPEntity[] toEntities(Json[] jsons) {
     debug writeln(moduleName!DETBCollection~":DETBCollection::toEntities(", jsons.length,")");
@@ -72,7 +63,7 @@ class DETBCollection {
 
   DOOPEntity toEntity(Json json) {
     if (entityTemplate) {
-      auto result = entityTemplate.copy.fromJson(json);
+      auto result = entityTemplate.clone(json);
       result.collection(this);
       return result; } 
     return null; }
