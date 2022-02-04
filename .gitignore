@@ -15,3 +15,4 @@ uim-entitybase-test-*
 *.lst
 source/uim/entitybase/package.d
 dub.selections.json
+uim-jsonbase-test-offline
