@@ -16,16 +16,16 @@ class DETBBase {
     this.options(options); }
 
   O importDatabase(this O)(DJSBBase jsDatabase) {
-    debug writeln("uim.entitybase.bases.base:DETBase::importDatabase");
-    debug writeln(jsDatabase.tenantNames);
+/*     // debug writeln("uim.entitybase.bases.base:DETBase::importDatabase");
+    // debug writeln(jsDatabase.tenantNames); */
 
     if (jsDatabase) foreach (name, jsTenant; jsDatabase.tenants)
       this.tenant(name, ETBTenant(jsTenant)); 
 
-    debug writeln("Tenants: ", _tenants.byValue.array.length);
+    // debug writeln("Tenants: ", _tenants.byValue.array.length);
     auto numberOfCollections = 0;
-    foreach(t; _tenants.byValue) numberOfCollections += t.collectionNames.length;
-    debug writeln("Collections; ", numberOfCollections);
+    _tenants.byValue.each!(tenant => numberOfCollections += tenant.collectionNames.length);
+    // debug writeln("Collections; ", numberOfCollections);
 
     return cast(O)this; }
 version(test_uim_entitybase) {
@@ -44,10 +44,10 @@ version(test_uim_entitybase) {
   protected DETBTenant[string] _tenants;
 
   DETBTenant tenant(string tenantName) {
-    debug writeln(moduleName!DETBBase~":DETBase::tenant");
+    //// debug writeln(moduleName!DETBBase~":DETBase::tenant");
     return _tenants.get(tenantName, ETBNullTenant); }
 version(test_uim_entitybase) {
-  unittest {
+  unittest  {
       auto base = createTestDB("file"); 
       base
         .createTenant("testA")
@@ -59,7 +59,7 @@ version(test_uim_entitybase) {
       }}
 
   DETBTenant opIndex(string tenantName) {
-    debug writeln(moduleName!DETBBase~":DETBase::opIndex");
+    // debug writeln(moduleName!DETBBase~":DETBase::opIndex");
     return tenant(tenantName); }
 version(test_uim_entitybase) {
   unittest {
@@ -74,7 +74,7 @@ version(test_uim_entitybase) {
       }}
 
   O tenant(this O)(string tenantName, DETBTenant newTenant) {
-    debug writeln(moduleName!DETBBase~":DETBase::opIndexAssign");
+    // debug writeln(moduleName!DETBBase~":DETBase::opIndexAssign");
     _tenants[tenantName] = newTenant;
     return cast(O)this; }
 version(test_uim_entitybase) {
@@ -88,7 +88,7 @@ version(test_uim_entitybase) {
       }}
 
   O opIndexAssign(this O)(DETBTenant newTenant, string tenantName) {
-    debug writeln(moduleName!DETBBase~":DETBase::opIndexAssign");
+    // debug writeln(moduleName!DETBBase~":DETBase::opIndexAssign");
     tenant(tenantName, newTenant);
     return cast(O)this; }
 version(test_uim_entitybase) {

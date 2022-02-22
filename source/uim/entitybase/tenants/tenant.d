@@ -32,8 +32,8 @@ version(test_uim_entitybase) {
   bool notNull() { return true; }
 
   void importTenant(DJBTenant jbTenant) {
-    debug writeln(moduleName!DETBTenant, ":DETBTenant::importTenant()");
-    debug writeln(jbTenant.collectionNames);
+    // debug writeln(moduleName!DETBTenant, ":DETBTenant::importTenant()");
+    // debug writeln(jbTenant.collectionNames);
 
     if (jbTenant) foreach (name, jsCollection; jbTenant.collections)
       this.collection(name, ETBCollection(jsCollection));     
@@ -77,7 +77,7 @@ version(test_uim_entitybase) {
       }}
 
   O collection(this O)(string collectionName, DETBCollection newCollection) {
-    debug writeln("uim.entitybase.bases.base:DETBTenant::collection("~collectionName~", newCollectio)");
+    // debug writeln("uim.entitybase.bases.base:DETBTenant::collection("~collectionName~", newCollectio)");
     _collections[collectionName] = newCollection.tenant(this);
     return cast(O)this; }
 version(test_uim_entitybase) {

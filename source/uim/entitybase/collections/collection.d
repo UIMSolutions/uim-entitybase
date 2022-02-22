@@ -50,11 +50,11 @@ class DETBCollection {
     return (entityTemplate ? entityTemplate.clone.collection(this) : null); }
 
   DOOPEntity[] toEntities(Json[] jsons) {
-    debug writeln(moduleName!DETBCollection~":DETBCollection::toEntities(", jsons.length,")");
+    // debug writeln(moduleName!DETBCollection~":DETBCollection::toEntities(", jsons.length,")");
     auto one = jsons.map!(a => toEntity(a)).array;
-    debug writeln(moduleName!DETBCollection~":DETBCollection::toEntities - 1:", one.length, );
+    // debug writeln(moduleName!DETBCollection~":DETBCollection::toEntities - 1:", one.length, );
     auto two = one.filter!(a => a !is null).array;
-    debug writeln(moduleName!DETBCollection~":DETBCollection::toEntities - 2:", two.length);
+    // debug writeln(moduleName!DETBCollection~":DETBCollection::toEntities - 2:", two.length);
     return two; }
 version(test_uim_entitybase) {
   unittest {
@@ -168,9 +168,9 @@ version(test_uim_entitybase) {
   // #region findMany
   // Searching in store
   DOOPEntity[] findMany(bool allVersions = false) {
-    debug writeln(moduleName!DETBCollection~":DETBCollection::findMany(1)");
+    // debug writeln(moduleName!DETBCollection~":DETBCollection::findMany(1)");
     auto jsons = jsCollection.findMany(allVersions);
-    debug writeln(moduleName!DETBCollection~":DETBCollection::findMany(1) - Found jsons = ", jsons.length);
+    // debug writeln(moduleName!DETBCollection~":DETBCollection::findMany(1) - Found jsons = ", jsons.length);
     return toEntities(jsons); }
 version(test_uim_entitybase) {
   unittest {
