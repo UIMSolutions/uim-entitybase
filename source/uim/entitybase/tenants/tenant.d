@@ -24,8 +24,8 @@ class DETBTenant {
 
   bool isNull() {
     return false; }
+version(test_uim_entitybase) {
   unittest {
-    version(test_uim_entitybase) {
       auto tenant = ETBTenant; 
       // TODO
       }}
@@ -38,8 +38,8 @@ class DETBTenant {
     if (jbTenant) foreach (name, jsCollection; jbTenant.collections)
       this.collection(name, ETBCollection(jsCollection));     
     }
+version(test_uim_entitybase) {
   unittest {
-    version(test_uim_entitybase) {
       auto tenant = ETBTenant; 
       // TODO
       }}
@@ -50,8 +50,8 @@ class DETBTenant {
     return entity ? hasCollection(entity.registerPath) : false; }
   bool hasCollection(string collectionName) {
     return collectionName in _collections ? true : false; }
+version(test_uim_entitybase) {
   unittest {
-    version(test_uim_entitybase) {
       auto tenant = ETBTenant; 
       // TODO
       }}
@@ -60,8 +60,8 @@ class DETBTenant {
     return entity ? collection(entity.registerPath) : null; }
   DETBCollection collection(string collectionName) {
     return _collections.get(collectionName, ETBNullCollection); }
+version(test_uim_entitybase) {
   unittest {
-    version(test_uim_entitybase) {
       auto tenant = ETBTenant; 
       // TODO
       }}
@@ -70,8 +70,8 @@ class DETBTenant {
   O collection(this O)(DETBCollection[string] newCollections) {
     foreach(name, value; newCollections) collections(name, value);
     return cast(O)this; }
+version(test_uim_entitybase) {
   unittest {
-    version(test_uim_entitybase) {
       auto tenant = ETBTenant; 
       // TODO
       }}
@@ -80,8 +80,8 @@ class DETBTenant {
     debug writeln("uim.entitybase.bases.base:DETBTenant::collection("~collectionName~", newCollectio)");
     _collections[collectionName] = newCollection.tenant(this);
     return cast(O)this; }
+version(test_uim_entitybase) {
   unittest {
-    version(test_uim_entitybase) {
       auto tenant = ETBTenant; 
       // TODO
       }}
@@ -99,8 +99,8 @@ class DETBTenant {
 
   void opIndexAssign(DETBCollection newCollection, string collectionName) {
     _collections[collectionName] = newCollection; }
+version(test_uim_entitybase) {
   unittest {
-    version(test_uim_entitybase) {
       auto tenant = ETBTenant; 
       // TODO
       }}
@@ -111,8 +111,8 @@ class DETBTenant {
   // Number of Collection in a tenant
   size_t count() {
     return _collections.length; }
+version(test_uim_entitybase) {
   unittest {
-    version(test_uim_entitybase) {
       auto tenant = ETBTenant; 
       // TODO
       }}
