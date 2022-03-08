@@ -58,6 +58,10 @@ version(test_uim_entitybase) {
       assert(base.tenant["testD"].isNull);
       }}
 
+  DETBTenant opIndex(DOOPEntity entity) {
+    // debug writeln(moduleName!DETBBase~":DETBase::opIndex");
+    return tenant(entity ? entity.name : null); }
+
   DETBTenant opIndex(string tenantName) {
     // debug writeln(moduleName!DETBBase~":DETBase::opIndex");
     return tenant(tenantName); }
@@ -158,6 +162,10 @@ version(test_uim_entitybase) {
       assert(!base["tenantC"]);
       }}
 
+  DETBCollection opIndex(DOOPEntity entity, string colName) {
+    return collection(entity ? entity.name : null, colName);
+  }
+  
   DETBCollection opIndex(string tenantName, string colName) {
     return collection(tenantName, colName); }
 version(test_uim_entitybase) {
