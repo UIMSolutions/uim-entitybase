@@ -6,7 +6,7 @@ public import uim.oop;
 public import uim.entities;
 public import uim.jsonbase;
 
-public import vibe.d;
+public import vibe.data.json;
 
 public import uim.entitybase.collections;
 public import uim.entitybase.tenants;
