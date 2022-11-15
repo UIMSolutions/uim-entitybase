@@ -58,7 +58,7 @@ version(test_uim_entitybase) {
       assert(base.tenant["testD"].isNull);
       }}
 
-  DETBTenant opIndex(DOOPEntity entity) {
+  DETBTenant opIndex(DEntity entity) {
     // debug writeln(moduleName!DETBBase~":DETBase::opIndex");
     return tenant(entity ? entity.name : null); }
 
@@ -162,7 +162,7 @@ version(test_uim_entitybase) {
       assert(!base["tenantC"]);
       }}
 
-  DETBCollection opIndex(DOOPEntity entity, string colName) {
+  DETBCollection opIndex(DEntity entity, string colName) {
     return collection(entity ? entity.name : null, colName);
   }
   

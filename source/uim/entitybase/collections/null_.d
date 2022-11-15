@@ -12,7 +12,7 @@ class DETBNullCollection : DETBCollection {
 // #region FindMany
   alias findMany = DETBCollection.findMany;
   /// Find all (many) items in a collection. allVersions:false = find last versions, allVersion:true = find all versions
-  override DOOPEntity[] findMany(bool allVersions = false) { return null; }
+  override DEntity[] findMany(bool allVersions = false) { return null; }
 version(test_uim_entitybase) {
   unittest {
       auto col = ETBNullCollection ;    
@@ -21,7 +21,7 @@ version(test_uim_entitybase) {
       assert(!col.findMany(true)); }}
 
   /// Find all (many) items in a collection with id. allVersions:false = find last version, allVersion:true = find all versions
-  override DOOPEntity[] findMany(UUID id, bool allVersions = false) { return null; }
+  override DEntity[] findMany(UUID id, bool allVersions = false) { return null; }
 version(test_uim_entitybase) {
   unittest {
       auto col = ETBNullCollection ;
@@ -30,7 +30,7 @@ version(test_uim_entitybase) {
       // TODO 
       }}
 
-  override DOOPEntity[] findMany(STRINGAA select, bool allVersions = false) { return null; }
+  override DEntity[] findMany(STRINGAA select, bool allVersions = false) { return null; }
 version(test_uim_entitybase) {
   unittest {
       auto col = ETBNullCollection ;
@@ -39,7 +39,7 @@ version(test_uim_entitybase) {
       // TODO 
       }}
 
-  override DOOPEntity[] findMany(Json select, bool allVersions = false) { return null; }
+  override DEntity[] findMany(Json select, bool allVersions = false) { return null; }
 version(test_uim_entitybase) {
   unittest {
       auto col = ETBNullCollection ;
@@ -53,7 +53,7 @@ version(test_uim_entitybase) {
   // introduce base class overload set
   alias findOne = DETBCollection.findOne;
   //
-  override DOOPEntity findOne(UUID id, bool allVersions = false) { return null; }
+  override DEntity findOne(UUID id, bool allVersions = false) { return null; }
 version(test_uim_entitybase) {
   unittest {
       auto col = ETBNullCollection ;
@@ -62,7 +62,7 @@ version(test_uim_entitybase) {
       // TODO 
       }}
 
-  override DOOPEntity findOne(UUID id, size_t versionNumber) { return null; }
+  override DEntity findOne(UUID id, size_t versionNumber) { return null; }
 version(test_uim_entitybase) {
   unittest {
       auto col = ETBNullCollection;
@@ -70,7 +70,7 @@ version(test_uim_entitybase) {
       // TODO 
       }}
 
-  override DOOPEntity findOne(STRINGAA select, bool allVersions = false) { return null; }
+  override DEntity findOne(STRINGAA select, bool allVersions = false) { return null; }
 version(test_uim_entitybase) {
   unittest {
       auto col = ETBNullCollection ;
@@ -79,7 +79,7 @@ version(test_uim_entitybase) {
       // TODO 
       }}
 
-  override DOOPEntity findOne(Json select, bool allVersions = false) { return null; }
+  override DEntity findOne(Json select, bool allVersions = false) { return null; }
 version(test_uim_entitybase) {
   unittest {
       auto col = ETBNullCollection ;
@@ -90,7 +90,7 @@ version(test_uim_entitybase) {
   // #endregion findOne
 
   // #region insertOne
-  override DOOPEntity insertOne(Json newData) { return findOne(newData); }  
+  override DEntity insertOne(Json newData) { return findOne(newData); }  
 version(test_uim_entitybase) {
   unittest {
       auto col = ETBNullCollection ;

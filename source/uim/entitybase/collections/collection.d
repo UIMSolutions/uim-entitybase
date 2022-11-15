@@ -18,12 +18,12 @@ class DETBCollection {
   mixin(OProperty!("DJSBCollection", "jsCollection"));
   mixin(OProperty!("DETBTenant", "tenant"));
 
-  protected DOOPEntity _entityTemplate;
-  @property DOOPEntity entityTemplate() {
+  protected DEntity _entityTemplate;
+  @property DEntity entityTemplate() {
     return _entityTemplate;
   }
-  @property O entityTemplate(this O)(DOOPEntity newEntityTemplate) {
-    _entityTemplate = (newEntityTemplate ? newEntityTemplate : OOPEntity).collection(this);
+  @property O entityTemplate(this O)(DEntity newEntityTemplate) {
+    _entityTemplate = (newEntityTemplate ? newEntityTemplate : Entity).collection(this);
     return cast(O)this;
   }
 
@@ -44,12 +44,12 @@ class DETBCollection {
   bool has(Json jsonData, size_t versionNumber = 0) {
     return (versionNumber != 0) && (jsonData["versionNumber"].get!size_t == versionNumber); }
 
-  DOOPEntity createFromTemplate() {
+  DEntity createFromTemplate() {
     return (entityTemplate ? entityTemplate.create.collection(this) : null); }
-  DOOPEntity cloneFromTemplate() {
+  DEntity cloneFromTemplate() {
     return (entityTemplate ? entityTemplate.clone.collection(this) : null); }
 
-  DOOPEntity[] toEntities(Json[] jsons) {
+  DEntity[] toEntities(Json[] jsons) {
     // debug writeln(moduleName!DETBCollection~":DETBCollection::toEntities(", jsons.length,")");
     auto one = jsons.map!(a => toEntity(a)).array;
     // debug writeln(moduleName!DETBCollection~":DETBCollection::toEntities - 1:", one.length, );
@@ -61,7 +61,7 @@ version(test_uim_entitybase) {
       // TODO
     }}
 
-  DOOPEntity toEntity(Json json) {
+  DEntity toEntity(Json json) {
     if (entityTemplate) {
       auto result = entityTemplate.clone(json);
       result.collection(this);
@@ -71,15 +71,15 @@ version(test_uim_entitybase) {
 /*   Json lastVersion(string colName, UUID id) { return Json(null); }
   size_t lastVersionNumber(string colName, UUID id) { return 0; }
   
-  DOOPEntity[] versions(string colName, UUID id) {
+  DEntity[] versions(string colName, UUID id) {
     return null;
   }
  */
-/*   DOOPEntity[] versions(Json[size_t][UUID] col, UUID id) {
+/*   DEntity[] versions(Json[size_t][UUID] col, UUID id) {
     if (id !in col) return null;
     return col[id].byValue.array; }
 
-  DOOPEntity[] versions(Json[size_t] entity) { 
+  DEntity[] versions(Json[size_t] entity) { 
     return entity.byValue.array; } */
 
   string uniqueName(string firstName) {
@@ -148,7 +148,7 @@ version(test_uim_entitybase) {
       // TODO
     }}
 
-  // Searching for existing selects:doopentity[]
+  // Searching for existing selects:dEntity[]
   size_t count(Json[] selects, bool allVersions = false) {
     return jsCollection.count(selects, allVersions); }
 version(test_uim_entitybase) {
@@ -156,7 +156,7 @@ version(test_uim_entitybase) {
       // TODO
     }}
 
-  // Searching based on parameter "select":DOOPEntity[]
+  // Searching based on parameter "select":DEntity[]
   size_t count(Json select, bool allVersions = false) {
     return jsCollection.count(select, allVersions); }
 version(test_uim_entitybase) {
@@ -167,7 +167,7 @@ version(test_uim_entitybase) {
 
   // #region findMany
   // Searching in store
-  DOOPEntity[] findMany(bool allVersions = false) {
+  DEntity[] findMany(bool allVersions = false) {
     // debug writeln(moduleName!DETBCollection~":DETBCollection::findMany(1)");
     auto jsons = jsCollection.findMany(allVersions);
     // debug writeln(moduleName!DETBCollection~":DETBCollection::findMany(1) - Found jsons = ", jsons.length);
@@ -178,7 +178,7 @@ version(test_uim_entitybase) {
     }}
 
   // Searching for existing ids
-  DOOPEntity[] findMany(UUID[] ids, bool allVersions = false) {
+  DEntity[] findMany(UUID[] ids, bool allVersions = false) {
     return toEntities(jsCollection.findMany(ids, allVersions)); }
 version(test_uim_entitybase) {
   unittest {
@@ -186,7 +186,7 @@ version(test_uim_entitybase) {
     }}
 
   // Searching for existing id
-  DOOPEntity[] findMany(UUID id, bool allVersions = false) {
+  DEntity[] findMany(UUID id, bool allVersions = false) {
     return toEntities(jsCollection.findMany(id, allVersions)); }
 version(test_uim_entitybase) {
   unittest {
@@ -195,7 +195,7 @@ version(test_uim_entitybase) {
 
 
   // Searching for existing ids & versionNumber
-  DOOPEntity[] findMany(UUID[] ids, size_t versionNumber) {
+  DEntity[] findMany(UUID[] ids, size_t versionNumber) {
     return toEntities(jsCollection.findMany(ids, versionNumber)); }
 version(test_uim_entitybase) {
   unittest {
@@ -203,7 +203,7 @@ version(test_uim_entitybase) {
     }}
 
   // Searching for existing selects
-  DOOPEntity[] findMany(STRINGAA[] selects, bool allVersions = false) {
+  DEntity[] findMany(STRINGAA[] selects, bool allVersions = false) {
     return toEntities(jsCollection.findMany(selects, allVersions)); }
 version(test_uim_entitybase) {
   unittest {
@@ -211,15 +211,15 @@ version(test_uim_entitybase) {
     }}
 
   /// Find all (many) items in a collection with select. allVersions:false = find last version, allVersion:true = find all versions
-  DOOPEntity[] findMany(STRINGAA select, bool allVersions = false) {
+  DEntity[] findMany(STRINGAA select, bool allVersions = false) {
     return toEntities(jsCollection.findMany(select, allVersions)); }
 version(test_uim_entitybase) {
   unittest {
       // TODO
     }}
     
-  // Searching for existing selects:doopentity[]
-  DOOPEntity[] findMany(Json[] selects, bool allVersions = false) {
+  // Searching for existing selects:dEntity[]
+  DEntity[] findMany(Json[] selects, bool allVersions = false) {
     return toEntities(jsCollection.findMany(selects, allVersions)); }
 version(test_uim_entitybase) {
   unittest {
@@ -227,7 +227,7 @@ version(test_uim_entitybase) {
     }}
 
   /// Find all (many) items in a collection with select. allVersions:false = find last version, allVersion:true = find all versions
-  DOOPEntity[] findMany(Json select, bool allVersions = false) {
+  DEntity[] findMany(Json select, bool allVersions = false) {
     return toEntities(jsCollection.findMany(allVersions)); }
 version(test_uim_entitybase) {
   unittest {
@@ -237,7 +237,7 @@ version(test_uim_entitybase) {
   // #region findOne
   // Searching in store
   // Searching for existing ids
-  DOOPEntity findOne(UUID[] ids, bool allVersions = false) {
+  DEntity findOne(UUID[] ids, bool allVersions = false) {
     return toEntity(jsCollection.findOne(ids, allVersions)); }
 version(test_uim_entitybase) {
   unittest {
@@ -245,7 +245,7 @@ version(test_uim_entitybase) {
     }}
 
   // Searching for existing id
-  DOOPEntity findOne(UUID id, bool allVersions = false) {
+  DEntity findOne(UUID id, bool allVersions = false) {
     return toEntity(jsCollection.findOne(id, allVersions)); }
 version(test_uim_entitybase) {
   unittest {
@@ -253,7 +253,7 @@ version(test_uim_entitybase) {
     }}
 
   /// Searching for existing ids & versionNumber
-  DOOPEntity findOne(UUID[] ids, size_t versionNumber) {
+  DEntity findOne(UUID[] ids, size_t versionNumber) {
     return toEntity(jsCollection.findOne(ids, versionNumber)); }
 version(test_uim_entitybase) {
   unittest {
@@ -261,7 +261,7 @@ version(test_uim_entitybase) {
     }}
 
   /// Searching for existing id & number
-  DOOPEntity findOne(UUID id, size_t versionNumber) {
+  DEntity findOne(UUID id, size_t versionNumber) {
     return toEntity(jsCollection.findOne(id, versionNumber)); }
 version(test_uim_entitybase) {
   unittest {
@@ -269,7 +269,7 @@ version(test_uim_entitybase) {
     }}
 
   // Searching for existing selects
-  DOOPEntity findOne(STRINGAA[] selects, bool allVersions = false) {
+  DEntity findOne(STRINGAA[] selects, bool allVersions = false) {
     return toEntity(jsCollection.findOne(selects, allVersions)); }
 version(test_uim_entitybase) {
   unittest {
@@ -277,15 +277,15 @@ version(test_uim_entitybase) {
     }}
 
   // Searching based on parameter "select":string[string]
-  DOOPEntity findOne(STRINGAA select, bool allVersions = false) {
+  DEntity findOne(STRINGAA select, bool allVersions = false) {
     return toEntity(jsCollection.findOne(select, allVersions)); }
 version(test_uim_entitybase) {
   unittest {
       // TODO
     }}
 
-  // Searching for existing selects:doopentity[]
-  DOOPEntity findOne(Json[] selects, bool allVersions = false) {
+  // Searching for existing selects:dEntity[]
+  DEntity findOne(Json[] selects, bool allVersions = false) {
     return toEntity(jsCollection.findOne(selects, allVersions)); }
 version(test_uim_entitybase) {
   unittest {
@@ -293,7 +293,7 @@ version(test_uim_entitybase) {
     }}
 
   /// Searching for one item with has parameters 
-  DOOPEntity findOne(Json select, bool allVersions = false) {
+  DEntity findOne(Json select, bool allVersions = false) {
     return toEntity(jsCollection.findOne(select, allVersions)); }
 version(test_uim_entitybase) {
   unittest {
@@ -303,7 +303,7 @@ version(test_uim_entitybase) {
 
   // #region insertOne
   // Insert new entity or new version of an entity
-  DOOPEntity insertOne(DOOPEntity entity) {
+  DEntity insertOne(DEntity entity) {
     return toEntity(jsCollection.insertOne(entity.toJson)); }
 version(test_uim_entitybase) {
   unittest {
@@ -311,7 +311,7 @@ version(test_uim_entitybase) {
     }}
   // #endregion insertOne
 
-  DOOPEntity insertOne(Json newData) {
+  DEntity insertOne(Json newData) {
     return toEntity(jsCollection.insertOne(newData)); }
 version(test_uim_entitybase) {
   unittest {
@@ -351,7 +351,7 @@ version(test_uim_entitybase) {
 
   // #region updateOne
   // Update entity
-  bool updateOne(DOOPEntity entity) {
+  bool updateOne(DEntity entity) {
     return jsCollection.updateOne(entity.toJson(["id", "versionNumber"]), entity.toJson); }
 version(test_uim_entitybase) {
   unittest {
@@ -389,7 +389,7 @@ version(test_uim_entitybase) {
 
   // #region removeMany
   // Remove entities 
-  size_t removeMany(DOOPEntity[] entities, bool allVersions = false) {
+  size_t removeMany(DEntity[] entities, bool allVersions = false) {
     return entities.map!(a => removeMany(a, allVersions)).sum; }
 version(test_uim_entitybase) {
   unittest {
@@ -397,7 +397,7 @@ version(test_uim_entitybase) {
     }}
 
   // Remove entity 
-  size_t removeMany(DOOPEntity entity, bool allVersions = false) {
+  size_t removeMany(DEntity entity, bool allVersions = false) {
     if (!entity) return 0;
 
     if (allVersions) return jsCollection.removeMany(entity.id, allVersions);
@@ -474,7 +474,7 @@ version(test_uim_entitybase) {
     }}
 
   // Remove entity from collection
-  bool removeOne(DOOPEntity entity) {
+  bool removeOne(DEntity entity) {
     return removeOne(entity.id, entity.versionNumber); }
 version(test_uim_entitybase) {
   unittest {
@@ -512,7 +512,7 @@ version(test_uim_entitybase) {
     }}
 
   /// remove first selected item from entities
-  bool removeOne(DOOPEntity[] entities) {
+  bool removeOne(DEntity[] entities) {
     foreach(entity; entities) {
       if (removeOne(entity)) return true;
     }

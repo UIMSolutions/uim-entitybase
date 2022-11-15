@@ -46,7 +46,7 @@ version(test_uim_entitybase) {
 
   protected DETBCollection[string] _collections;
   
-  bool hasCollection(DOOPEntity entity) {
+  bool hasCollection(DEntity entity) {
     return entity ? hasCollection(entity.registerPath) : false; }
   bool hasCollection(string collectionName) {
     return collectionName in _collections ? true : false; }
@@ -56,7 +56,7 @@ version(test_uim_entitybase) {
       // TODO
       }}
 
-  DETBCollection collection(DOOPEntity entity) {
+  DETBCollection collection(DEntity entity) {
     return entity ? collection(entity.registerPath) : null; }
   DETBCollection collection(string collectionName) {
     return _collections.get(collectionName, ETBNullCollection); }
@@ -86,7 +86,7 @@ version(test_uim_entitybase) {
       // TODO
       }}
 
-  DETBCollection opIndex(DOOPEntity entity) {
+  DETBCollection opIndex(DEntity entity) {
     return collection(entity); }
   DETBCollection opIndex(string collectionName) {
     return collection(collectionName);}

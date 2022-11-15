@@ -18,25 +18,25 @@ class DETBGenericCollection(T) : DETBCollection {
     return null;
   }
 
-  DOOPEntity findOne(UUID id, size_t versionId = 0) {
+  DEntity findOne(UUID id, size_t versionId = 0) {
     auto json = jsCollection.findOne(id, versionId);
     if (json != Json(null)) return new T(json);
     return null;
   }
 
-  DOOPEntity findOne(STRINGAA select, bool allVersions = false) {
+  DEntity findOne(STRINGAA select, bool allVersions = false) {
     auto json = jsCollection.findOne(select, allVersions);
     if (json != Json(null)) return new T(json);
     return null;
   }
 
-  DOOPEntity findOne(Json select, bool allVersions = false) {
+  DEntity findOne(Json select, bool allVersions = false) {
     auto json = jsCollection.findOne(select, allVersions);
     if (json != Json(null)) return new T(json);
     return null;
   }
 
-  O insertOne(this O)(DOOPENtity newEntity) {
+  O insertOne(this O)(DEntity newEntity) {
     if (jsCollection) jsCollection.insertOne(newEntity.toJson);
     return cast(O)this;
   }
