@@ -3,7 +3,9 @@ module uim.entitybase;
 @safe:
 public import uim.core;
 public import uim.oop;
-public import uim.domains;
+public import uim.models;
+
+// public import uim.domains;
 public import uim.jsonbase;
 
 public import vibe.data.json;

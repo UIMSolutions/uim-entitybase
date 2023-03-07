@@ -45,9 +45,9 @@ class DETBCollection {
     return (versionNumber != 0) && (jsonData["versionNumber"].get!size_t == versionNumber); }
 
   DEntity createFromTemplate() {
-    return (entityTemplate ? entityTemplate.create.collection(this) : null); }
+    return (entityTemplate ? entityTemplate.create : null); }
   DEntity cloneFromTemplate() {
-    return (entityTemplate ? entityTemplate.clone.collection(this) : null); }
+    return (entityTemplate ? entityTemplate.clone : null); } 
 
   DEntity[] toEntities(Json[] jsons) {
     // debug writeln(moduleName!DETBCollection~":DETBCollection::toEntities(", jsons.length,")");
@@ -56,15 +56,11 @@ class DETBCollection {
     auto two = one.filter!(a => a !is null).array;
     // debug writeln(moduleName!DETBCollection~":DETBCollection::toEntities - 2:", two.length);
     return two; }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
 
   DEntity toEntity(Json json) {
     if (entityTemplate) {
       auto result = entityTemplate.clone(json);
-      result.collection(this);
+      /* result.collection(this); */
       return result; } 
     return null; }
 
@@ -92,451 +88,231 @@ version(test_uim_entitybase) {
   /// allVersion = true include versions; = false results in existing ids 
   size_t count(UUID[] ids, bool allVersions = false) {
     return jsCollection.count(ids, allVersions); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
-
 
   // #region Count 
-  /// Count items in the collection with id and versions.
-  /// allVersion = true include versions; = false results in existing id (1 if exists, 0 if none) 
-  size_t count(bool allVersions = false) {
-    return jsCollection.count(allVersions); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    /// Count items in the collection with id and versions.
+    /// allVersion = true include versions; = false results in existing id (1 if exists, 0 if none) 
+    size_t count(bool allVersions = false) {
+      return jsCollection.count(allVersions); }
 
-  size_t count(UUID id, bool allVersions = false) {
-    return jsCollection.count(id, allVersions); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    size_t count(UUID id, bool allVersions = false) {
+      return jsCollection.count(id, allVersions); }
 
-  /// Count all items in the collection with ids and versionNumber.
-  /// allVersion = true include versions; = false results in existing ids 
-  size_t count(UUID[] ids, size_t versionNumber) {
-    return jsCollection.count(ids, versionNumber); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    /// Count all items in the collection with ids and versionNumber.
+    /// allVersion = true include versions; = false results in existing ids 
+    size_t count(UUID[] ids, size_t versionNumber) {
+      return jsCollection.count(ids, versionNumber); }
 
-  // Searching for existing id
-  size_t count(UUID id, size_t versionNumber) {
-    return jsCollection.count(id, versionNumber); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    // Searching for existing id
+    size_t count(UUID id, size_t versionNumber) {
+      return jsCollection.count(id, versionNumber); }
 
-  // Searching for existing selects
-  size_t count(STRINGAA[] selects, bool allVersions = false) {
-    return jsCollection.count(selects, allVersions); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    // Searching for existing selects
+    size_t count(STRINGAA[] selects, bool allVersions = false) {
+      return jsCollection.count(selects, allVersions); }
 
-  // Searching based on parameter "select":string[string]
-  size_t count(STRINGAA select, bool allVersions = false) {
-    return jsCollection.count(select, allVersions); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    // Searching based on parameter "select":string[string]
+    size_t count(STRINGAA select, bool allVersions = false) {
+      return jsCollection.count(select, allVersions); }
 
-  // Searching for existing selects:dEntity[]
-  size_t count(Json[] selects, bool allVersions = false) {
-    return jsCollection.count(selects, allVersions); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    // Searching for existing selects:dEntity[]
+    size_t count(Json[] selects, bool allVersions = false) {
+      return jsCollection.count(selects, allVersions); }
 
-  // Searching based on parameter "select":DEntity[]
-  size_t count(Json select, bool allVersions = false) {
-    return jsCollection.count(select, allVersions); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    // Searching based on parameter "select":DEntity[]
+    size_t count(Json select, bool allVersions = false) {
+      return jsCollection.count(select, allVersions); }
   // #endregion count
 
   // #region findMany
-  // Searching in store
-  DEntity[] findMany(bool allVersions = false) {
-    // debug writeln(moduleName!DETBCollection~":DETBCollection::findMany(1)");
-    auto jsons = jsCollection.findMany(allVersions);
-    // debug writeln(moduleName!DETBCollection~":DETBCollection::findMany(1) - Found jsons = ", jsons.length);
-    return toEntities(jsons); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    // Searching in store
+    DEntity[] findMany(bool allVersions = false) {
+      // debug writeln(moduleName!DETBCollection~":DETBCollection::findMany(1)");
+      auto jsons = jsCollection.findMany(allVersions);
+      // debug writeln(moduleName!DETBCollection~":DETBCollection::findMany(1) - Found jsons = ", jsons.length);
+      return toEntities(jsons); }
 
-  // Searching for existing ids
-  DEntity[] findMany(UUID[] ids, bool allVersions = false) {
-    return toEntities(jsCollection.findMany(ids, allVersions)); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    // Searching for existing ids
+    DEntity[] findMany(UUID[] ids, bool allVersions = false) {
+      return toEntities(jsCollection.findMany(ids, allVersions)); }
 
-  // Searching for existing id
-  DEntity[] findMany(UUID id, bool allVersions = false) {
-    return toEntities(jsCollection.findMany(id, allVersions)); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    // Searching for existing id
+    DEntity[] findMany(UUID id, bool allVersions = false) {
+      return toEntities(jsCollection.findMany(id, allVersions)); }
 
+    // Searching for existing ids & versionNumber
+    DEntity[] findMany(UUID[] ids, size_t versionNumber) {
+      return toEntities(jsCollection.findMany(ids, versionNumber)); }
 
-  // Searching for existing ids & versionNumber
-  DEntity[] findMany(UUID[] ids, size_t versionNumber) {
-    return toEntities(jsCollection.findMany(ids, versionNumber)); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    // Searching for existing selects
+    DEntity[] findMany(STRINGAA[] selects, bool allVersions = false) {
+      return toEntities(jsCollection.findMany(selects, allVersions)); }
 
-  // Searching for existing selects
-  DEntity[] findMany(STRINGAA[] selects, bool allVersions = false) {
-    return toEntities(jsCollection.findMany(selects, allVersions)); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    /// Find all (many) items in a collection with select. allVersions:false = find last version, allVersion:true = find all versions
+    DEntity[] findMany(STRINGAA select, bool allVersions = false) {
+      return toEntities(jsCollection.findMany(select, allVersions)); }
+      
+    // Searching for existing selects:dEntity[]
+    DEntity[] findMany(Json[] selects, bool allVersions = false) {
+      return toEntities(jsCollection.findMany(selects, allVersions)); }
 
-  /// Find all (many) items in a collection with select. allVersions:false = find last version, allVersion:true = find all versions
-  DEntity[] findMany(STRINGAA select, bool allVersions = false) {
-    return toEntities(jsCollection.findMany(select, allVersions)); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
-    
-  // Searching for existing selects:dEntity[]
-  DEntity[] findMany(Json[] selects, bool allVersions = false) {
-    return toEntities(jsCollection.findMany(selects, allVersions)); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
-
-  /// Find all (many) items in a collection with select. allVersions:false = find last version, allVersion:true = find all versions
-  DEntity[] findMany(Json select, bool allVersions = false) {
-    return toEntities(jsCollection.findMany(allVersions)); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    /// Find all (many) items in a collection with select. allVersions:false = find last version, allVersion:true = find all versions
+    DEntity[] findMany(Json select, bool allVersions = false) {
+      return toEntities(jsCollection.findMany(allVersions)); }
+  // #endregion findMany 
 
   // #region findOne
-  // Searching in store
-  // Searching for existing ids
-  DEntity findOne(UUID[] ids, bool allVersions = false) {
-    return toEntity(jsCollection.findOne(ids, allVersions)); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    // Searching in store
+    // Searching for existing ids
+    DEntity findOne(UUID[] ids, bool allVersions = false) {
+      return toEntity(jsCollection.findOne(ids, allVersions)); }
 
-  // Searching for existing id
-  DEntity findOne(UUID id, bool allVersions = false) {
-    return toEntity(jsCollection.findOne(id, allVersions)); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    // Searching for existing id
+    DEntity findOne(UUID id, bool allVersions = false) {
+      return toEntity(jsCollection.findOne(id, allVersions)); }
 
-  /// Searching for existing ids & versionNumber
-  DEntity findOne(UUID[] ids, size_t versionNumber) {
-    return toEntity(jsCollection.findOne(ids, versionNumber)); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    /// Searching for existing ids & versionNumber
+    DEntity findOne(UUID[] ids, size_t versionNumber) {
+      return toEntity(jsCollection.findOne(ids, versionNumber)); }
 
-  /// Searching for existing id & number
-  DEntity findOne(UUID id, size_t versionNumber) {
-    return toEntity(jsCollection.findOne(id, versionNumber)); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    /// Searching for existing id & number
+    DEntity findOne(UUID id, size_t versionNumber) {
+      return toEntity(jsCollection.findOne(id, versionNumber)); }
 
-  // Searching for existing selects
-  DEntity findOne(STRINGAA[] selects, bool allVersions = false) {
-    return toEntity(jsCollection.findOne(selects, allVersions)); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    // Searching for existing selects
+    DEntity findOne(STRINGAA[] selects, bool allVersions = false) {
+      return toEntity(jsCollection.findOne(selects, allVersions)); }
 
-  // Searching based on parameter "select":string[string]
-  DEntity findOne(STRINGAA select, bool allVersions = false) {
-    return toEntity(jsCollection.findOne(select, allVersions)); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    // Searching based on parameter "select":string[string]
+    DEntity findOne(STRINGAA select, bool allVersions = false) {
+      return toEntity(jsCollection.findOne(select, allVersions)); }
 
-  // Searching for existing selects:dEntity[]
-  DEntity findOne(Json[] selects, bool allVersions = false) {
-    return toEntity(jsCollection.findOne(selects, allVersions)); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    // Searching for existing selects:dEntity[]
+    DEntity findOne(Json[] selects, bool allVersions = false) {
+      return toEntity(jsCollection.findOne(selects, allVersions)); }
 
-  /// Searching for one item with has parameters 
-  DEntity findOne(Json select, bool allVersions = false) {
-    return toEntity(jsCollection.findOne(select, allVersions)); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    /// Searching for one item with has parameters 
+    DEntity findOne(Json select, bool allVersions = false) {
+      return toEntity(jsCollection.findOne(select, allVersions)); }
   // #endregion findOne
 
   // #region insertOne
-  // Insert new entity or new version of an entity
-  DEntity insertOne(DEntity entity) {
-    return toEntity(jsCollection.insertOne(entity.toJson)); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
-  // #endregion insertOne
+    // Insert new entity or new version of an entity
+    DEntity insertOne(DEntity entity) {
+      return toEntity(jsCollection.insertOne(entity.toJson)); }
 
-  DEntity insertOne(Json newData) {
-    return toEntity(jsCollection.insertOne(newData)); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    DEntity insertOne(Json newData) {
+      return toEntity(jsCollection.insertOne(newData)); }
+
   // #endregion insertOne
 
   // #region updateMany
-  size_t updateMany(STRINGAA select, STRINGAA updateData) { 
-    return jsCollection.updateMany(select, updateData); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    size_t updateMany(STRINGAA select, STRINGAA updateData) { 
+      return jsCollection.updateMany(select, updateData); }
 
-  size_t updateMany(STRINGAA select, Json updateData) {
-    return jsCollection.updateMany(select, updateData); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    size_t updateMany(STRINGAA select, Json updateData) {
+      return jsCollection.updateMany(select, updateData); }
 
-  size_t updateMany(Json select, STRINGAA updateData) {
-    return jsCollection.updateMany(select, updateData); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    size_t updateMany(Json select, STRINGAA updateData) {
+      return jsCollection.updateMany(select, updateData); }
 
-  size_t updateMany(Json select, Json updateData) {
-    return jsCollection.updateMany(select, updateData); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    size_t updateMany(Json select, Json updateData) {
+      return jsCollection.updateMany(select, updateData); }
   // #endregion updateMany
 
   // #region updateOne
-  // Update entity
-  bool updateOne(DEntity entity) {
-    return jsCollection.updateOne(entity.toJson(["id", "versionNumber"]), entity.toJson); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    // Update entity
+    bool updateOne(DEntity entity) {
+      return jsCollection.updateOne(entity.toJson(["id", "versionNumber"]), entity.toJson); }
 
-  bool updateOne(STRINGAA select, STRINGAA updateData) {
-    return jsCollection.updateOne(select, updateData); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    bool updateOne(STRINGAA select, STRINGAA updateData) {
+      return jsCollection.updateOne(select, updateData); }
 
-  bool updateOne(STRINGAA select, Json updateData) {
-    return jsCollection.updateOne(select, updateData); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    bool updateOne(STRINGAA select, Json updateData) {
+      return jsCollection.updateOne(select, updateData); }
 
-  bool updateOne(Json select, STRINGAA updateData) {
-    return jsCollection.updateOne(select, updateData); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    bool updateOne(Json select, STRINGAA updateData) {
+      return jsCollection.updateOne(select, updateData); }
 
-  bool updateOne(Json select, Json updateData) {
-    return jsCollection.updateOne(select, updateData); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    bool updateOne(Json select, Json updateData) {
+      return jsCollection.updateOne(select, updateData); }
   // #endregion updateOne
 
   // #region removeMany
-  // Remove entities 
-  size_t removeMany(DEntity[] entities, bool allVersions = false) {
-    return entities.map!(a => removeMany(a, allVersions)).sum; }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    // Remove entities 
+    size_t removeMany(DEntity[] entities, bool allVersions = false) {
+      return entities.map!(a => removeMany(a, allVersions)).sum; }
 
-  // Remove entity 
-  size_t removeMany(DEntity entity, bool allVersions = false) {
-    if (!entity) return 0;
+    // Remove entity 
+    size_t removeMany(DEntity entity, bool allVersions = false) {
+      if (!entity) return 0;
 
-    if (allVersions) return jsCollection.removeMany(entity.id, allVersions);
-    else return jsCollection.removeMany(entity.id, entity.versionNumber); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+      if (allVersions) return jsCollection.removeMany(entity.id, allVersions);
+      else return jsCollection.removeMany(entity.id, entity.versionNumber); }
+    // Remove entities with id
+    size_t removeMany(UUID[] ids, bool allVersions = false) {
+      return jsCollection.removeMany(ids, allVersions); }
 
-  // Remove entities with id
-  size_t removeMany(UUID[] ids, bool allVersions = false) {
-    return jsCollection.removeMany(ids, allVersions); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
 
-  size_t removeMany(UUID id, bool allVersions = false) {
-    return jsCollection.removeMany(id, allVersions); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    size_t removeMany(UUID id, bool allVersions = false) {
+      return jsCollection.removeMany(id, allVersions); }
 
-  size_t removeMany(UUID[] ids, size_t versionNumber) {
-    return jsCollection.removeMany(ids, versionNumber); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    size_t removeMany(UUID[] ids, size_t versionNumber) {
+      return jsCollection.removeMany(ids, versionNumber); }
 
-  size_t removeMany(UUID id, size_t versionNumber) {
-    return jsCollection.removeMany(id, versionNumber); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    size_t removeMany(UUID id, size_t versionNumber) {
+      return jsCollection.removeMany(id, versionNumber); }
 
-  size_t removeMany(STRINGAA[] selects, bool allVersions = false) {
-    return jsCollection.removeMany(selects, allVersions); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    size_t removeMany(STRINGAA[] selects, bool allVersions = false) {
+      return jsCollection.removeMany(selects, allVersions); }
 
-  size_t removeMany(STRINGAA select, bool allVersions = false) {
-    return jsCollection.removeMany(select, allVersions); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    size_t removeMany(STRINGAA select, bool allVersions = false) {
+      return jsCollection.removeMany(select, allVersions); }
 
-  size_t removeMany(Json[] selects, bool allVersions = false) {
-    return jsCollection.removeMany(selects, allVersions); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    size_t removeMany(Json[] selects, bool allVersions = false) {
+      return jsCollection.removeMany(selects, allVersions); }
 
-  size_t removeMany(Json select, bool allVersions = false) {
-    return jsCollection.removeMany(select, allVersions); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    size_t removeMany(Json select, bool allVersions = false) {
+      return jsCollection.removeMany(select, allVersions); }
   // #region removeMany
 
   // #region removeOne
-  bool removeOne(UUID[] ids, bool allVersions = false) {
-    return jsCollection.removeOne(ids, allVersions); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    bool removeOne(UUID[] ids, bool allVersions = false) {
+      return jsCollection.removeOne(ids, allVersions); }
 
-  // Remove entity from collection
-  bool removeOne(DEntity entity) {
-    return removeOne(entity.id, entity.versionNumber); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    // Remove entity from collection
+    bool removeOne(DEntity entity) {
+      return removeOne(entity.id, entity.versionNumber); }
 
-  bool removeOne(UUID id, bool allVersions = false) {
-    return jsCollection.removeOne(id, allVersions); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    bool removeOne(UUID id, bool allVersions = false) {
+      return jsCollection.removeOne(id, allVersions); }
 
-  bool removeOne(UUID id, size_t versionNumber) {
-    return jsCollection.removeOne(id, versionNumber); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    bool removeOne(UUID id, size_t versionNumber) {
+      return jsCollection.removeOne(id, versionNumber); }
 
-  /// RemoveMany by select (string[string])
-  bool removeOne(STRINGAA[] selects, bool allVersions = false) {
-    return jsCollection.removeOne(selects, allVersions); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    /// RemoveMany by select (string[string])
+    bool removeOne(STRINGAA[] selects, bool allVersions = false) {
+      return jsCollection.removeOne(selects, allVersions); }
 
-  /// remove one selected item
-  bool removeOne(STRINGAA select, bool allVersions = false) {
-    return jsCollection.removeOne(select, allVersions); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    /// remove one selected item
+    bool removeOne(STRINGAA select, bool allVersions = false) {
+      return jsCollection.removeOne(select, allVersions); }
 
-  /// remove first selected item from entities
-  bool removeOne(DEntity[] entities) {
-    foreach(entity; entities) {
-      if (removeOne(entity)) return true;
-    }
-    return false; }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    /// remove first selected item from entities
+    bool removeOne(DEntity[] entities) {
+      foreach(entity; entities) {
+        if (removeOne(entity)) return true;
+      }
+      return false; }
 
-  /// remove one selected item
-  bool removeOne(Json[] selects, bool allVersions = false) {
-    return jsCollection.removeOne(selects, allVersions); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    /// remove one selected item
+    bool removeOne(Json[] selects, bool allVersions = false) {
+      return jsCollection.removeOne(selects, allVersions); }
 
-  /// remove one selected item
-  bool removeOne(Json select, bool allVersions = false) {
-    return jsCollection.removeOne(select, allVersions); }
-version(test_uim_entitybase) {
-  unittest {
-      // TODO
-    }}
+    /// remove one selected item
+    bool removeOne(Json select, bool allVersions = false) {
+      return jsCollection.removeOne(select, allVersions); }
+  // #endregion removeOne
 }
 auto ETBCollection() { return new DETBCollection; }
 auto ETBCollection(DJSBCollection col) { return new DETBCollection(col); }

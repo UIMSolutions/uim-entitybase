@@ -1,8 +1,8 @@
 {
 	"authors": [
-		"UI Manufaktur Team"
+		"Ozan Nurettin Süel"
 	],
-	"copyright": "Copyright © 2017-2021, UI Manufaktur UG",
+	"copyright": "Copyright © 2017-2023, Ozan Nurettin Süel (Sicherheitsschmiede)",
 	"dependencies": {
 		"colored": "~>0.0.23",
 		"vibe-d": "0.9.5"
@@ -10,15 +10,15 @@
 	"importPaths": [
 		"../uim-core",
 		"../uim-oop",
+		"../uim-models",
 		"../uim-jsonbase",
-		"../uim-entities",
 		"./"
 	],
 	"sourcePaths": [
 		"../uim-core",
 		"../uim-oop",
+		"../uim-models",
 		"../uim-jsonbase",
-		"../uim-entities",
 		"./"
 	],		
 	"description": "Json Database library",
