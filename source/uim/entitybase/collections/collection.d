@@ -45,9 +45,10 @@ class DETBCollection {
     return (versionNumber != 0) && (jsonData["versionNumber"].get!size_t == versionNumber); }
 
   DEntity createFromTemplate() {
-    return (entityTemplate ? entityTemplate.create : null); }
+    return cast(DEntity)(entityTemplate ? entityTemplate.create : null); }
+    
   DEntity cloneFromTemplate() {
-    return (entityTemplate ? entityTemplate.clone : null); } 
+    return cast(DEntity)(entityTemplate ? entityTemplate.clone : null); }  
 
   DEntity[] toEntities(Json[] jsons) {
     // debug writeln(moduleName!DETBCollection~":DETBCollection::toEntities(", jsons.length,")");
@@ -59,8 +60,8 @@ class DETBCollection {
 
   DEntity toEntity(Json json) {
     if (entityTemplate) {
-      auto result = entityTemplate.clone(json);
-      /* result.collection(this); */
+      auto result = cast(DEntity)entityTemplate.clone(json);
+      result.collection(this);
       return result; } 
     return null; }
 
