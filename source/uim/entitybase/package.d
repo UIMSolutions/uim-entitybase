@@ -13,7 +13,8 @@ public import uim.jsonbase;
 public import vibe.data.json;
 
 public { // Own Packages 
-  import uim.entitybase.collections;
-  import uim.entitybase.tenants;
-  import uim.entitybase.bases;
+  import uim.entitybase.classes;
+  import uim.entitybase.interfaces;
+  import uim.entitybase.helpers;
+  import uim.entitybase.tests;
 }
