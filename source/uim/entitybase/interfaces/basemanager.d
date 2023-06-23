@@ -4,15 +4,23 @@ module uim.entitybase.interfaces.basemanager;
 import uim.entitybase;
 
 interface IEntityBaseManager {
-  void entityBases(DEntityBaseContainer aContainer);
-  DEntityBaseContainer entityBases();
+  void entityBaseContainer(DEntityBaseContainer aContainer);
+  DEntityBaseContainer entityBaseContainer();
 
-  IEntityBase entityBase(string[string] options);
+  void entityBases(IEntityBase[string] someBases);
+  void entityBases(IEntityBase[] someBases);
+  IEntityBase[] entityBases();
+  string[] baseNames();
+
+  // set & get entitybase
   IEntityBase entityBase(string aName);
+  void entityBase(string aName, IEntityBase aEntityBase);
 
-  bool existsEntityBase(IEntityBase aBase);
-  bool existsEntityBase(string aName);
+  // Check existing entitybase
+  bool hasEntityBase(IEntityBase aBase);
+  bool hasEntityBase(string aName);
 
+  // Add new entitybase without overwriting
   void addEntityBase(IEntityBase aBase);
   void addEntityBase(string aName, IEntityBase aBase);
 
@@ -23,4 +31,8 @@ interface IEntityBaseManager {
   // Remove existing entitybase
   void removeEntityBase(IEntityBase aBase);
   void removeEntityBase(string aName);
+
+  // operator overloading
+  IEntityBase opIndex(string aName);
+  void opIndexAssign(IEntityBase aBase, string aName);
 }

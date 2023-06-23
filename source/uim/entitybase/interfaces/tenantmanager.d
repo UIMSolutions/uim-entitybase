@@ -4,15 +4,23 @@ module uim.entitybase.interfaces.tenantmanager;
 import uim.entitybase;
 
 interface IEntityTenantManager {
-  void entityTenants(DEntityTenantContainer aContainer);
-  DEntityTenantContainer entityTenants();
+  void entityTenantContainer(DEntityTenantContainer aContainer);
+  DEntityTenantContainer entityTenantContainer();
 
-  IEntityTenant entityTenant(string[string] options);
+  void entityTenants(IEntityTenant[string] someTenants);
+  void entityTenants(IEntityTenant[] someTenants);
+  IEntityTenant[] entityTenants();
+  string[] tenantNames();
+
+  // set & get entitytenant
   IEntityTenant entityTenant(string aName);
+  void entityTenant(string aName, IEntityTenant aEntityTenant);
 
-  bool existsEntityTenant(IEntityTenant aTenant);
-  bool existsEntityTenant(string aName);
+  // Check existing entitytenant
+  bool hasEntityTenant(IEntityTenant aTenant);
+  bool hasEntityTenant(string aName);
 
+  // Add new entitytenant without overwriting
   void addEntityTenant(IEntityTenant aTenant);
   void addEntityTenant(string aName, IEntityTenant aTenant);
 
@@ -23,4 +31,8 @@ interface IEntityTenantManager {
   // Remove existing entitytenant
   void removeEntityTenant(IEntityTenant aTenant);
   void removeEntityTenant(string aName);
+
+  // operator overloading
+  IEntityTenant opIndex(string aName);
+  void opIndexAssign(IEntityTenant aTenant, string aName);
 }
