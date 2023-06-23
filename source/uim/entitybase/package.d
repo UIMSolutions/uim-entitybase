@@ -16,5 +16,6 @@ public { // Own Packages
   import uim.entitybase.classes;
   import uim.entitybase.interfaces;
   import uim.entitybase.helpers;
+  import uim.entitybase.mixins;
   import uim.entitybase.tests;
 }

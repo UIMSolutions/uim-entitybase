@@ -3,7 +3,7 @@ module uim.entitybase.classes.collections.collection;
 @safe:
 import uim.entitybase;
 
-class DEntityCollection {
+class DEntityCollection : IEntityCollection {
   this() { this.jsCollection(JSBNullCollection); }
   this(DJSBCollection col) { 
     this();
@@ -17,6 +17,7 @@ class DEntityCollection {
   
   mixin(OProperty!("DJSBCollection", "jsCollection"));
   mixin(OProperty!("DEntityTenant", "tenant"));
+  mixin(OProperty!("string", "name"));
 
   protected DEntity _entityTemplate;
   @property DEntity entityTemplate() {

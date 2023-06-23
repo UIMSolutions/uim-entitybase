@@ -3,7 +3,7 @@ module uim.entitybase.classes.tenants.null_;
 @safe:
 import uim.entitybase;
 
-class DEntityNullTenant : DEntityTenant {
+/* class DEntityNullTenant : DEntityTenant {
   this() {}
 
   override DEntityCollection collection(string collectionName) {
@@ -49,4 +49,4 @@ version(test_uim_entitybase) {
       // TODO
       }}
 }
-auto EntityNullTenant() { return new DEntityNullTenant; }
+auto EntityNullTenant() { return new DEntityNullTenant; } */
