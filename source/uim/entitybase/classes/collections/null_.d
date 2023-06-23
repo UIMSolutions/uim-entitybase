@@ -3,19 +3,19 @@ module uim.entitybase.collections.null_;
 @safe:
 import uim.entitybase;
 
-class DETBNullCollection : DETBCollection {
+class DEntityNullCollection : DEntityCollection {
   this() { super(); }
 
   override bool isNull() { return true; }
   override bool notNull() { return false; }
 
 // #region FindMany
-  alias findMany = DETBCollection.findMany;
+  alias findMany = DEntityCollection.findMany;
   /// Find all (many) items in a collection. allVersions:false = find last versions, allVersion:true = find all versions
   override DEntity[] findMany(bool allVersions = false) { return null; }
 version(test_uim_entitybase) {
   unittest {
-      auto col = ETBNullCollection ;    
+      auto col = EntityNullCollection ;    
       // Results always null / []
       assert(!col.findMany); 
       assert(!col.findMany(true)); }}
@@ -24,7 +24,7 @@ version(test_uim_entitybase) {
   override DEntity[] findMany(UUID id, bool allVersions = false) { return null; }
 version(test_uim_entitybase) {
   unittest {
-      auto col = ETBNullCollection ;
+      auto col = EntityNullCollection ;
       assert(!col.findMany(randomUUID)); 
       assert(!col.findMany(randomUUID, true)); 
       // TODO 
@@ -33,7 +33,7 @@ version(test_uim_entitybase) {
   override DEntity[] findMany(STRINGAA select, bool allVersions = false) { return null; }
 version(test_uim_entitybase) {
   unittest {
-      auto col = ETBNullCollection ;
+      auto col = EntityNullCollection ;
       assert(!col.findMany(["name":"aName"])); 
       assert(!col.findMany(["name":"aName"], true)); 
       // TODO 
@@ -42,7 +42,7 @@ version(test_uim_entitybase) {
   override DEntity[] findMany(Json select, bool allVersions = false) { return null; }
 version(test_uim_entitybase) {
   unittest {
-      auto col = ETBNullCollection ;
+      auto col = EntityNullCollection ;
       assert(!col.findMany(toJson(["name":"aName"]))); 
       assert(!col.findMany(toJson(["name":"aName"]), true)); 
       // TODO 
@@ -51,12 +51,12 @@ version(test_uim_entitybase) {
 
   // #region findOne
   // introduce base class overload set
-  alias findOne = DETBCollection.findOne;
+  alias findOne = DEntityCollection.findOne;
   //
   override DEntity findOne(UUID id, bool allVersions = false) { return null; }
 version(test_uim_entitybase) {
   unittest {
-      auto col = ETBNullCollection ;
+      auto col = EntityNullCollection ;
       assert(!col.findOne(randomUUID));
       assert(!col.findOne(randomUUID, true)); 
       // TODO 
@@ -65,7 +65,7 @@ version(test_uim_entitybase) {
   override DEntity findOne(UUID id, size_t versionNumber) { return null; }
 version(test_uim_entitybase) {
   unittest {
-      auto col = ETBNullCollection;
+      auto col = EntityNullCollection;
       assert(!col.findOne(randomUUID, 1));
       // TODO 
       }}
@@ -73,7 +73,7 @@ version(test_uim_entitybase) {
   override DEntity findOne(STRINGAA select, bool allVersions = false) { return null; }
 version(test_uim_entitybase) {
   unittest {
-      auto col = ETBNullCollection ;
+      auto col = EntityNullCollection ;
       assert(!col.findOne(["name":"aName"]));
       assert(!col.findOne(["name":"aName"], true));
       // TODO 
@@ -82,7 +82,7 @@ version(test_uim_entitybase) {
   override DEntity findOne(Json select, bool allVersions = false) { return null; }
 version(test_uim_entitybase) {
   unittest {
-      auto col = ETBNullCollection ;
+      auto col = EntityNullCollection ;
       assert(!col.findOne(toJson(["name":"aName"])));
       assert(!col.findOne(toJson(["name":"aName"]), true));
       // TODO 
@@ -93,7 +93,7 @@ version(test_uim_entitybase) {
   override DEntity insertOne(Json newData) { return findOne(newData); }  
 version(test_uim_entitybase) {
   unittest {
-      auto col = ETBNullCollection ;
+      auto col = EntityNullCollection ;
       assert(!col.insertOne(toJson(["name":"aName"])));
       // TODO 
       }}
@@ -103,7 +103,7 @@ version(test_uim_entitybase) {
   override size_t updateMany(Json select, Json updateData) { return 0; }
 version(test_uim_entitybase) {
   unittest {
-      auto col = ETBNullCollection ;
+      auto col = EntityNullCollection ;
       assert(col.updateMany(toJson(["id":randomUUID.toString]), toJson(["name":"aName"])) == 0); 
       // TODO
       }}
@@ -113,7 +113,7 @@ version(test_uim_entitybase) {
   override bool updateOne(Json select, Json updateData) { return false; }
 version(test_uim_entitybase) {
   unittest {
-      auto col = ETBNullCollection ;
+      auto col = EntityNullCollection ;
       assert(col.updateOne(toJson(["id":randomUUID.toString]), toJson(["name":"aName"])) == 0); 
       // TODO
       }}
@@ -121,12 +121,12 @@ version(test_uim_entitybase) {
 
   // #region removeMany
   /// Remove items from collections
-  alias removeMany = DETBCollection.removeMany;
+  alias removeMany = DEntityCollection.removeMany;
   /// Remove items from collectionsby it. allVersions:false - remove lastVersion, allVersion:true / allVersions (complete)
   override size_t removeMany(UUID id, bool allVersions = false) { return 0; }
 version(test_uim_entitybase) {
   unittest {
-      auto col = ETBNullCollection ;
+      auto col = EntityNullCollection ;
       assert(col.removeMany(randomUUID) == 0);
       assert(col.removeMany(randomUUID, true) == 0);
       // TODO
@@ -135,7 +135,7 @@ version(test_uim_entitybase) {
   override size_t removeMany(STRINGAA select, bool allVersions = false) { return 0; }
 version(test_uim_entitybase) {
   unittest {
-      auto col = ETBNullCollection ;
+      auto col = EntityNullCollection ;
       assert(col.removeMany(["name":"aName"]) == 0);
       assert(col.removeMany(["name":"aName"], true) == 0);
       // TODO
@@ -144,7 +144,7 @@ version(test_uim_entitybase) {
   override size_t removeMany(Json select, bool allVersions = false) { return 0; }
 version(test_uim_entitybase) {
   unittest {
-      auto col = ETBNullCollection ;
+      auto col = EntityNullCollection ;
       assert(col.removeMany(toJson(["name":"aName"])) == 0);
       assert(col.removeMany(toJson(["name":"aName"]), true) == 0);
       // TODO
@@ -152,12 +152,12 @@ version(test_uim_entitybase) {
   // #endregion removeMany
 
   /// Remove one item or one version from collection
-  alias removeOne = DETBCollection.removeOne;
+  alias removeOne = DEntityCollection.removeOne;
   /// Remove based on id - allVersions:true - remove all, remove lastVersion 
   override bool removeOne(UUID id, bool allVersions = false) { return false; }
 version(test_uim_entitybase) {
   unittest {
-      auto col = ETBNullCollection ;
+      auto col = EntityNullCollection ;
       assert(!col.removeOne(randomUUID));
       assert(!col.removeOne(randomUUID, true));
       // TODO
@@ -166,7 +166,7 @@ version(test_uim_entitybase) {
   override bool removeOne(UUID id, size_t versionNumber) { return false; }
 version(test_uim_entitybase) {
   unittest {
-      auto col = ETBNullCollection ;
+      auto col = EntityNullCollection ;
       assert(!col.removeOne(randomUUID, 1));
       // TODO
       }}
@@ -174,7 +174,7 @@ version(test_uim_entitybase) {
   override bool removeOne(STRINGAA select, bool allVersions = false) { return false; }
 version(test_uim_entitybase) {
   unittest {
-      auto col = ETBNullCollection ;
+      auto col = EntityNullCollection ;
       assert(!col.removeOne(["name": "aName"]));
       assert(!col.removeOne(["name": "aName"], true));
       // TODO
@@ -183,10 +183,10 @@ version(test_uim_entitybase) {
   override bool removeOne(Json select, bool allVersions = false) { return false; }
 version(test_uim_entitybase) {
   unittest {
-      auto col = ETBNullCollection ;
+      auto col = EntityNullCollection ;
       assert(!col.removeOne(toJson(["name": "aName"])));
       assert(!col.removeOne(toJson(["name": "aName"]), true));
       // TODO
       }}
 }
-auto ETBNullCollection() { return new DETBNullCollection; }
+auto EntityNullCollection() { return new DEntityNullCollection; }

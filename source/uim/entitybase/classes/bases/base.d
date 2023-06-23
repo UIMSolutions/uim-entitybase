@@ -3,7 +3,7 @@ module uim.entitybase.bases.base;
 @safe:
 import uim.entitybase;
 
-class DETBBase {
+class DEntityBase {
   this() {}
   this(DJSBBase jsDatabase) {
     this();
@@ -16,11 +16,11 @@ class DETBBase {
     this.options(options); }
 
   O importDatabase(this O)(DJSBBase jsDatabase) {
-/*     // debug writeln("uim.entitybase.bases.base:DETBase::importDatabase");
+/*     // debug writeln("uim.entitybase.bases.base:DEntityase::importDatabase");
     // debug writeln(jsDatabase.tenantNames); */
 
     if (jsDatabase) foreach (name, jsTenant; jsDatabase.tenants)
-      this.tenant(name, ETBTenant(jsTenant)); 
+      this.tenant(name, EntityTenant(jsTenant)); 
 
     // debug writeln("Tenants: ", _tenants.byValue.array.length);
     auto numberOfCollections = 0;
@@ -41,11 +41,11 @@ version(test_uim_entitybase) {
     // TODO - Option handling
     return cast(O)this;
   }
-  protected DETBTenant[string] _tenants;
+  protected DEntityTenant[string] _tenants;
 
-  DETBTenant tenant(string tenantName) {
-    //// debug writeln(moduleName!DETBBase~":DETBase::tenant");
-    return _tenants.get(tenantName, ETBNullTenant); }
+  DEntityTenant tenant(string tenantName) {
+    //// debug writeln(moduleName!DEntityBase~":DEntityase::tenant");
+    return _tenants.get(tenantName, EntityNullTenant); }
 version(test_uim_entitybase) {
   unittest  {
       auto base = createTestDB("file"); 
@@ -58,12 +58,12 @@ version(test_uim_entitybase) {
       assert(base.tenant["testD"].isNull);
       }}
 
-  DETBTenant opIndex(DEntity entity) {
-    // debug writeln(moduleName!DETBBase~":DETBase::opIndex");
+  DEntityTenant opIndex(DEntity entity) {
+    // debug writeln(moduleName!DEntityBase~":DEntityase::opIndex");
     return tenant(entity ? entity.name : null); }
 
-  DETBTenant opIndex(string tenantName) {
-    // debug writeln(moduleName!DETBBase~":DETBase::opIndex");
+  DEntityTenant opIndex(string tenantName) {
+    // debug writeln(moduleName!DEntityBase~":DEntityase::opIndex");
     return tenant(tenantName); }
 version(test_uim_entitybase) {
   unittest {
@@ -77,8 +77,8 @@ version(test_uim_entitybase) {
       assert(base["testD"].isNull);
       }}
 
-  O tenant(this O)(string tenantName, DETBTenant newTenant) {
-    // debug writeln(moduleName!DETBBase~":DETBase::opIndexAssign");
+  O tenant(this O)(string tenantName, DEntityTenant newTenant) {
+    // debug writeln(moduleName!DEntityBase~":DEntityase::opIndexAssign");
     _tenants[tenantName] = newTenant;
     return cast(O)this; }
 version(test_uim_entitybase) {
@@ -91,8 +91,8 @@ version(test_uim_entitybase) {
       assert(base["testB"] && base["testC"] && base["testC"]);
       }}
 
-  O opIndexAssign(this O)(DETBTenant newTenant, string tenantName) {
-    // debug writeln(moduleName!DETBBase~":DETBase::opIndexAssign");
+  O opIndexAssign(this O)(DEntityTenant newTenant, string tenantName) {
+    // debug writeln(moduleName!DEntityBase~":DEntityase::opIndexAssign");
     tenant(tenantName, newTenant);
     return cast(O)this; }
 version(test_uim_entitybase) {
@@ -118,7 +118,7 @@ version(test_uim_entitybase) {
 
   O createTenant(this O)(string name, Json options = Json(null)) {
     if (name !in _tenants) {
-      _tenants[name] = ETBTenant(options); }
+      _tenants[name] = EntityTenant(options); }
     return cast(O)this; }
 version(test_uim_entitybase) {
   unittest {
@@ -162,11 +162,11 @@ version(test_uim_entitybase) {
       assert(!base["tenantC"]);
       }}
 
-  DETBCollection opIndex(DEntity entity, string colName) {
+  DEntityCollection opIndex(DEntity entity, string colName) {
     return collection(entity ? entity.name : null, colName);
   }
   
-  DETBCollection opIndex(string tenantName, string colName) {
+  DEntityCollection opIndex(string tenantName, string colName) {
     return collection(tenantName, colName); }
 version(test_uim_entitybase) {
   unittest {
@@ -193,7 +193,7 @@ version(test_uim_entitybase) {
       assert(base.count == 2);
       }}
 }
-auto ETBBase() { return new DETBBase; }
-auto ETBBase(DJSBBase jsBase) { return new DETBBase(jsBase); }
-auto ETBBase(Json options) { return new DETBBase(options); }
-auto ETBBase(DJSBBase jsBase, Json options) { return new DETBBase(jsBase, options); }
+auto EntityBase() { return new DEntityBase; }
+auto EntityBase(DJSBBase jsBase) { return new DEntityBase(jsBase); }
+auto EntityBase(Json options) { return new DEntityBase(options); }
+auto EntityBase(DJSBBase jsBase, Json options) { return new DEntityBase(jsBase, options); }

@@ -3,14 +3,14 @@ module uim.entitybase.tenants.null_;
 @safe:
 import uim.entitybase;
 
-class DETBNullTenant : DETBTenant {
+class DEntityNullTenant : DEntityTenant {
   this() {}
 
-  override DETBCollection collection(string collectionName) {
-    return ETBNullCollection; }
+  override DEntityCollection collection(string collectionName) {
+    return EntityNullCollection; }
 version(test_uim_entitybase) {
   unittest {
-      auto base = ETBBase; 
+      auto base = EntityBase; 
       // TODO 
       }}
 
@@ -18,7 +18,7 @@ version(test_uim_entitybase) {
     return true; }
 version(test_uim_entitybase) {
   unittest {
-      auto tenant = ETBTenant; 
+      auto tenant = EntityTenant; 
       // TODO
       }}
   override bool notNull() { return false; }
@@ -27,7 +27,7 @@ version(test_uim_entitybase) {
     return false; }
 version(test_uim_entitybase) {
   unittest {
-      auto tenant = ETBTenant; 
+      auto tenant = EntityTenant; 
       // TODO
       }}
 
@@ -37,16 +37,16 @@ version(test_uim_entitybase) {
     return 0; }
 version(test_uim_entitybase) {
   unittest {
-      auto tenant = ETBTenant; 
+      auto tenant = EntityTenant; 
       // TODO
       }}
   
-  override DETBCollection opIndex(string collectionName) {
-    return ETBNullCollection; }
+  override DEntityCollection opIndex(string collectionName) {
+    return EntityNullCollection; }
 version(test_uim_entitybase) {
   unittest {
-      auto tenant = ETBTenant; 
+      auto tenant = EntityTenant; 
       // TODO
       }}
 }
-auto ETBNullTenant() { return new DETBNullTenant; }
+auto EntityNullTenant() { return new DEntityNullTenant; }

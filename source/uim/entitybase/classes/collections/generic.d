@@ -3,7 +3,7 @@ module uim.entitybase.collections.generic;
 @safe:
 import uim.entitybase;
 
-class DETBGenericCollection(T) : DETBCollection {
+class DEntityGenericCollection(T) : DEntityCollection {
   this() { }
   
   auto findMany(STRINGAA select, bool allVersions = false) {
@@ -41,4 +41,4 @@ class DETBGenericCollection(T) : DETBCollection {
     return cast(O)this;
   }
 }
-auto ETBCollection() { return new DETBCollection; }
+auto EntityCollection() { return new DEntityCollection; }

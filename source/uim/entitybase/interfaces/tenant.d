@@ -4,25 +4,25 @@ module uim.entitybase.interfaces.tenant;
 import uim.entitybase;
 
 interface IEntityTenant {
-  bool isNull();
+/*   bool isNull();
   
   bool hasCollection(DEntity entity);
   bool hasCollection(string collectionName);
 
-  DETBCollection collection(DEntity entity);
-  DETBCollection collection(string collectionName);
+  DEntityCollection collection(DEntity entity);
+  DEntityCollection collection(string collectionName);
 
   // register collection with name
-  O collection(this O)(DETBCollection[string] newCollections);
-  O collection(this O)(string collectionName, DETBCollection newCollection);
+  O collection(this O)(DEntityCollection[string] newCollections);
+  O collection(this O)(string collectionName, DEntityCollection newCollection);
 
-  DETBCollection opIndex(DEntity entity);
-  DETBCollection opIndex(string collectionName);
+  DEntityCollection opIndex(DEntity entity);
+  DEntityCollection opIndex(string collectionName);
 
-  void opIndexAssign(DETBCollection newCollection, string collectionName);
+  void opIndexAssign(DEntityCollection newCollection, string collectionName);
 
   auto collectionNames();
 
   // Number of Collection in a tenant
-  size_t count();
+  size_t count(); */
 }

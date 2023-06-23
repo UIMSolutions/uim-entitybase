@@ -3,7 +3,7 @@ module uim.entitybase.collections.collection;
 @safe:
 import uim.entitybase;
 
-class DETBCollection {
+class DEntityCollection {
   this() { this.jsCollection(JSBNullCollection); }
   this(DJSBCollection col) { 
     this();
@@ -16,7 +16,7 @@ class DETBCollection {
     this.options(options); }
   
   mixin(OProperty!("DJSBCollection", "jsCollection"));
-  mixin(OProperty!("DETBTenant", "tenant"));
+  mixin(OProperty!("DEntityTenant", "tenant"));
 
   protected DEntity _entityTemplate;
   @property DEntity entityTemplate() {
@@ -51,11 +51,11 @@ class DETBCollection {
     return cast(DEntity)(entityTemplate ? entityTemplate.clone : null); }  
 
   DEntity[] toEntities(Json[] jsons) {
-    // debug writeln(moduleName!DETBCollection~":DETBCollection::toEntities(", jsons.length,")");
+    // debug writeln(moduleName!DEntityCollection~":DEntityCollection::toEntities(", jsons.length,")");
     auto one = jsons.map!(a => toEntity(a)).array;
-    // debug writeln(moduleName!DETBCollection~":DETBCollection::toEntities - 1:", one.length, );
+    // debug writeln(moduleName!DEntityCollection~":DEntityCollection::toEntities - 1:", one.length, );
     auto two = one.filter!(a => a !is null).array;
-    // debug writeln(moduleName!DETBCollection~":DETBCollection::toEntities - 2:", two.length);
+    // debug writeln(moduleName!DEntityCollection~":DEntityCollection::toEntities - 2:", two.length);
     return two; }
 
   DEntity toEntity(Json json) {
@@ -128,9 +128,9 @@ class DETBCollection {
   // #region findMany
     // Searching in store
     DEntity[] findMany(bool allVersions = false) {
-      // debug writeln(moduleName!DETBCollection~":DETBCollection::findMany(1)");
+      // debug writeln(moduleName!DEntityCollection~":DEntityCollection::findMany(1)");
       auto jsons = jsCollection.findMany(allVersions);
-      // debug writeln(moduleName!DETBCollection~":DETBCollection::findMany(1) - Found jsons = ", jsons.length);
+      // debug writeln(moduleName!DEntityCollection~":DEntityCollection::findMany(1) - Found jsons = ", jsons.length);
       return toEntities(jsons); }
 
     // Searching for existing ids
@@ -315,8 +315,8 @@ class DETBCollection {
       return jsCollection.removeOne(select, allVersions); }
   // #endregion removeOne
 }
-auto ETBCollection() { return new DETBCollection; }
-auto ETBCollection(DJSBCollection col) { return new DETBCollection(col); }
-auto ETBCollection(Json options) { return new DETBCollection(options); }
-auto ETBCollection(DJSBCollection col, Json options) { return new DETBCollection(col, options); }
+auto EntityCollection() { return new DEntityCollection; }
+auto EntityCollection(DJSBCollection col) { return new DEntityCollection(col); }
+auto EntityCollection(Json options) { return new DEntityCollection(options); }
+auto EntityCollection(DJSBCollection col, Json options) { return new DEntityCollection(col, options); }
 

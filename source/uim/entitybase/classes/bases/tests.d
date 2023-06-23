@@ -9,8 +9,8 @@ auto createTestDB(string mode) {
       auto jsBase = JSBFileBase("./tests");
       // debug writeln("Tenants: ", jsBase.tenantNames);
       foreach(name, t; jsBase.tenants) debug writeln ("Collections in "~name~": ", t.collectionNames);
-      return ETBBase(jsBase);
+      return EntityBase(jsBase);
     //break;
-    default: return ETBBase();
+    default: return EntityBase();
   }
 }
