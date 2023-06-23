@@ -1,4 +1,4 @@
-module uim.entitybase.collections.generic;
+module uim.entitybase.classes.collections.generic;
 
 @safe:
 import uim.entitybase;
