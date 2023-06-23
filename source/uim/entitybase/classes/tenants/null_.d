@@ -1,4 +1,4 @@
-module uim.entitybase.tenants.null_;
+module uim.entitybase.classes.tenants.null_;
 
 @safe:
 import uim.entitybase;

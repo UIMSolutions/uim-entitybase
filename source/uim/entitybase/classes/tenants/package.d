@@ -1,8 +1,9 @@
-module uim.entitybase.tenants;
+module uim.entitybase.classes.tenants;
 
 @safe:
 import uim.entitybase;
 
-public import uim.entitybase.tenants.null_;
-public import uim.entitybase.tenants.tenant;
-public import uim.entitybase.tenants.tests;
+public import uim.entitybase.classes.tenants.container;
+public import uim.entitybase.classes.tenants.null_;
+public import uim.entitybase.classes.tenants.tenant;
+public import uim.entitybase.classes.tenants.tests;

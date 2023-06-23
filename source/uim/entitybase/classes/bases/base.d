@@ -1,4 +1,4 @@
-module uim.entitybase.bases.base;
+module uim.entitybase.classes.bases.base;
 
 @safe:
 import uim.entitybase;
@@ -16,7 +16,7 @@ class DEntityBase {
     this.options(options); }
 
   O importDatabase(this O)(DJSBBase jsDatabase) {
-/*     // debug writeln("uim.entitybase.bases.base:DEntityase::importDatabase");
+/*     // debug writeln("uim.entitybase.classes.bases.base:DEntityase::importDatabase");
     // debug writeln(jsDatabase.tenantNames); */
 
     if (jsDatabase) foreach (name, jsTenant; jsDatabase.tenants)

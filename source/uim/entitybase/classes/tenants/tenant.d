@@ -1,4 +1,4 @@
-module uim.entitybase.tenants.tenant;
+module uim.entitybase.classes.tenants.tenant;
 
 @safe:
 import uim.entitybase;
@@ -77,7 +77,7 @@ version(test_uim_entitybase) {
       }}
 
   O collection(this O)(string collectionName, DEntityCollection newCollection) {
-    // debug writeln("uim.entitybase.bases.base:DEntityTenant::collection("~collectionName~", newCollectio)");
+    // debug writeln("uim.entitybase.classes.bases.base:DEntityTenant::collection("~collectionName~", newCollectio)");
     _collections[collectionName] = newCollection.tenant(this);
     return cast(O)this; }
 version(test_uim_entitybase) {

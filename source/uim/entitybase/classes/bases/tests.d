@@ -1,4 +1,4 @@
-module uim.entitybase.bases.tests;
+module uim.entitybase.classes.bases.tests;
 
 @safe:
 import uim.entitybase;
