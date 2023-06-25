@@ -23,7 +23,7 @@ mixin template EntityCollectionManagerTemplate() {
 
   // #region entityCollections
     void entityCollections(IEntityCollection[string] someCollections) {
-      someCollections.byKeyValue.each!(ky => entityCollection(k, v));
+      someCollections.byKeyValue.each!(kv => entityCollection(kv.key, kv.value));
     }
 
     void entityCollections(IEntityCollection[] someCollections) {
@@ -44,6 +44,9 @@ mixin template EntityCollectionManagerTemplate() {
     IEntityCollection entityCollection(string aName) {
       if (_entityCollectionContainer) return _entityCollectionContainer[aName];
       return null;
+    }
+    void entityCollection(IEntityCollection aEntityCollection) {
+      if (aEntityCollection) entityCollection(aEntityCollection.name, aEntityCollection);
     }
     void entityCollection(string aName, IEntityCollection aEntityCollection) {
       if (_entityCollectionContainer) _entityCollectionContainer[aName] = aEntityCollection;

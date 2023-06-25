@@ -24,6 +24,8 @@ class DEntityTenant : IEntityTenant, IEntityCollectionManager {
       .entityCollectionContainer(EntityCollectionContainer);
   }
 
+  mixin(OProperty!("string", "name"));
+
    O options(this O)(Json newOptions) {
     // TODO - Option handling
     return cast(O)this;
@@ -43,7 +45,7 @@ version(test_uim_entitybase) {
     // debug writeln(jbTenant.collectionNames);
 
     if (jbTenant) foreach (name, jsCollection; jbTenant.collections)
-      this.collection(name, EntityCollection(jsCollection));     
+      this.entityCollection(name, EntityCollection(jsCollection));     
     }
 version(test_uim_entitybase) {
   unittest {

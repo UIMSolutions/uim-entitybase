@@ -5,6 +5,7 @@ import uim.entitybase;
 
 interface IEntityCollection {
   string name();
+  string uniqueName(string firstName);
 
   // Count items in the collection 
   size_t count(bool allVersions = false);
@@ -75,4 +76,10 @@ interface IEntityCollection {
   bool removeOne(DEntity[] entities);
   bool removeOne(Json[] selects, bool allVersions = false);
   bool removeOne(Json select, bool allVersions = false);
+
+  DEntity createFromTemplate();
+  DEntity cloneFromTemplate();
+  
+  DEntity[] toEntities(Json[] jsons);
+  DEntity toEntity(Json json);
 }

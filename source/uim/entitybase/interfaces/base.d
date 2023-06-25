@@ -4,7 +4,9 @@ module uim.entitybase.interfaces.base;
 import uim.entitybase;
 
 interface IEntityBase {
-  IEntityTenant tenant(string tenantName);
+  string name();
+
+  IEntityTenant entityTenant(string tenantName);
   IEntityTenant opIndex(DEntity entity);
   IEntityTenant opIndex(string tenantName);
   

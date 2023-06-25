@@ -3,7 +3,8 @@ module uim.entitybase.interfaces.tenant;
 @safe:
 import uim.entitybase;
 
-interface IEntityTenant {
+interface IEntityTenant : IEntityCollectionManager {
+  string name();
 /*   bool isNull();
   
   bool hasCollection(DEntity entity);

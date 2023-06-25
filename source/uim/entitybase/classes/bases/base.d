@@ -96,7 +96,14 @@ version(test_uim_entitybase) {
       }} */
 
   string uniqueName(string tenantName, string collectionName, string firstName) {
-    return collection(tenantName, collectionName).uniqueName(firstName); }
+    if (auto myTenant = entityTenant(tenantName)) {
+      if (auto myCollection = myTenant.entityCollection(collectionName)) {
+        return myCollection.uniqueName(firstName); 
+      }
+    }
+
+    return null;
+  }
 version(test_uim_entitybase) {
   unittest {
       auto base = createTestDB("file"); 
@@ -106,7 +113,7 @@ version(test_uim_entitybase) {
   // #region count
   // Count tenants
   size_t count() {
-    return _tenants.length; }
+    return entityTenants.length; }
 version(test_uim_entitybase) {
   unittest {
       auto base = createTestDB("file");

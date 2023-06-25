@@ -14,6 +14,7 @@ interface IEntityTenantManager {
 
   // set & get entitytenant
   IEntityTenant entityTenant(string aName);
+  void entityTenant(IEntityTenant aEntityTenant);
   void entityTenant(string aName, IEntityTenant aEntityTenant);
 
   // Check existing entitytenant

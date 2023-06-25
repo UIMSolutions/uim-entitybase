@@ -23,7 +23,7 @@ mixin template EntityTenantManagerTemplate() {
 
   // #region entityTenants
     void entityTenants(IEntityTenant[string] someTenants) {
-      someTenants.byKeyValue.each!(ky => entityTenant(k, v));
+      someTenants.byKeyValue.each!(kv => entityTenant(kv.key, kv.value));
     }
 
     void entityTenants(IEntityTenant[] someTenants) {
@@ -44,6 +44,9 @@ mixin template EntityTenantManagerTemplate() {
     IEntityTenant entityTenant(string aName) {
       if (_entityTenantContainer) return _entityTenantContainer[aName];
       return null;
+    }
+    void entityTenant(IEntityTenant aEntityTenant) {
+      if (aEntityTenant) entityTenant(aEntityTenant.name, aEntityTenant);
     }
     void entityTenant(string aName, IEntityTenant aEntityTenant) {
       if (_entityTenantContainer) _entityTenantContainer[aName] = aEntityTenant;
