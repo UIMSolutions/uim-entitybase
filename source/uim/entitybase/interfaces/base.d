@@ -3,15 +3,9 @@ module uim.entitybase.interfaces.base;
 @safe:
 import uim.entitybase;
 
-interface IEntityBase {
+interface IEntityBase : IEntityTenantManager {
   string name();
 
-  IEntityTenant entityTenant(string tenantName);
-  IEntityTenant opIndex(DEntity entity);
-  IEntityTenant opIndex(string tenantName);
-  
-  string[] tenantNames();
-  bool hasTenant(string name);
   IEntityCollection collection(string tenantName, string colName);
   bool hasCollection(string tenantName, string colName);
 

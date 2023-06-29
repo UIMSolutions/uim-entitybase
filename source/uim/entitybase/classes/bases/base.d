@@ -4,15 +4,26 @@ module uim.entitybase.classes.bases.base;
 import uim.entitybase;
 
 class DEntityBase : IEntityTenantManager {
-  this() {}
+  this() { 
+    initialize; 
+  }
   this(DJSBBase jsDatabase) {
-    this().importDatabase(jsDatabase); }
+    this()
+      .importDatabase(jsDatabase); 
+  }
   this(Json options) {
-    this();
-    this.options(options); }
+    this()
+      .options(options); 
+  }
   this(DJSBBase jsDatabase, Json options) {
-    this(jsDatabase);
-    this.options(options); }
+    this(jsDatabase)
+      .options(options); 
+  }
+
+  void initialize(Json configSettings = Json(null)) {
+    this
+      .tenantContainer(EntityTenantContainer);
+  }
 
   mixin EntityTenantManagerTemplate;
 
@@ -21,7 +32,7 @@ class DEntityBase : IEntityTenantManager {
     // debug writeln(jsDatabase.tenantNames); */
 
     if (jsDatabase) foreach (name, jsTenant; jsDatabase.tenants)
-      this.entityTenant(name, EntityTenant(jsTenant)); 
+      this.tenant(name, EntityTenant(jsTenant)); 
 
 /*     // debug writeln("Tenants: ", _tenants.byValue.array.length);
     auto numberOfCollections = 0;
@@ -96,8 +107,8 @@ version(test_uim_entitybase) {
       }} */
 
   string uniqueName(string tenantName, string collectionName, string firstName) {
-    if (auto myTenant = entityTenant(tenantName)) {
-      if (auto myCollection = myTenant.entityCollection(collectionName)) {
+    if (auto myTenant = tenant(tenantName)) {
+      if (auto myCollection = myTenant.collection(collectionName)) {
         return myCollection.uniqueName(firstName); 
       }
     }
@@ -110,10 +121,7 @@ version(test_uim_entitybase) {
       // TODO 
       }}
 
-  // #region count
-  // Count tenants
-  size_t count() {
-    return entityTenants.length; }
+
 version(test_uim_entitybase) {
   unittest {
       auto base = createTestDB("file");

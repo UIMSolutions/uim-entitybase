@@ -10,90 +10,93 @@ import uim.entitybase;
 
 mixin template EntityTenantManagerTemplate() {
 
-  // #region entityTenantContainer
-    protected DEntityTenantContainer _entityTenantContainer;
+  // #region tenantContainer
+    protected DEntityTenantContainer _tenantContainer;
 
-    void entityTenantContainer(DEntityTenantContainer aContainer) {
-      _entityTenantContainer = aContainer;
+    void tenantContainer(DEntityTenantContainer aContainer) {
+      _tenantContainer = aContainer;
     }
-    DEntityTenantContainer entityTenantContainer() { 
-      return _entityTenantContainer; 
+    DEntityTenantContainer tenantContainer() { 
+      return tenantContainer; 
     }
-  // #endregion entityTenantContainer
+  // #endregion tenantContainer
 
-  // #region entityTenants
-    void entityTenants(IEntityTenant[string] someTenants) {
-      someTenants.byKeyValue.each!(kv => entityTenant(kv.key, kv.value));
-    }
-
-    void entityTenants(IEntityTenant[] someTenants) {
-      someTenants.each!(col => entityTenant(col));
+  // #region tenants
+    void tenants(IEntityTenant[string] someTenants) {
+      someTenants.byKeyValue.each!(kv => tenant(kv.key, kv.value));
     }
 
-    IEntityTenant[] entityTenants() { 
-      if (_entityTenantContainer) return _entityTenantContainer.values;
+    void tenants(IEntityTenant[] someTenants) {
+      someTenants.each!(col => tenant(col));
+    }
+
+    IEntityTenant[] tenants() { 
+      if (tenantContainer) return tenantContainer.values;
       return null; 
     }
     string[] tenantNames() {
-      if (_entityTenantContainer) return _entityTenantContainer.keys;
+      if (tenantContainer) return tenantContainer.keys;
       return null;
     }
-  // #endregion entityTenants
+  // #endregion tenants
 
-  // #region entityTenant
-    IEntityTenant entityTenant(string aName) {
-      if (_entityTenantContainer) return _entityTenantContainer[aName];
+  // #region tenant
+    IEntityTenant tenant(string aName) {
+      if (tenantContainer) return tenantContainer[aName];
       return null;
     }
-    void entityTenant(IEntityTenant aEntityTenant) {
-      if (aEntityTenant) entityTenant(aEntityTenant.name, aEntityTenant);
+    void tenant(IEntityTenant aTenant) {
+      if (aTenant) tenant(aTenant.name, aTenant);
     }
-    void entityTenant(string aName, IEntityTenant aEntityTenant) {
-      if (_entityTenantContainer) _entityTenantContainer[aName] = aEntityTenant;
+    void tenant(string aName, IEntityTenant aTenant) {
+      if (tenantContainer) tenantContainer[aName] = aTenant;
     }
-  // #endregion entityTenant
+  // #endregion tenant
 
-  // #region hasEntityTenant
-    bool hasEntityTenant(IEntityTenant aEntityTenant) {
-      if (aEntityTenant) return hasEntityTenant(aEntityTenant.name);
-      return false;
+  // #region hasTenant
+    bool hasTenant(IEntityTenant aTenant) {
+      return (aTenant? hasTenant(aTenant.name) : false);
     }
-    bool hasEntityTenant(string aName) {
-      if (_entityTenantContainer) return _entityTenantContainer.contains(aName);
-      return false;
+    bool hasTenant(string aName) {
+      return (tenantContainer ? tenantContainer.contains(aName) : false);
     }
-  // #endregion hasEntityTenant
+  // #endregion hasTenant
 
-  // Add entityTenant if not exitst
-  void addEntityTenant(IEntityTenant aEntityTenant) {
-    if (aEntityTenant) addEntityTenant(aEntityTenant.name, aEntityTenant);
-  }
-  void addEntityTenant(string aName, IEntityTenant aEntityTenant) {
-    if (_entityTenantContainer && aEntityTenant && !hasEntityTenant(aName)) 
-      _entityTenantContainer.add(aName, aEntityTenant);
+  // Count tenants
+  size_t length() {
+    return (tenantContainer ? tenantContainer.length : 0);
   }
 
-  // Update existing entityTenant
-  void updateEntityTenant(IEntityTenant aEntityTenant) {
-     if (aEntityTenant) updateEntityTenant(aEntityTenant.name, aEntityTenant);
+  // Add tenant if not exitst
+  void addTenant(IEntityTenant aTenant) {
+    if (aTenant) addTenant(aTenant.name, aTenant);
   }
-  void updateEntityTenant(string aName, IEntityTenant aEntityTenant) {
-    if (aEntityTenant && hasEntityTenant(aName)) _entityTenantContainer.update(aName, aEntityTenant);
+  void addTenant(string aName, IEntityTenant aTenant) {
+    if (tenantContainer && aTenant && !hasTenant(aName)) 
+      tenantContainer.add(aName, aTenant);
   }
 
-  // Remove existing entityTenant
-  void removeEntityTenant(IEntityTenant aEntityTenant) {
-    if (aEntityTenant) removeEntityTenant(aEntityTenant.name);
+  // Update existing tenant
+  void updateTenant(IEntityTenant aTenant) {
+     if (aTenant) updateTenant(aTenant.name, aTenant);
   }
-  void removeEntityTenant(string aName) {
-    if (_entityTenantContainer && hasEntityTenant(aName)) _entityTenantContainer.remove(aName);
+  void updateTenant(string aName, IEntityTenant aTenant) {
+    if (aTenant && hasTenant(aName)) tenantContainer.update(aName, aTenant);
+  }
+
+  // Remove existing tenant
+  void removeTenant(IEntityTenant aTenant) {
+    if (aTenant) removeTenant(aTenant.name);
+  }
+  void removeTenant(string aName) {
+    if (tenantContainer && hasTenant(aName)) tenantContainer.remove(aName);
   }
 
   // Operator overloading
   IEntityTenant opIndex(string aName) {
-    return entityTenant(aName);
+    return tenant(aName);
   }
-  void opIndexAssign(IEntityTenant aEntityTenant, string aName) {
-    addEntityTenant(aName, aEntityTenant);  
+  void opIndexAssign(IEntityTenant aTenant, string aName) {
+    addTenant(aName, aTenant);  
   }
 }

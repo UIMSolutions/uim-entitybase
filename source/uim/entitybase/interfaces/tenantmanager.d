@@ -4,34 +4,34 @@ module uim.entitybase.interfaces.tenantmanager;
 import uim.entitybase;
 
 interface IEntityTenantManager {
-  void entityTenantContainer(DEntityTenantContainer aContainer);
-  DEntityTenantContainer entityTenantContainer();
+  void tenantContainer(DEntityTenantContainer aContainer);
+  DEntityTenantContainer tenantContainer();
 
-  void entityTenants(IEntityTenant[string] someTenants);
-  void entityTenants(IEntityTenant[] someTenants);
-  IEntityTenant[] entityTenants();
+  void tenants(IEntityTenant[string] someTenants);
+  void tenants(IEntityTenant[] someTenants);
+  IEntityTenant[] tenants();
   string[] tenantNames();
 
   // set & get entitytenant
-  IEntityTenant entityTenant(string aName);
-  void entityTenant(IEntityTenant aEntityTenant);
-  void entityTenant(string aName, IEntityTenant aEntityTenant);
+  IEntityTenant tenant(string aName);
+  void tenant(IEntityTenant aEntityTenant);
+  void tenant(string aName, IEntityTenant aEntityTenant);
 
   // Check existing entitytenant
-  bool hasEntityTenant(IEntityTenant aTenant);
-  bool hasEntityTenant(string aName);
+  bool hasTenant(IEntityTenant aTenant);
+  bool hasTenant(string aName);
 
   // Add new entitytenant without overwriting
-  void addEntityTenant(IEntityTenant aTenant);
-  void addEntityTenant(string aName, IEntityTenant aTenant);
+  void addTenant(IEntityTenant aTenant);
+  void addTenant(string aName, IEntityTenant aTenant);
 
   // Update existing entitytenant
-  void updateEntityTenant(IEntityTenant aTenant);
-  void updateEntityTenant(string aName, IEntityTenant aTenant);
+  void updateTenant(IEntityTenant aTenant);
+  void updateTenant(string aName, IEntityTenant aTenant);
 
   // Remove existing entitytenant
-  void removeEntityTenant(IEntityTenant aTenant);
-  void removeEntityTenant(string aName);
+  void removeTenant(IEntityTenant aTenant);
+  void removeTenant(string aName);
 
   // operator overloading
   IEntityTenant opIndex(string aName);

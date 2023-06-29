@@ -9,33 +9,33 @@ module uim.entitybase.interfaces.collectionmanager;
 import uim.entitybase;
 
 interface IEntityCollectionManager {
-  void entityCollectionContainer(DEntityCollectionContainer aContainer);
-  DEntityCollectionContainer entityCollectionContainer();
+  void collectionContainer(DEntityCollectionContainer aContainer);
+  DEntityCollectionContainer collectionContainer();
 
-  void entityCollections(IEntityCollection[string] someCollections);
-  void entityCollections(IEntityCollection[] someCollections);
-  IEntityCollection[] entityCollections();
+  void collections(IEntityCollection[string] someCollections);
+  void collections(IEntityCollection[] someCollections);
+  IEntityCollection[] collections();
   string[] collectionNames();
 
   // set & get entitycollection
-  IEntityCollection entityCollection(string aName);
-  void entityCollection(string aName, IEntityCollection aEntityCollection);
+  IEntityCollection collection(string aName);
+  void collection(string aName, IEntityCollection aCollection);
 
   // Check existing entitycollection
-  bool hasEntityCollection(IEntityCollection aCollection);
-  bool hasEntityCollection(string aName);
+  bool hasCollection(IEntityCollection aCollection);
+  bool hasCollection(string aName);
 
   // Add new entitycollection without overwriting
-  void addEntityCollection(IEntityCollection aCollection);
-  void addEntityCollection(string aName, IEntityCollection aCollection);
+  void addCollection(IEntityCollection aCollection);
+  void addCollection(string aName, IEntityCollection aCollection);
 
   // Update existing entitycollection
-  void updateEntityCollection(IEntityCollection aCollection);
-  void updateEntityCollection(string aName, IEntityCollection aCollection);
+  void updateCollection(IEntityCollection aCollection);
+  void updateCollection(string aName, IEntityCollection aCollection);
 
   // Remove existing entitycollection
-  void removeEntityCollection(IEntityCollection aCollection);
-  void removeEntityCollection(string aName);
+  void removeCollection(IEntityCollection aCollection);
+  void removeCollection(string aName);
 
   // operator overloading
   IEntityCollection opIndex(string aName);

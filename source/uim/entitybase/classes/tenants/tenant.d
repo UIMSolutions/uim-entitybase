@@ -15,14 +15,16 @@ class DEntityTenant : IEntityTenant, IEntityCollectionManager {
     // TODO option handling
   }
   this(DJBTenant jbTenant, Json options) {
-    this(jbTenant);
-    this.options(options); 
+    this(jbTenant)
+      .options(options); 
   }
 
-  void initialize() {
+  void initialize(Json configSettings = Json(null)) {
     this
-      .entityCollectionContainer(EntityCollectionContainer);
+      .collectionContainer(EntityCollectionContainer);
   }
+
+  mixin EntityCollectionManagerTemplate;
 
   mixin(OProperty!("string", "name"));
 
@@ -32,28 +34,21 @@ class DEntityTenant : IEntityTenant, IEntityCollectionManager {
   }
 
   bool isNull() {
-    return false; }
-version(test_uim_entitybase) {
-  unittest {
-      auto tenant = EntityTenant; 
-      // TODO
-      }}
+    return false; 
+  }
+  
   bool notNull() { return true; }
 
   void importTenant(DJBTenant jbTenant) {
     // debug writeln(moduleName!DEntityTenant, ":DEntityTenant::importTenant()");
     // debug writeln(jbTenant.collectionNames);
 
-    if (jbTenant) foreach (name, jsCollection; jbTenant.collections)
-      this.entityCollection(name, EntityCollection(jsCollection));     
-    }
-version(test_uim_entitybase) {
-  unittest {
-      auto tenant = EntityTenant; 
-      // TODO
-      }}
+    if (jbTenant is null) return;
 
-  mixin EntityCollectionManagerTemplate;
+    foreach (name, jsCollection; jbTenant.collections) {
+      this.collection(name, EntityCollection(jsCollection));
+    }     
+  }
 }
 auto EntityTenant() { return new DEntityTenant; }
 auto EntityTenant(DJBTenant jbTenant) { return new DEntityTenant(jbTenant); }

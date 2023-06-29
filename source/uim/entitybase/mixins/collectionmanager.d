@@ -13,24 +13,24 @@ mixin template EntityCollectionManagerTemplate() {
   // #region entityCollectionContainer
     protected DEntityCollectionContainer _entityCollectionContainer;
 
-    void entityCollectionContainer(DEntityCollectionContainer aContainer) {
+    void collectionContainer(DEntityCollectionContainer aContainer) {
       _entityCollectionContainer = aContainer;
     }
-    DEntityCollectionContainer entityCollectionContainer() { 
+    DEntityCollectionContainer collectionContainer() { 
       return _entityCollectionContainer; 
     }
   // #endregion entityCollectionContainer
 
   // #region entityCollections
-    void entityCollections(IEntityCollection[string] someCollections) {
-      someCollections.byKeyValue.each!(kv => entityCollection(kv.key, kv.value));
+    void collections(IEntityCollection[string] someCollections) {
+      someCollections.byKeyValue.each!(kv => collection(kv.key, kv.value));
     }
 
-    void entityCollections(IEntityCollection[] someCollections) {
-      someCollections.each!(col => entityCollection(col));
+    void collections(IEntityCollection[] someCollections) {
+      someCollections.each!(col => collection(col));
     }
 
-    IEntityCollection[] entityCollections() { 
+    IEntityCollection[] collections() { 
       if (_entityCollectionContainer) return _entityCollectionContainer.values;
       return null; 
     }
@@ -41,59 +41,59 @@ mixin template EntityCollectionManagerTemplate() {
   // #endregion entityCollections
 
   // #region entityCollection
-    IEntityCollection entityCollection(string aName) {
+    IEntityCollection collection(string aName) {
       if (_entityCollectionContainer) return _entityCollectionContainer[aName];
       return null;
     }
-    void entityCollection(IEntityCollection aEntityCollection) {
-      if (aEntityCollection) entityCollection(aEntityCollection.name, aEntityCollection);
+    void collection(IEntityCollection aEntityCollection) {
+      if (aEntityCollection) collection(aEntityCollection.name, aEntityCollection);
     }
-    void entityCollection(string aName, IEntityCollection aEntityCollection) {
+    void collection(string aName, IEntityCollection aEntityCollection) {
       if (_entityCollectionContainer) _entityCollectionContainer[aName] = aEntityCollection;
     }
   // #endregion entityCollection
 
   // #region hasEntityCollection
-    bool hasEntityCollection(IEntityCollection aEntityCollection) {
-      if (aEntityCollection) return hasEntityCollection(aEntityCollection.name);
+    bool hasCollection(IEntityCollection aEntityCollection) {
+      if (aEntityCollection) return hasCollection(aEntityCollection.name);
       return false;
     }
-    bool hasEntityCollection(string aName) {
+    bool hasCollection(string aName) {
       if (_entityCollectionContainer) return _entityCollectionContainer.contains(aName);
       return false;
     }
   // #endregion hasEntityCollection
 
   // Add entityCollection if not exitst
-  void addEntityCollection(IEntityCollection aEntityCollection) {
-    if (aEntityCollection) addEntityCollection(aEntityCollection.name, aEntityCollection);
+  void addCollection(IEntityCollection aEntityCollection) {
+    if (aEntityCollection) addCollection(aEntityCollection.name, aEntityCollection);
   }
-  void addEntityCollection(string aName, IEntityCollection aEntityCollection) {
-    if (_entityCollectionContainer && aEntityCollection && !hasEntityCollection(aName)) 
+  void addCollection(string aName, IEntityCollection aEntityCollection) {
+    if (_entityCollectionContainer && aEntityCollection && !hasCollection(aName)) 
       _entityCollectionContainer.add(aName, aEntityCollection);
   }
 
   // Update existing entityCollection
-  void updateEntityCollection(IEntityCollection aEntityCollection) {
-     if (aEntityCollection) updateEntityCollection(aEntityCollection.name, aEntityCollection);
+  void updateCollection(IEntityCollection aEntityCollection) {
+     if (aEntityCollection) updateCollection(aEntityCollection.name, aEntityCollection);
   }
-  void updateEntityCollection(string aName, IEntityCollection aEntityCollection) {
-    if (aEntityCollection && hasEntityCollection(aName)) _entityCollectionContainer.update(aName, aEntityCollection);
+  void updateCollection(string aName, IEntityCollection aEntityCollection) {
+    if (aEntityCollection && hasCollection(aName)) _entityCollectionContainer.update(aName, aEntityCollection);
   }
 
   // Remove existing entityCollection
-  void removeEntityCollection(IEntityCollection aEntityCollection) {
-    if (aEntityCollection) removeEntityCollection(aEntityCollection.name);
+  void removeCollection(IEntityCollection aEntityCollection) {
+    if (aEntityCollection) removeCollection(aEntityCollection.name);
   }
-  void removeEntityCollection(string aName) {
-    if (_entityCollectionContainer && hasEntityCollection(aName)) _entityCollectionContainer.remove(aName);
+  void removeCollection(string aName) {
+    if (_entityCollectionContainer && hasCollection(aName)) _entityCollectionContainer.remove(aName);
   }
 
   // Operator overloading
   IEntityCollection opIndex(string aName) {
-    return entityCollection(aName);
+    return collection(aName);
   }
   void opIndexAssign(IEntityCollection aEntityCollection, string aName) {
-    addEntityCollection(aName, aEntityCollection);  
+    addCollection(aName, aEntityCollection);  
   }
 }
