@@ -4,6 +4,8 @@ module uim.entitybase.interfaces.base;
 import uim.entitybase;
 
 interface IEntityBase : IEntityTenantManager {
+  IEntityBaseManager manager();
+
   string name();
 
   IEntityCollection collection(string tenantName, string colName);

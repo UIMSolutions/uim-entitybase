@@ -4,35 +4,46 @@ module uim.entitybase.interfaces.basemanager;
 import uim.entitybase;
 
 interface IEntityBaseManager {
-  void entityBaseContainer(DEntityBaseContainer aContainer);
   DEntityBaseContainer entityBaseContainer();
 
-  void entityBases(IEntityBase[string] someBases);
-  void entityBases(IEntityBase[] someBases);
   IEntityBase[] entityBases();
   string[] baseNames();
+  size_t countEntityBases();
 
-  // set & get entitybase
+  // get entitybase
   IEntityBase entityBase(string aName);
-  void entityBase(string aName, IEntityBase aEntityBase);
 
   // Check existing entitybase
+  bool hasEntityBases(IEntityBase[] someBases...);
+  bool hasEntityBases(IEntityBase[] someBases);
+
+  bool hasEntityBases(string[] someNames...);
+  bool hasEntityBases(string[] someNames);
+  
   bool hasEntityBase(IEntityBase aBase);
   bool hasEntityBase(string aName);
 
   // Add new entitybase without overwriting
-  void addEntityBase(IEntityBase aBase);
-  void addEntityBase(string aName, IEntityBase aBase);
+  bool addEntityBases(IEntityBase[string] someBases);
+  bool addEntityBases(IEntityBase[] someBases...);
+  bool addEntityBases(IEntityBase[] someBases);
+
+  bool addEntityBase(IEntityBase aBase);
+  bool addEntityBase(string aName, IEntityBase aBase);
 
   // Update existing entitybase
-  void updateEntityBase(IEntityBase aBase);
-  void updateEntityBase(string aName, IEntityBase aBase);
+  bool updateEntityBases(IEntityBase[string] someBases);
+  bool updateEntityBases(IEntityBase[] someBases...);
+  bool updateEntityBases(IEntityBase[] someBases);
+
+  bool updateEntityBase(IEntityBase aBase);
+  bool updateEntityBase(string aName, IEntityBase aBase);
 
   // Remove existing entitybase
-  void removeEntityBase(IEntityBase aBase);
-  void removeEntityBase(string aName);
+  bool removeEntityBases(IEntityBase[string] someBases);
+  bool removeEntityBases(IEntityBase[] someBases...);
+  bool removeEntityBases(IEntityBase[] someBases);
 
-  // operator overloading
-  IEntityBase opIndex(string aName);
-  void opIndexAssign(IEntityBase aBase, string aName);
+  bool removeEntityBase(IEntityBase aBase);
+  bool removeEntityBase(string aName);
 }

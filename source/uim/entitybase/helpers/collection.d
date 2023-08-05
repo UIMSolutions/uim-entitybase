@@ -1,14 +1,13 @@
 module uim.entitybase.helpers.collection;
 
-import uim.mvc;
+import uim.entitybase;
 @safe:
 
-auto collection(IEntityBase entityBase, string tenantName, string collectionName) {
-  if (!entityBase) return null;
+auto collection(IEntityTenantManager aTenantManager, string aTenantName, string aCollectionName) {
+  if (!aTenantManager) return null;
 
-  auto myTenant = entityBase.tenant(tenantName);
+  auto myTenant = aTenantManager.entityTenant(aTenantName);
   if (!myTenant) return null;
 
-  auto myCollection = myTenant.collection(collectionName);
-  return myCollection;
+  return myTenant.entityCollection(aCollectionName);
 }

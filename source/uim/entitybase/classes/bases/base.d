@@ -22,9 +22,11 @@ class DEntityBase : IEntityTenantManager {
 
   void initialize(Json configSettings = Json(null)) {
     this
-      .tenantContainer(EntityTenantContainer);
+      .entityTenantContainer(EntityTenantContainer);
   }
 
+  mixin(OProperty!("IEntityBaseManager", "manager"));
+  mixin EntityTenantContainerTemplate;
   mixin EntityTenantManagerTemplate;
 
   O importDatabase(this O)(DJSBBase jsDatabase) {
@@ -32,7 +34,7 @@ class DEntityBase : IEntityTenantManager {
     // debug writeln(jsDatabase.tenantNames); */
 
     if (jsDatabase) foreach (name, jsTenant; jsDatabase.tenants)
-      this.tenant(name, EntityTenant(jsTenant)); 
+      this.addEntityTenant(name, EntityTenant(jsTenant)); 
 
 /*     // debug writeln("Tenants: ", _tenants.byValue.array.length);
     auto numberOfCollections = 0;
@@ -44,10 +46,10 @@ class DEntityBase : IEntityTenantManager {
 version(test_uim_entitybase) {
   unittest {
       auto base = createTestDB("file");
-      assert(base.hasTenant("tenantA"));
-      assert(base.hasTenant("tenantB"));
-      assert(base.tenant("tenantA").collection("collectionA"));
-      assert(base.tenant("tenantB").collection("collectionC"));
+      assert(base.hasEntityTenant("tenantA"));
+      assert(base.hasEntityTenant("tenantB"));
+      assert(base.entityTenant("tenantA").entityCollection("collectionA"));
+      assert(base.entityTenant("tenantB").entityCollection("collectionC"));
       }}
 
   O options(this O)(Json newOptions) {
@@ -106,9 +108,9 @@ version(test_uim_entitybase) {
       assert(!base["tenantC"]);
       }} */
 
-  string uniqueName(string tenantName, string collectionName, string firstName) {
-    if (auto myTenant = tenant(tenantName)) {
-      if (auto myCollection = myTenant.collection(collectionName)) {
+  string uniqueName(string aTenantName, string collectionName, string firstName) {
+    if (auto myTenant = entityTenant(aTenantName)) {
+      if (auto myCollection = myTenant.entityCollection(collectionName)) {
         return myCollection.uniqueName(firstName); 
       }
     }

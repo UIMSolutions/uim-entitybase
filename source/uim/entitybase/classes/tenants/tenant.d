@@ -21,9 +21,12 @@ class DEntityTenant : IEntityTenant, IEntityCollectionManager {
 
   void initialize(Json configSettings = Json(null)) {
     this
-      .collectionContainer(EntityCollectionContainer);
+      .entityCollectionContainer(EntityCollectionContainer);
   }
 
+  mixin(OProperty!("IEntityTenantManager", "manager"));
+
+  mixin EntityCollectionContainerTemplate;
   mixin EntityCollectionManagerTemplate;
 
   mixin(OProperty!("string", "name"));
@@ -46,7 +49,7 @@ class DEntityTenant : IEntityTenant, IEntityCollectionManager {
     if (jbTenant is null) return;
 
     foreach (name, jsCollection; jbTenant.collections) {
-      this.collection(name, EntityCollection(jsCollection));
+      this.addEntityCollection(name, EntityCollection(jsCollection));
     }     
   }
 }

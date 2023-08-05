@@ -9,35 +9,47 @@ module uim.entitybase.interfaces.collectionmanager;
 import uim.entitybase;
 
 interface IEntityCollectionManager {
-  void collectionContainer(DEntityCollectionContainer aContainer);
-  DEntityCollectionContainer collectionContainer();
+  DEntityCollectionContainer entityCollectionContainer();
 
-  void collections(IEntityCollection[string] someCollections);
-  void collections(IEntityCollection[] someCollections);
-  IEntityCollection[] collections();
-  string[] collectionNames();
-
-  // set & get entitycollection
-  IEntityCollection collection(string aName);
-  void collection(string aName, IEntityCollection aCollection);
+  // Get
+  IEntityCollection[] entityCollections();
+  string[] entityCollectionNames();
+  size_t countEntityCollections();
+  IEntityCollection entityCollection(string aName);
 
   // Check existing entitycollection
-  bool hasCollection(IEntityCollection aCollection);
-  bool hasCollection(string aName);
+  bool hasEntityCollections(IEntityCollection[] someCollections...);
+  bool hasEntityCollections(IEntityCollection[] someCollections);
+
+  bool hasEntityCollections(string[] someNames...);
+  bool hasEntityCollections(string[] someNames);
+
+  bool hasEntityCollection(IEntityCollection aCollection);
+  bool hasEntityCollection(string aName);
 
   // Add new entitycollection without overwriting
-  void addCollection(IEntityCollection aCollection);
-  void addCollection(string aName, IEntityCollection aCollection);
+  bool addEntityCollections(IEntityCollection[] someCollections...);
+  bool addEntityCollections(IEntityCollection[] someCollections);
+  bool addEntityCollections(IEntityCollection[string] someCollections);
+
+  bool addEntityCollection(IEntityCollection aCollection);
+  bool addEntityCollection(string aName, IEntityCollection aCollection);
 
   // Update existing entitycollection
-  void updateCollection(IEntityCollection aCollection);
-  void updateCollection(string aName, IEntityCollection aCollection);
+  bool updateEntityCollections(IEntityCollection[] someCollections...);
+  bool updateEntityCollections(IEntityCollection[] someCollections);
+  bool updateEntityCollections(IEntityCollection[string] someCollections);
+
+  bool updateEntityCollection(IEntityCollection aCollection);
+  bool updateEntityCollection(string aName, IEntityCollection aCollection);
 
   // Remove existing entitycollection
-  void removeCollection(IEntityCollection aCollection);
-  void removeCollection(string aName);
+  bool removeEntityCollections(IEntityCollection[] someCollections...);
+  bool removeEntityCollections(IEntityCollection[] someCollections);
 
-  // operator overloading
-  IEntityCollection opIndex(string aName);
-  void opIndexAssign(IEntityCollection aCollection, string aName);
+  bool removeEntityCollections(string[] someNames...);
+  bool removeEntityCollections(string[] someNames);
+
+  bool removeEntityCollection(IEntityCollection aCollection);
+  bool removeEntityCollection(string aName);
 }

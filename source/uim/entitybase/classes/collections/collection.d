@@ -16,7 +16,7 @@ class DEntityCollection : IEntityCollection {
     this.options(options); }
   
   mixin(OProperty!("DJSBCollection", "jsCollection"));
-  mixin(OProperty!("DEntityTenant", "tenant"));
+  mixin(OProperty!("IEntityCollectionManager", "manager"));
   mixin(OProperty!("string", "name"));
 
   protected DEntity _entityTemplate;

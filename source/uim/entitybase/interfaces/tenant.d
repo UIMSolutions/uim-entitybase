@@ -5,6 +5,8 @@ import uim.entitybase;
 
 interface IEntityTenant : IEntityCollectionManager {
   string name();
+
+  IEntityTenantManager manager();
 /*   bool isNull();
   
   bool hasCollection(DEntity entity);

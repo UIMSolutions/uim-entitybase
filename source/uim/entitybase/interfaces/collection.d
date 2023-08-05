@@ -4,6 +4,8 @@ module uim.entitybase.interfaces.collection;
 import uim.entitybase;
 
 interface IEntityCollection {
+  IEntityCollectionManager manager();
+
   string name();
   string uniqueName(string firstName);
 

@@ -4,36 +4,47 @@ module uim.entitybase.interfaces.tenantmanager;
 import uim.entitybase;
 
 interface IEntityTenantManager {
-  void tenantContainer(DEntityTenantContainer aContainer);
-  DEntityTenantContainer tenantContainer();
+  DEntityTenantContainer entityTenantContainer();
 
-  void tenants(IEntityTenant[string] someTenants);
-  void tenants(IEntityTenant[] someTenants);
-  IEntityTenant[] tenants();
-  string[] tenantNames();
+  IEntityTenant[] entityTenants();
+  string[] entityTenantNames();
+  size_t countEntityTenants();
 
   // set & get entitytenant
-  IEntityTenant tenant(string aName);
-  void tenant(IEntityTenant aEntityTenant);
-  void tenant(string aName, IEntityTenant aEntityTenant);
+  IEntityTenant entityTenant(string aName);
 
   // Check existing entitytenant
-  bool hasTenant(IEntityTenant aTenant);
-  bool hasTenant(string aName);
+  bool hasEntityTenants(IEntityTenant[] someTenants...);
+  bool hasEntityTenants(IEntityTenant[] someTenants);
+
+  bool hasEntityTenants(string[] someNames...);
+  bool hasEntityTenants(string[] someNames);
+
+  bool hasEntityTenant(IEntityTenant aTenant);
+  bool hasEntityTenant(string aName);
 
   // Add new entitytenant without overwriting
-  void addTenant(IEntityTenant aTenant);
-  void addTenant(string aName, IEntityTenant aTenant);
+  bool addEntityTenants(IEntityTenant[] someTenants...);
+  bool addEntityTenants(IEntityTenant[] someTenants);
+  bool addEntityTenants(IEntityTenant[string] someTenants);
+
+  bool addEntityTenant(IEntityTenant aTenant);
+  bool addEntityTenant(string aName, IEntityTenant aTenant);
 
   // Update existing entitytenant
-  void updateTenant(IEntityTenant aTenant);
-  void updateTenant(string aName, IEntityTenant aTenant);
+  bool updateEntityTenants(IEntityTenant[] aTenant...);
+  bool updateEntityTenants(IEntityTenant[] aTenant);
+
+  bool updateEntityTenant(IEntityTenant aTenant);
+  bool updateEntityTenant(string aName, IEntityTenant aTenant);
 
   // Remove existing entitytenant
-  void removeTenant(IEntityTenant aTenant);
-  void removeTenant(string aName);
+  bool removeEntityTenants(IEntityTenant[] aTenant...);
+  bool removeEntityTenants(IEntityTenant[] aTenant);
 
-  // operator overloading
-  IEntityTenant opIndex(string aName);
-  void opIndexAssign(IEntityTenant aTenant, string aName);
+  bool removeEntityTenants(string[] aName...);
+  bool removeEntityTenants(string[] aName);
+
+  bool removeEntityTenant(IEntityTenant aTenant);
+  bool removeEntityTenant(string aName);
 }
