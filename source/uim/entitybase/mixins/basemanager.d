@@ -8,89 +8,180 @@ module uim.entitybase.mixins.basemanager;
 import uim.entitybase;
 @safe:
 
-mixin template EntityBaseManagerTemplate() {
-
-  // #region entityBaseContainer
-    protected DEntityBaseContainer _entityBaseContainer;
-
-    void entityBaseContainer(DEntityBaseContainer aContainer) {
-      _entityBaseContainer = aContainer;
-    }
-    DEntityBaseContainer entityBaseContainer() { 
-      return _entityBaseContainer; 
-    }
-  // #endregion entityBaseContainer
-
-  // #region entityBases
-    void entityBases(IEntityBase[string] someBases) {
-      someBases.byKeyValue.each!(ky => entityBase(k, v));
-    }
-
-    void entityBases(IEntityBase[] someBases) {
-      someBases.each!(col => entityBase(col));
-    }
-
-    IEntityBase[] entityBases() { 
-      if (_entityBaseContainer) return _entityBaseContainer.values;
+mixin template EntityBaseContainerTemplate() {
+  // #region controllerContainer
+    protected DEntityBaseContainer _entityBaseContainer;  
+    DEntityBaseContainer entityBaseContainer() {
+      if (entityBaseContainer) {
+        return _entityBaseContainer;
+      }
+      if (auto myManager = cast(IEntityBaseManager)this.manager) {
+        return myManager.entityBaseContainer;
+      }
       return null; 
+    }  
+
+    void entityBaseContainer(DEntityBaseContainer aBaseContainer) {    
+      _entityBaseContainer = aBaseContainer;
+    }  
+  // #endregion controllerContainer
+}
+
+mixin template EntityBaseManagerTemplate() {
+  // #region entityBases
+    IEntityBase[] entityBases() { 
+      return (entityBaseContainer ? entityBaseContainer.values : null); 
     }
-    string[] baseNames() {
-      if (_entityBaseContainer) return _entityBaseContainer.keys;
-      return null;
+    string[] entityBaseNames() {
+      return (entityBaseContainer ? entityBaseContainer.keys : null);
+    }
+    size_t countEntityBase() {
+      return (entityBaseContainer ? entityBaseContainer.length : 0);
     }
   // #endregion entityBases
 
   // #region entityBase
     IEntityBase entityBase(string aName) {
-      if (_entityBaseContainer) return _entityBaseContainer[aName];
-      return null;
-    }
-    void entityBase(string aName, IEntityBase aEntityBase) {
-      if (_entityBaseContainer) _entityBaseContainer[aName] = aEntityBase;
+      return (entityBaseContainer ? entityBaseContainer[aName] : null);
     }
   // #endregion entityBase
 
   // #region hasEntityBase
-    bool hasEntityBase(IEntityBase aEntityBase) {
-      if (aEntityBase) return hasEntityBase(aEntityBase.name);
-      return false;
+    bool hasEntityBases(IEntityBase[] someBases...) {
+      return hasEntityBases(someBases.dup);
+    }
+
+    bool hasEntityBases(IEntityBase[] someBases) {
+      if (someBases.isEmpty) return false;
+
+      foreach(myBase; someBases) {
+        if (!hasEntityBase(myBase)) return false;
+      } 
+
+      return true;
+    }
+
+    bool hasEntityBases(string[] someNames...) {
+      return hasEntityBases(someBases.dup);
+    }
+
+    bool hasEntityBases(string[] someNames) {
+      if (someBases.isEmpty) return false;
+
+      foreach(myName; someNames) {
+        if (!hasEntityBase(myName)) return false;
+      } 
+
+      return true;
+    }
+
+    bool hasEntityBase(IEntityBase aBase) {
+      return (aBase ? hasEntityBase(aBase.name) : false);
     }
     bool hasEntityBase(string aName) {
-      if (_entityBaseContainer) return _entityBaseContainer.contains(aName);
-      return false;
+      return (entityBaseContainer ? entityBaseContainer.contains(aName) : false);
     }
-  // #endregion hasEntityBase
+  // #region add EntityBase
 
-  // Add entityBase if not exitst
-  void addEntityBase(IEntityBase aEntityBase) {
-    if (aEntityBase) addEntityBase(aEntityBase.name, aEntityBase);
-  }
-  void addEntityBase(string aName, IEntityBase aEntityBase) {
-    if (_entityBaseContainer && aEntityBase && !hasEntityBase(aName)) 
-      _entityBaseContainer.add(aName, aEntityBase);
+  // #region add EntityBase
+    bool entityBases(IEntityBase[string] someBases) {
+      someBases.byKeyValue.each!(ky => entityBase(k, v));
+    }
+
+    bool addEntityBases(IEntityBase[] someBases...) {
+      return addEntityBases(someBases.dup);
+    }
+
+    bool addEntityBases(IEntityBase[] someBases) {
+      if (someBases.isEmpty) return false;
+
+      foreach(myBase; someBases) {
+        if (!hasEntityBase(myBase)) return false;
+      } 
+
+      return true;
+    }
+
+    bool addEntityBase(IEntityBase aBase) {
+      return (aBase ? addEntityBase(aBase.name, aBase) : false);
+    }
+    bool addEntityBase(string aName, IEntityBase aEntityBase) {
+      if (_entityBaseContainer && aEntityBase && !hasEntityBase(aName)) 
+        _entityBaseContainer.add(aName, aEntityBase);
+    }
+  // #endregion add EntityBase
+
+  // #region Update entityBase
+    bool updateEntityBases(IEntityBase[] someBases...) {
+      return updateEntityBases(addEntityBases);
+    }
+    bool updateEntityBases(IEntityBase[] someBases) {
+    if (someNames.isEmpty) return false;
+
+    foreach(myName; someNames) {
+      if (!updateEntityBase(myName)) return false;
+    } 
+
+    return true;
   }
 
-  // Update existing entityBase
-  void updateEntityBase(IEntityBase aEntityBase) {
-     if (aEntityBase) updateEntityBase(aEntityBase.name, aEntityBase);
-  }
-  void updateEntityBase(string aName, IEntityBase aEntityBase) {
-    if (aEntityBase && hasEntityBase(aName)) _entityBaseContainer.update(aName, aEntityBase);
+  bool updateEntityBases(string[] someNames...) {
+    return updateEntityBases(someNames.dup);
   }
 
-  // Remove existing entityBase
-  void removeEntityBase(IEntityBase aEntityBase) {
-    if (aEntityBase) removeEntityBase(aEntityBase.name);
-  }
-  void removeEntityBase(string aName) {
-    if (_entityBaseContainer && hasEntityBase(aName)) _entityBaseContainer.remove(aName);
+  bool updateEntityBases(string[] someNames) {
+    if (someNames.isEmpty) return false;
+
+    foreach(myName; someNames) {
+      if (!updateEntityBase(myName)) return false;
+    } 
+
+    return true;
   }
 
-  // Operator overloading
-  IEntityBase opIndex(string aName) {
-    return entityBase(aName);
+  bool updateEntityBase(IEntityBase aBase) {
+    return (aBase ? updateEntityBase(aBase.name, aBase) : false);
   }
-  void opIndexAssign(IEntityBase aEntityBase, string aName) {
-    addEntityBase(aName, aEntityBase);  
+
+  bool updateEntityBase(string aName, IEntityBase aEntityBase) {
+    return (entityBaseContainer ? entityBaseContainer.update(aName, aEntityBase) : false);
   }
+  // #endregion Update entityBase
+
+  // #region Remove entityBase
+    bool removeEntityBases(IEntityBase[] someBases...) {
+      return removeEntityBases(addEntityBases);
+    }
+    bool removeEntityBases(IEntityBase[] someBases) {
+    if (someNames.isEmpty) return false;
+
+    foreach(myName; someNames) {
+      if (!removeEntityBase(myName)) return false;
+    } 
+
+    return true;
+  }
+
+  bool removeEntityBases(string[] someNames...) {
+    return removeEntityBases(someNames.dup);
+  }
+
+  bool removeEntityBases(string[] someNames) {
+    if (someNames.isEmpty) return false;
+
+    foreach(myName; someNames) {
+      if (!removeEntityBase(myName)) return false;
+    } 
+
+    return true;
+  }
+
+  bool removeEntityBase(IEntityBase aEntityBase) {
+    return (aEntityBase ? removeEntityBase(aEntityBase.name) : true);
+  }
+
+  bool removeEntityBase(string aName) {
+    return (entityBaseContainer ? entityBaseContainer.remove(aName) : true);
+  }
+  // #endregion Remove entityBase
 }

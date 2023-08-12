@@ -8,95 +8,199 @@ module uim.entitybase.mixins.tenantmanager;
 import uim.entitybase;
 @safe:
 
-mixin template EntityTenantManagerTemplate() {
-
+mixin template EntityTenantContainerTemplate() {
   // #region tenantContainer
-    protected DEntityTenantContainer _tenantContainer;
-
-    void tenantContainer(DEntityTenantContainer aContainer) {
-      _tenantContainer = aContainer;
-    }
-    DEntityTenantContainer tenantContainer() { 
-      return tenantContainer; 
-    }
-  // #endregion tenantContainer
-
-  // #region tenants
-    void tenants(IEntityTenant[string] someTenants) {
-      someTenants.byKeyValue.each!(kv => tenant(kv.key, kv.value));
-    }
-
-    void tenants(IEntityTenant[] someTenants) {
-      someTenants.each!(col => tenant(col));
-    }
-
-    IEntityTenant[] tenants() { 
-      if (tenantContainer) return tenantContainer.values;
+    protected DEntityTenantContainer _entityTenantContainer;  
+    DEntityTenantContainer entityTenantContainer() {
+      if (entityTenantContainer) {
+        return _entityTenantContainer;
+      }
+      if (auto myManager = cast(IEntityTenantManager)this.manager) {
+        return myManager.entityTenantContainer;
+      }
       return null; 
-    }
-    string[] tenantNames() {
-      if (tenantContainer) return tenantContainer.keys;
-      return null;
-    }
-  // #endregion tenants
+    }  
 
-  // #region tenant
-    IEntityTenant tenant(string aName) {
-      if (tenantContainer) return tenantContainer[aName];
-      return null;
+    void entityTenantContainer(DEntityTenantContainer aEntityTenantContainer) {    
+      _entityTenantContainer = aEntityTenantContainer;
+    }  
+  // #endregion tenantContainer
+}
+
+mixin template EntityTenantManagerTemplate() {
+  // #region get tenant
+    IEntityTenant[] entityTenants() {
+      return (entityTenantContainer ? entityTenantContainer.values : null);
     }
-    void tenant(IEntityTenant aTenant) {
-      if (aTenant) tenant(aTenant.name, aTenant);
+
+    string[] entityTenantNames() {
+      return (entityTenantContainer ? entityTenantContainer.keys : null);
     }
-    void tenant(string aName, IEntityTenant aTenant) {
-      if (tenantContainer) tenantContainer[aName] = aTenant;
+
+    IEntityTenant entityTenant(string aName) {      
+      return (entityTenantContainer ? entityTenantContainer[aName] : null);
     }
-  // #endregion tenant
 
-  // #region hasTenant
-    bool hasTenant(IEntityTenant aTenant) {
-      return (aTenant? hasTenant(aTenant.name) : false);
+    size_t countEntityTenants() {      
+      return (entityTenantContainer ? entityTenantContainer.length : 0);
     }
-    bool hasTenant(string aName) {
-      return (tenantContainer ? tenantContainer.contains(aName) : false);
+  // #endregion get tenant
+
+  // #region hasEntityTenant
+    bool hasEntityTenants(IEntityTenant[] someTenants...) {
+      return hasEntityTenants(someTenants.dup);
     }
-  // #endregion hasTenant
 
-  // Count tenants
-  size_t length() {
-    return (tenantContainer ? tenantContainer.length : 0);
+    bool hasEntityTenants(IEntityTenant[] someTenants) {
+      if (someTenants.isEmpty) return false;
+
+      foreach(myTenant; someTenants) {
+        if (!hasEntityTenant(myTenant)) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    bool hasEntityTenants(string[] someNames...) {
+      return hasEntityTenants(someNames.dup);
+    }
+
+    bool hasEntityTenants(string[] someNames) {
+      if (someNames.isEmpty) return false;
+
+      foreach(myName; someNames) {
+        if (!hasEntityTenant(myName)) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    bool hasEntityTenant(IEntityTenant aTenant) {
+      return (aTenant? hasEntityTenant(aTenant.name) : false);
+    }
+
+    bool hasEntityTenant(string aName) {
+      return (entityTenantContainer ? entityTenantContainer.contains(aName) : false);
+    }
+  // #endregion hasEntityTenant
+
+  // #region Add tenant 
+    bool addEntityTenants(IEntityTenant[string] someTenants) {
+      if (someTenants.isEmpty) return false;
+
+      foreach(myName, myTenant; someTenants) {
+        if (!addEntityTenant(myName, myTenant)) return false;
+      }
+
+      return true;
+    }
+
+    bool addEntityTenants(IEntityTenant[] someTenants...) {
+      return addEntityTenants(someTenants.dup);
+    }
+
+    bool addEntityTenants(IEntityTenant[] someTenants) {
+      if (someTenants.isEmpty) return false;
+
+      foreach(myTenant; someTenants) {
+        if (!addEntityTenant(myTenant)) return false;
+      }
+
+      return true;
+    }
+
+    bool addEntityTenant(IEntityTenant aTenant) {
+      return (aTenant ? addEntityTenant(aTenant.name, aTenant) : false);
+    }
+
+    bool addEntityTenant(string aName, IEntityTenant aTenant) {
+      if (entityTenantContainer) {
+        entityTenantContainer.add(aName, aTenant);
+        return true;
+      }
+
+      return false;
+    }
+  // #endregion Add tenant
+
+  // #region Update tenant
+    bool updateEntityTenants(IEntityTenant[string] someTenants) {
+    if (someTenants.isEmpty) return false;
+
+    foreach(myName, myTenant; someTenants) {
+      if (!updateEntityTenant(myName, myTenant)) return false;
+    }
+
+    return true;
   }
 
-  // Add tenant if not exitst
-  void addTenant(IEntityTenant aTenant) {
-    if (aTenant) addTenant(aTenant.name, aTenant);
-  }
-  void addTenant(string aName, IEntityTenant aTenant) {
-    if (tenantContainer && aTenant && !hasTenant(aName)) 
-      tenantContainer.add(aName, aTenant);
+  bool updateEntityTenants(IEntityTenant[] someTenants...) {
+    return updateEntityTenants(someTenants.dup);
   }
 
-  // Update existing tenant
-  void updateTenant(IEntityTenant aTenant) {
-     if (aTenant) updateTenant(aTenant.name, aTenant);
-  }
-  void updateTenant(string aName, IEntityTenant aTenant) {
-    if (aTenant && hasTenant(aName)) tenantContainer.update(aName, aTenant);
+  bool updateEntityTenants(IEntityTenant[] someTenants) {
+    if (someTenants.isEmpty) return false;
+
+    foreach(myTenant; someTenants) {
+      if (!updateEntityTenant(myTenant)) return false;
+    }
+
+    return true;
   }
 
-  // Remove existing tenant
-  void removeTenant(IEntityTenant aTenant) {
-    if (aTenant) removeTenant(aTenant.name);
+  bool updateEntityTenant(IEntityTenant aTenant) {
+    return (aTenant ? updateEntityTenant(aTenant.name, aTenant) : false);
   }
-  void removeTenant(string aName) {
-    if (tenantContainer && hasTenant(aName)) tenantContainer.remove(aName);
+  bool updateEntityTenant(string aName, IEntityTenant aTenant) {
+    if (entityTenantContainer) {
+      entityTenantContainer.update(aName, aTenant); 
+      return true;
+    }
+    return false;
   }
+  // #endregion Update tenant
 
-  // Operator overloading
-  IEntityTenant opIndex(string aName) {
-    return tenant(aName);
-  }
-  void opIndexAssign(IEntityTenant aTenant, string aName) {
-    addTenant(aName, aTenant);  
-  }
+  // #region Remove existing tenant
+    bool removeEntityTenants(IEntityTenant[] someTenants...) {
+      return removeEntityTenants(someTenants.dup);
+    }
+
+    bool removeEntityTenants(IEntityTenant[] someTenants) {
+      if (someTenants.isEmpty) return false;
+
+      foreach(myTenant; someTenants) {
+        if (!removeEntityTenant(myTenant)) return false;
+      }
+      return true;
+    }
+
+    bool removeEntityTenants(string[] someNames...) {
+      return removeEntityTenants(someNames.dup);
+    }
+
+    bool removeEntityTenants(string[] someNames) {
+      if (someNames.isEmpty) return false;
+
+      foreach(myName; someNames) {
+        if (!removeEntityTenant(myName)) return false;
+      }
+
+      return true;
+    }
+
+    bool removeEntityTenant(IEntityTenant aTenant) {
+      return (aTenant ? removeEntityTenant(aTenant.name) : false);
+    }
+
+    bool removeEntityTenant(string aName) {
+      if (entityTenantContainer) {
+        entityTenantContainer.remove(aName);
+        return true;
+      }
+      return false;
+    }
+  // #endregion Remove tenant
 }

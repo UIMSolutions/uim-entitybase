@@ -8,92 +8,200 @@ module uim.entitybase.mixins.collectionmanager;
 import uim.entitybase;
 @safe:
 
-mixin template EntityCollectionManagerTemplate() {
-
-  // #region entityCollectionContainer
-    protected DEntityCollectionContainer _entityCollectionContainer;
-
-    void collectionContainer(DEntityCollectionContainer aContainer) {
+mixin template EntityCollectionContainerTemplate() {
+  // #region EntityCollectionContainer
+    protected DEntityCollectionContainer _entityCollectionContainer;  
+    DEntityCollectionContainer entityCollectionContainer() {
+      if (entityCollectionContainer) {
+        return _entityCollectionContainer;
+      }
+      if (auto myManager = cast(IEntityCollectionManager)this.manager) {
+        return myManager.entityCollectionContainer;
+      }
+      return null; 
+    }  
+    void entityCollectionContainer(DEntityCollectionContainer aContainer) {    
       _entityCollectionContainer = aContainer;
-    }
-    DEntityCollectionContainer collectionContainer() { 
-      return _entityCollectionContainer; 
-    }
-  // #endregion entityCollectionContainer
+    }  
+  // #endregion EntityCollectionContainer
+}
 
-  // #region entityCollections
-    void collections(IEntityCollection[string] someCollections) {
-      someCollections.byKeyValue.each!(kv => collection(kv.key, kv.value));
-    }
-
-    void collections(IEntityCollection[] someCollections) {
-      someCollections.each!(col => collection(col));
-    }
-
-    IEntityCollection[] collections() { 
-      if (_entityCollectionContainer) return _entityCollectionContainer.values;
+mixin template EntityCollectionManagerTemplate() {
+  // #region entityEntityCollection
+    IEntityCollection[] entityCollections() { 
+      if (entityCollectionContainer) return entityCollectionContainer.values;
       return null; 
     }
-    string[] collectionNames() {
-      if (_entityCollectionContainer) return _entityCollectionContainer.keys;
-      return null;
+
+    string[] entityCollectionNames() {
+      return (entityCollectionContainer ? entityCollectionContainer.keys : null);
     }
-  // #endregion entityCollections
+
+    size_t countEntityCollections() {
+      return (entityCollectionContainer ? entityCollectionContainer.length : 0);
+    }
+  // #endregion entityEntityCollection
 
   // #region entityCollection
-    IEntityCollection collection(string aName) {
-      if (_entityCollectionContainer) return _entityCollectionContainer[aName];
-      return null;
-    }
-    void collection(IEntityCollection aEntityCollection) {
-      if (aEntityCollection) collection(aEntityCollection.name, aEntityCollection);
-    }
-    void collection(string aName, IEntityCollection aEntityCollection) {
-      if (_entityCollectionContainer) _entityCollectionContainer[aName] = aEntityCollection;
+    IEntityCollection entityCollection(string aName) {
+      return (entityCollectionContainer ? entityCollectionContainer[aName] : null);
     }
   // #endregion entityCollection
 
   // #region hasEntityCollection
-    bool hasCollection(IEntityCollection aEntityCollection) {
-      if (aEntityCollection) return hasCollection(aEntityCollection.name);
-      return false;
+    bool hasEntityCollections(IEntityCollection[] someCollections...) {
+      return hasEntityCollections(someCollections.dup);
     }
-    bool hasCollection(string aName) {
-      if (_entityCollectionContainer) return _entityCollectionContainer.contains(aName);
-      return false;
+
+    bool hasEntityCollections(IEntityCollection[] someCollections) {
+      if (someCollections.isEmpty) return false;
+
+      foreach(myCollection; someCollections) {
+        if (!hasEntityCollection(myCollection)) {
+          return false;
+        } 
+      }
+      return true;
+    }
+
+    bool hasEntityCollections(string[] someNames...) {
+      return hasEntityCollections(someNames.dup);
+    }
+
+    bool hasEntityCollections(string[] someNames) {
+      if (someNames.isEmpty) return false;
+
+      foreach(myName; someNames) {
+        if (!hasEntityCollection(myName)) {
+          return false;
+        } 
+      }
+      return true;
+    }
+
+    bool hasEntityCollection(IEntityCollection aCollection) {
+      return (aCollection ? hasEntityCollection(aCollection.name) : false);
+    }
+
+    bool hasEntityCollection(string aName) {
+      return (entityCollectionContainer ? entityCollectionContainer.contains(aName) :false);
     }
   // #endregion hasEntityCollection
 
-  // Add entityCollection if not exitst
-  void addCollection(IEntityCollection aEntityCollection) {
-    if (aEntityCollection) addCollection(aEntityCollection.name, aEntityCollection);
-  }
-  void addCollection(string aName, IEntityCollection aEntityCollection) {
-    if (_entityCollectionContainer && aEntityCollection && !hasCollection(aName)) 
-      _entityCollectionContainer.add(aName, aEntityCollection);
+  // #region Add collection 
+    bool addEntityCollections(IEntityCollection[string] someCollections) {
+      if (someCollections.isEmpty) return false;
+
+      foreach(myName, myCollection; someCollections) {
+        if (!addEntityCollection(myName, myCollection)) return false;
+      }
+
+      return true;
+    }
+
+    bool addEntityCollections(IEntityCollection[] someCollections...) {
+      return addEntityCollections(someCollections.dup);
+    }
+
+    bool addEntityCollections(IEntityCollection[] someCollections) {
+      if (someCollections.isEmpty) return false;
+
+      foreach( myCollection; someCollections) {
+        if (!addEntityCollection(myCollection)) return false;
+      }
+
+      return true;
+    }
+
+    bool addEntityCollection(IEntityCollection aCollection) {
+      return (aCollection ? addEntityCollection(aCollection.name, aCollection) : false);
+    }
+
+    bool addEntityCollection(string aName, IEntityCollection aCollection) {
+      if (entityCollectionContainer) {
+        entityCollectionContainer.add(aName, aCollection);
+        return true;
+      }
+      return false;
+    }
+  // #endregion Add collection
+
+  // #region Update collection
+    bool updateEntityCollections(IEntityCollection[string] someCollections) {
+    if (someCollections.isEmpty) return false;
+
+    foreach(myName, myCollection; someCollections) {
+      if (!updateEntityCollection(myName, myCollection)) return false;
+    }
+
+    return true;
   }
 
-  // Update existing entityCollection
-  void updateCollection(IEntityCollection aEntityCollection) {
-     if (aEntityCollection) updateCollection(aEntityCollection.name, aEntityCollection);
-  }
-  void updateCollection(string aName, IEntityCollection aEntityCollection) {
-    if (aEntityCollection && hasCollection(aName)) _entityCollectionContainer.update(aName, aEntityCollection);
+  bool updateEntityCollections(IEntityCollection[] someCollections...) {
+    return updateEntityCollections(someCollections.dup);
   }
 
-  // Remove existing entityCollection
-  void removeCollection(IEntityCollection aEntityCollection) {
-    if (aEntityCollection) removeCollection(aEntityCollection.name);
-  }
-  void removeCollection(string aName) {
-    if (_entityCollectionContainer && hasCollection(aName)) _entityCollectionContainer.remove(aName);
+  bool updateEntityCollections(IEntityCollection[] someCollections) {
+    if (someCollections.isEmpty) return false;
+
+    foreach(myCollection; someCollections) {
+      if (!updateEntityCollection(myCollection)) return false;
+    }
+
+    return true;
   }
 
-  // Operator overloading
-  IEntityCollection opIndex(string aName) {
-    return collection(aName);
+  bool updateEntityCollection(IEntityCollection aCollection) {
+    return (aCollection ? updateEntityCollection(aCollection.name, aCollection) : false);
   }
-  void opIndexAssign(IEntityCollection aEntityCollection, string aName) {
-    addCollection(aName, aEntityCollection);  
+  bool updateEntityCollection(string aName, IEntityCollection aCollection) {
+    if (entityCollectionContainer) {
+      entityCollectionContainer.update(aName, aCollection);
+      return true;
+    } 
+    return false;
   }
+  // #endregion Update collection
+
+  // #region Remove existing collection
+    bool removeEntityCollections(IEntityCollection[] someCollections...) {
+      return removeEntityCollections(someCollections.dup);
+    }
+
+    bool removeEntityCollections(IEntityCollection[] someCollections) {
+      if (someCollections.isEmpty) return false;
+
+      foreach(myCollection; someCollections) {
+        if (!removeEntityCollection(myCollection)) return false;
+      }
+      return true;
+    }
+
+    bool removeEntityCollections(string[] someNames...) {
+      return removeEntityCollections(someNames.dup);
+    }
+
+    bool removeEntityCollections(string[] someNames) {
+      if (someNames.isEmpty) return false;
+
+      foreach(myName; someNames) {
+        if (!removeEntityCollection(myName)) return false;
+      }
+
+      return true;
+    }
+
+    bool removeEntityCollection(IEntityCollection aCollection) {
+      return (aCollection ? removeEntityCollection(aCollection.name) : false);
+    }
+
+    bool removeEntityCollection(string aName) {
+      if (entityCollectionContainer) {
+        entityCollectionContainer.remove(aName);
+        return true;
+      } 
+
+      return false;
+    }
+  // #endregion Remove collection
 }

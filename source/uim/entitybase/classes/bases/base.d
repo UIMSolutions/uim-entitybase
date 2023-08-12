@@ -30,19 +30,20 @@ class DEntityBase : IEntityTenantManager {
   mixin EntityTenantManagerTemplate;
 
   O importDatabase(this O)(DJSBBase jsDatabase) {
-/*     // debug writeln("uim.entitybase.classes.bases.base:DEntityase::importDatabase");
-    // debug writeln(jsDatabase.tenantNames); */
+    debug writeln(__MODULE__~" - importDatabase(this O)(DJSBBase jsDatabase)"); 
+/*     debug writeln(jsDatabase.tenantNames);
 
     if (jsDatabase) foreach (name, jsTenant; jsDatabase.tenants)
       this.addEntityTenant(name, EntityTenant(jsTenant)); 
-
+ */
 /*     // debug writeln("Tenants: ", _tenants.byValue.array.length);
     auto numberOfCollections = 0;
     foreach(name, myTenant; _tenants) {
       numberOfCollections += myTenant.collectionNames.length;
     } // debug writeln("Collections; ", numberOfCollections);
  */
-    return cast(O)this; }
+    return cast(O)this; 
+  }
 version(test_uim_entitybase) {
   unittest {
       auto base = createTestDB("file");
