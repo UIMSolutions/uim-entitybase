@@ -1,20 +1,20 @@
 module uim.entitybase.classes.tenants.tenant;
 
-@safe:
 import uim.entitybase;
 
+@safe:
 class DEntityTenant : IEntityTenant, IEntityCollectionManager {
   this() {
     initialize; 
   }
-  this(DJBTenant jbTenant) {
+  this(IJsonTenant jbTenant) {
     this();
     importTenant(jbTenant); }
   this(Json options) {
     this();
     // TODO option handling
   }
-  this(DJBTenant jbTenant, Json options) {
+  this(IJsonTenant jbTenant, Json options) {
     this(jbTenant)
       .options(options); 
   }
@@ -42,7 +42,7 @@ class DEntityTenant : IEntityTenant, IEntityCollectionManager {
   
   bool notNull() { return true; }
 
-  void importTenant(DJBTenant jbTenant) {
+  void importTenant(IJsonTenant jbTenant) {
     // debug writeln(moduleName!DEntityTenant, ":DEntityTenant::importTenant()");
     // debug writeln(jbTenant.collectionNames);
 
@@ -54,7 +54,7 @@ class DEntityTenant : IEntityTenant, IEntityCollectionManager {
   }
 }
 auto EntityTenant() { return new DEntityTenant; }
-auto EntityTenant(DJBTenant jbTenant) { return new DEntityTenant(jbTenant); }
+auto EntityTenant(IJsonTenant jbTenant) { return new DEntityTenant(jbTenant); }
 auto EntityTenant(Json options) { return new DEntityTenant(options); }
-auto EntityTenant(DJBTenant jbTenant, Json options) { return new DEntityTenant(jbTenant, options); }
+auto EntityTenant(IJsonTenant jbTenant, Json options) { return new DEntityTenant(jbTenant, options); }
 

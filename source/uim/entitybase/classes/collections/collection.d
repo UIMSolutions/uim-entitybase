@@ -33,9 +33,7 @@ class DEntityCollection : IEntityCollection {
     return cast(O)this;
   }
 
-  bool isNull() { 
-      return false; 
-    }
+  bool isNull() { return false; }
   bool notNull() { return true; }
 
   bool has(Json entity, UUID id) {

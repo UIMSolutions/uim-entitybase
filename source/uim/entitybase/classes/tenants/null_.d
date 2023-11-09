@@ -21,9 +21,7 @@ version(test_uim_entitybase) {
       auto tenant = EntityTenant; 
       // TODO
       }}
-  override bool notNull() { 
-      return false; 
-    }
+  override bool notNull() { return false; }
   
   override bool hasCollection(string collectionName) {
     return false; }

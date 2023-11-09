@@ -53,14 +53,10 @@ mixin template EntityBaseManagerTemplate() {
     }
 
     bool hasEntityBases(IEntityBase[] someBases) {
-      if (someBases.isEmpty) { 
-      return false; 
-    }
+      if (someBases.isEmpty) { return false; }
 
       foreach(myBase; someBases) {
-        if (!hasEntityBase(myBase)) { 
-      return false; 
-    }
+        if (!hasEntityBase(myBase)) { return false; }
       } 
 
       return true;
@@ -71,14 +67,10 @@ mixin template EntityBaseManagerTemplate() {
     }
 
     bool hasEntityBases(string[] someNames) {
-      if (someBases.isEmpty) { 
-      return false; 
-    }
+      if (someBases.isEmpty) { return false; }
 
       foreach(myName; someNames) {
-        if (!hasEntityBase(myName)) { 
-      return false; 
-    }
+        if (!hasEntityBase(myName)) { return false; }
       } 
 
       return true;
@@ -102,14 +94,10 @@ mixin template EntityBaseManagerTemplate() {
     }
 
     bool addEntityBases(IEntityBase[] someBases) {
-      if (someBases.isEmpty) { 
-      return false; 
-    }
+      if (someBases.isEmpty) { return false; }
 
       foreach(myBase; someBases) {
-        if (!hasEntityBase(myBase)) { 
-      return false; 
-    }
+        if (!hasEntityBase(myBase)) { return false; }
       } 
 
       return true;
@@ -129,14 +117,10 @@ mixin template EntityBaseManagerTemplate() {
       return updateEntityBases(addEntityBases);
     }
     bool updateEntityBases(IEntityBase[] someBases) {
-    if (someNames.isEmpty) { 
-      return false; 
-    }
+    if (someNames.isEmpty) { return false; }
 
     foreach(myName; someNames) {
-      if (!updateEntityBase(myName)) { 
-      return false; 
-    }
+      if (!updateEntityBase(myName)) { return false; }
     } 
 
     return true;
@@ -147,14 +131,10 @@ mixin template EntityBaseManagerTemplate() {
   }
 
   bool updateEntityBases(string[] someNames) {
-    if (someNames.isEmpty) { 
-      return false; 
-    }
+    if (someNames.isEmpty) { return false; }
 
     foreach(myName; someNames) {
-      if (!updateEntityBase(myName)) { 
-      return false; 
-    }
+      if (!updateEntityBase(myName)) { return false; }
     } 
 
     return true;
@@ -174,14 +154,10 @@ mixin template EntityBaseManagerTemplate() {
       return removeEntityBases(addEntityBases);
     }
     bool removeEntityBases(IEntityBase[] someBases) {
-    if (someNames.isEmpty) { 
-      return false; 
-    }
+    if (someNames.isEmpty) { return false; }
 
     foreach(myName; someNames) {
-      if (!removeEntityBase(myName)) { 
-      return false; 
-    }
+      if (!removeEntityBase(myName)) { return false; }
     } 
 
     return true;
@@ -192,14 +168,10 @@ mixin template EntityBaseManagerTemplate() {
   }
 
   bool removeEntityBases(string[] someNames) {
-    if (someNames.isEmpty) { 
-      return false; 
-    }
+    if (someNames.isEmpty) { return false; }
 
     foreach(myName; someNames) {
-      if (!removeEntityBase(myName)) { 
-      return false; 
-    }
+      if (!removeEntityBase(myName)) { return false; }
     } 
 
     return true;

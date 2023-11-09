@@ -55,9 +55,7 @@ mixin template EntityCollectionManagerTemplate() {
     }
 
     bool hasEntityCollections(IEntityCollection[] someCollections) {
-      if (someCollections.isEmpty) { 
-      return false; 
-    }
+      if (someCollections.isEmpty) { return false; }
 
       foreach(myCollection; someCollections) {
         if (!hasEntityCollection(myCollection)) {
@@ -72,9 +70,7 @@ mixin template EntityCollectionManagerTemplate() {
     }
 
     bool hasEntityCollections(string[] someNames) {
-      if (someNames.isEmpty) { 
-      return false; 
-    }
+      if (someNames.isEmpty) { return false; }
 
       return someNames
         .filter!(n => hasEntityCollection(n))
@@ -92,14 +88,10 @@ mixin template EntityCollectionManagerTemplate() {
 
   // #region Add collection 
     bool addEntityCollections(IEntityCollection[string] someCollections) {
-      if (someCollections.isEmpty) { 
-      return false; 
-    }
+      if (someCollections.isEmpty) { return false; }
 
       foreach(myName, myCollection; someCollections) {
-        if (!addEntityCollection(myName, myCollection)) { 
-      return false; 
-    }
+        if (!addEntityCollection(myName, myCollection)) { return false; }
       }
 
       return true;
@@ -110,9 +102,7 @@ mixin template EntityCollectionManagerTemplate() {
     }
 
     bool addEntityCollections(IEntityCollection[] someCollections) {
-      if (someCollections.isEmpty) { 
-      return false; 
-    }
+      if (someCollections.isEmpty) { return false; }
 
       return someCollections
         .filter!(c => addEntityCollection(c))
@@ -126,56 +116,52 @@ mixin template EntityCollectionManagerTemplate() {
     }
 
     bool addEntityCollection(string aName, IEntityCollection aCollection) {
-      return entityCollectionContainer
-        ? entityCollectionContainer.add(aName, aCollection)
-        : false;
+      if (entityCollectionContainer is null) return false;
+
+      return entityCollectionContainer.add(aName, aCollection);
     }
   // #endregion Add collection
 
   // #region Update collection
     bool updateEntityCollections(IEntityCollection[string] someCollections) {
-    if (someCollections.isEmpty) { 
-      return false; 
+      // IN Check
+      if (someCollections.isEmpty) { return false; }
+
+      // BODY
+      foreach(myName, myCollection; someCollections) {
+        if (!updateEntityCollection(myName, myCollection)) { 
+          return false;
+        } 
+      }
+
+      return true;
     }
 
-    foreach(myName, myCollection; someCollections) {
-      if (!updateEntityCollection(myName, myCollection)) { 
-      return false; 
+    bool updateEntityCollections(IEntityCollection[] someCollections...) {
+      return updateEntityCollections(someCollections.dup);
     }
 
-    return true;
-  }
+    bool updateEntityCollections(IEntityCollection[] someCollections) {
+      // IN Check
+      if (someCollections.isEmpty) { return false; }
 
-  bool updateEntityCollections(IEntityCollection[] someCollections...) {
-    return updateEntityCollections(someCollections.dup);
-  }
-
-  bool updateEntityCollections(IEntityCollection[] someCollections) {
-    if (someCollections.isEmpty) { 
-      return false; 
+      // BODY
+      return someCollections
+        .filter!(c => updateEntityCollection(c))
+        .array.length == someCollections.length;
     }
 
-    return someCollections
-      .filter!(c => updateEntityCollection(c))
-      .array.length == someCollections.length;
+    bool updateEntityCollection(IEntityCollection aCollection) {
+      return (aCollection ? updateEntityCollection(aCollection.name, aCollection) : false);
     }
-  }
+    bool updateEntityCollection(string aName, IEntityCollection aCollection) {
+      if (aName.isEmpty 
+        || aCollection.isNull
+        || entityCollectionContainer.isNull) { return false; }
 
-  bool updateEntityCollection(IEntityCollection aCollection) {
-    return (aCollection ? updateEntityCollection(aCollection.name, aCollection) : false);
-  }
-  bool updateEntityCollection(string aName, IEntityCollection aCollection) {
-    if (aName.isEmpty || aCollection.isNull) {
-      return false;
+      entityCollectionContainer.update(aName, aCollection);
+      return true;
     }
-
-    if (entityCollectionContainer.isNull) {
-      return false;
-    }
-
-    entityCollectionContainer.update(aName, aCollection);
-    return true;
-  }
   // #endregion Update collection
 
   // #region Remove existing collection
@@ -184,13 +170,12 @@ mixin template EntityCollectionManagerTemplate() {
     }
 
     bool removeEntityCollections(IEntityCollection[] someCollections) {
-      if (someCollections.isEmpty) { 
-        return false; 
-      }
+      if (someCollections.isEmpty) { return false; }
 
       foreach(myCollection; someCollections) {
         if (!removeEntityCollection(myCollection)) { return false; }
       }
+
       return true;
     }
 
@@ -199,9 +184,7 @@ mixin template EntityCollectionManagerTemplate() {
     }
 
     bool removeEntityCollections(string[] someNames) {
-      if (someNames.isEmpty) { 
-        return false; 
-      }
+      if (someNames.isEmpty) { return false; }
 
       foreach(myName; someNames) {
         if (!removeEntityCollection(myName)) { return false; }
