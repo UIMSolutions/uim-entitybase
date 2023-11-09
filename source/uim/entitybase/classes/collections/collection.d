@@ -5,17 +5,17 @@ import uim.entitybase;
 
 class DEntityCollection : IEntityCollection {
   this() { this.jsCollection(JSBNullCollection); }
-  this(DJSBCollection col) { 
+  this(IJsonCollection col) { 
     this();
     this.jsCollection(col); }
   this(Json options) {
     this(); 
     this.options(options); }
-  this(DJSBCollection col, Json options) { 
+  this(IJsonCollection col, Json options) { 
     this(col); 
     this.options(options); }
   
-  mixin(OProperty!("DJSBCollection", "jsCollection"));
+  mixin(OProperty!("IJsonCollection", "jsCollection"));
   mixin(OProperty!("IEntityCollectionManager", "manager"));
   mixin(OProperty!("string", "name"));
 
@@ -33,7 +33,9 @@ class DEntityCollection : IEntityCollection {
     return cast(O)this;
   }
 
-  bool isNull() { return false; }
+  bool isNull() { 
+      return false; 
+    }
   bool notNull() { return true; }
 
   bool has(Json entity, UUID id) {
@@ -303,7 +305,7 @@ class DEntityCollection : IEntityCollection {
     /// remove first selected item from entities
     bool removeOne(DEntity[] entities) {
       foreach(entity; entities) {
-        if (removeOne(entity)) return true;
+        if (removeOne(entity)) { return true; }
       }
       return false; }
 
@@ -317,7 +319,7 @@ class DEntityCollection : IEntityCollection {
   // #endregion removeOne
 }
 auto EntityCollection() { return new DEntityCollection; }
-auto EntityCollection(DJSBCollection col) { return new DEntityCollection(col); }
+auto EntityCollection(IJsonCollection col) { return new DEntityCollection(col); }
 auto EntityCollection(Json options) { return new DEntityCollection(options); }
-auto EntityCollection(DJSBCollection col, Json options) { return new DEntityCollection(col, options); }
+auto EntityCollection(IJsonCollection col, Json options) { return new DEntityCollection(col, options); }
 

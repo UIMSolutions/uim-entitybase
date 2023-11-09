@@ -1,8 +1,11 @@
 module uim.entitybase.classes.bases;
 
-@safe:
 import uim.entitybase;
 
-public import uim.entitybase.classes.bases.base;
-public import uim.entitybase.classes.bases.container;
-public import uim.entitybase.classes.bases.tests;
+@safe:
+
+public {
+  import uim.entitybase.classes.bases.base;
+  import uim.entitybase.classes.bases.container;
+  import uim.entitybase.classes.bases.tests;
+}

@@ -1,8 +1,8 @@
 module uim.entitybase.classes.bases.container;
 
-@safe:
 import uim.entitybase;
 
+@safe:
 class DEntityBaseContainer : DNamedContainer!IEntityBase {
 } 
 auto EntityBaseContainer() { return new DEntityBaseContainer(); }

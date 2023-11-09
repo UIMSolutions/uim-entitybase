@@ -7,7 +7,9 @@ class DEntityNullCollection : DEntityCollection {
   this() { super(); }
 
   override bool isNull() { return true; }
-  override bool notNull() { return false; }
+  override bool notNull() { 
+      return false; 
+    }
 
 // #region FindMany
   alias findMany = DEntityCollection.findMany;
@@ -110,7 +112,9 @@ version(test_uim_entitybase) {
   // #endregion updateMany
 
   // #region updateOne
-  override bool updateOne(Json select, Json updateData) { return false; }
+  override bool updateOne(Json select, Json updateData) { 
+      return false; 
+    }
 version(test_uim_entitybase) {
   unittest {
       auto col = EntityNullCollection ;
@@ -154,7 +158,9 @@ version(test_uim_entitybase) {
   /// Remove one item or one version from collection
   alias removeOne = DEntityCollection.removeOne;
   /// Remove based on id - allVersions:true - remove all, remove lastVersion 
-  override bool removeOne(UUID id, bool allVersions = false) { return false; }
+  override bool removeOne(UUID id, bool allVersions = false) { 
+      return false; 
+    }
 version(test_uim_entitybase) {
   unittest {
       auto col = EntityNullCollection ;
@@ -163,7 +169,9 @@ version(test_uim_entitybase) {
       // TODO
       }}
 
-  override bool removeOne(UUID id, size_t versionNumber) { return false; }
+  override bool removeOne(UUID id, size_t versionNumber) { 
+      return false; 
+    }
 version(test_uim_entitybase) {
   unittest {
       auto col = EntityNullCollection ;
@@ -171,7 +179,9 @@ version(test_uim_entitybase) {
       // TODO
       }}
 
-  override bool removeOne(STRINGAA select, bool allVersions = false) { return false; }
+  override bool removeOne(STRINGAA select, bool allVersions = false) { 
+      return false; 
+    }
 version(test_uim_entitybase) {
   unittest {
       auto col = EntityNullCollection ;
@@ -180,7 +190,9 @@ version(test_uim_entitybase) {
       // TODO
       }}
 
-  override bool removeOne(Json select, bool allVersions = false) { return false; }
+  override bool removeOne(Json select, bool allVersions = false) { 
+      return false; 
+    }
 version(test_uim_entitybase) {
   unittest {
       auto col = EntityNullCollection ;

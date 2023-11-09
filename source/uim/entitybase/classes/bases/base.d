@@ -1,21 +1,24 @@
 module uim.entitybase.classes.bases.base;
 
-@safe:
 import uim.entitybase;
 
+@safe:
 class DEntityBase : IEntityTenantManager {
   this() { 
     initialize; 
   }
-  this(DJSBBase jsDatabase) {
+
+  this(IJsonBase jsDatabase) {
     this()
       .importDatabase(jsDatabase); 
   }
+
   this(Json options) {
     this()
       .options(options); 
   }
-  this(DJSBBase jsDatabase, Json options) {
+
+  this(IJsonBase jsDatabase, Json options) {
     this(jsDatabase)
       .options(options); 
   }
@@ -29,8 +32,8 @@ class DEntityBase : IEntityTenantManager {
   mixin EntityTenantContainerTemplate;
   mixin EntityTenantManagerTemplate;
 
-  O importDatabase(this O)(DJSBBase jsDatabase) {
-    debug writeln(__MODULE__~" - importDatabase(this O)(DJSBBase jsDatabase)"); 
+  O importDatabase(this O)(IJsonBase jsDatabase) {
+    debug writeln(__MODULE__~" - importDatabase(this O)(IJsonBase jsDatabase)"); 
 /*     debug writeln(jsDatabase.tenantNames);
 
     if (jsDatabase) foreach (name, jsTenant; jsDatabase.tenants)
@@ -132,6 +135,6 @@ version(test_uim_entitybase) {
       }}
 }
 auto EntityBase() { return new DEntityBase; }
-auto EntityBase(DJSBBase jsBase) { return new DEntityBase(jsBase); }
+auto EntityBase(IJsonBase jsBase) { return new DEntityBase(jsBase); }
 auto EntityBase(Json options) { return new DEntityBase(options); }
-auto EntityBase(DJSBBase jsBase, Json options) { return new DEntityBase(jsBase, options); }
+auto EntityBase(IJsonBase jsBase, Json options) { return new DEntityBase(jsBase, options); }

@@ -18,7 +18,8 @@ mixin template EntityTenantContainerTemplate() {
       if (auto myManager = cast(IEntityTenantManager)this.manager) {
         return myManager.entityTenantContainer;
       }
-      return null; 
+      
+      return null;  
     }  
 
     void entityTenantContainer(DEntityTenantContainer aEntityTenantContainer) {    
@@ -52,14 +53,13 @@ mixin template EntityTenantManagerTemplate() {
     }
 
     bool hasEntityTenants(IEntityTenant[] someTenants) {
-      if (someTenants.isEmpty) return false;
+      if (someTenants.isEmpty) { 
+      return false; 
+    }
 
-      foreach(myTenant; someTenants) {
-        if (!hasEntityTenant(myTenant)) {
-          return false;
-        }
-      }
-      return true;
+      return someTenants
+        .filter!(t => hasEntityTenant(t))
+        .count == someTenants.length;
     }
 
     bool hasEntityTenants(string[] someNames...) {
@@ -67,15 +67,13 @@ mixin template EntityTenantManagerTemplate() {
     }
 
     bool hasEntityTenants(string[] someNames) {
-      if (someNames.isEmpty) return false;
+      if (someNames.isEmpty) { 
+      return false; 
+    }
 
-      foreach(myName; someNames) {
-        if (!hasEntityTenant(myName)) {
-          return false;
-        }
-      }
-
-      return true;
+      return someNames
+        .filter!(n => hasEntityTenant(n))
+        .count == someTenants.length;
     }
 
     bool hasEntityTenant(IEntityTenant aTenant) {
@@ -83,33 +81,41 @@ mixin template EntityTenantManagerTemplate() {
     }
 
     bool hasEntityTenant(string aName) {
-      return (entityTenantContainer ? entityTenantContainer.contains(aName) : false);
+      return entityTenantContainer 
+        ? entityTenantContainer.contains(aName) 
+        : false;
     }
   // #endregion hasEntityTenant
 
   // #region Add tenant 
     bool addEntityTenants(IEntityTenant[string] someTenants) {
-      if (someTenants.isEmpty) return false;
+      if (someTenants.isEmpty) { 
+      return false; 
+    }
 
       foreach(myName, myTenant; someTenants) {
-        if (!addEntityTenant(myName, myTenant)) return false;
+        if (!addEntityTenant(myName, myTenant)) { 
+      return false; 
+    }
       }
 
       return true;
     }
 
-    bool addEntityTenants(IEntityTenant[] someTenants...) {
+    bool addEntityTenants(IEntityTenant[] someTenants...) {      
       return addEntityTenants(someTenants.dup);
     }
 
     bool addEntityTenants(IEntityTenant[] someTenants) {
-      if (someTenants.isEmpty) return false;
+      // Preconditions
+      if (someTenants.isEmpty) { 
+      return false; 
+    }
 
-      foreach(myTenant; someTenants) {
-        if (!addEntityTenant(myTenant)) return false;
-      }
-
-      return true;
+      // Body & final
+      return someTenants
+        .each!(t => addEntityTenant(t))
+        .count == someTenants;
     }
 
     bool addEntityTenant(IEntityTenant aTenant) {
@@ -128,10 +134,14 @@ mixin template EntityTenantManagerTemplate() {
 
   // #region Update tenant
     bool updateEntityTenants(IEntityTenant[string] someTenants) {
-    if (someTenants.isEmpty) return false;
+    if (someTenants.isEmpty) { 
+      return false; 
+    }
 
     foreach(myName, myTenant; someTenants) {
-      if (!updateEntityTenant(myName, myTenant)) return false;
+      if (!updateEntityTenant(myName, myTenant)) { 
+      return false; 
+    }
     }
 
     return true;
@@ -142,24 +152,23 @@ mixin template EntityTenantManagerTemplate() {
   }
 
   bool updateEntityTenants(IEntityTenant[] someTenants) {
-    if (someTenants.isEmpty) return false;
-
-    foreach(myTenant; someTenants) {
-      if (!updateEntityTenant(myTenant)) return false;
+    if (someTenants.isEmpty) { 
+      return false; 
     }
 
-    return true;
+    // Body & final
+    return someTenants
+      .filter!(tenant => updateEntityTenant(tenant))
+      .count == someTenants;
   }
 
   bool updateEntityTenant(IEntityTenant aTenant) {
     return (aTenant ? updateEntityTenant(aTenant.name, aTenant) : false);
   }
   bool updateEntityTenant(string aName, IEntityTenant aTenant) {
-    if (entityTenantContainer) {
-      entityTenantContainer.update(aName, aTenant); 
-      return true;
-    }
-    return false;
+    return entityTenantContainer
+      ? entityTenantContainer.update(aName, aTenant)
+      : false;
   }
   // #endregion Update tenant
 
@@ -169,12 +178,13 @@ mixin template EntityTenantManagerTemplate() {
     }
 
     bool removeEntityTenants(IEntityTenant[] someTenants) {
-      if (someTenants.isEmpty) return false;
+      if (someTenants.isEmpty) { 
+      return false; 
+    }
 
-      foreach(myTenant; someTenants) {
-        if (!removeEntityTenant(myTenant)) return false;
-      }
-      return true;
+    return someTenants
+      .filter!(tenant => removeEntityTenant(tenant))
+      .count == someTenants;
     }
 
     bool removeEntityTenants(string[] someNames...) {
@@ -182,13 +192,14 @@ mixin template EntityTenantManagerTemplate() {
     }
 
     bool removeEntityTenants(string[] someNames) {
-      if (someNames.isEmpty) return false;
+      if (someNames.isEmpty) { 
+      return false; 
+    }
 
-      foreach(myName; someNames) {
-        if (!removeEntityTenant(myName)) return false;
-      }
-
-      return true;
+      // Body & final
+      return someNames
+        .filter!(name => removeEntityTenant(name))
+        .count == someTenants;
     }
 
     bool removeEntityTenant(IEntityTenant aTenant) {
@@ -196,11 +207,9 @@ mixin template EntityTenantManagerTemplate() {
     }
 
     bool removeEntityTenant(string aName) {
-      if (entityTenantContainer) {
-        entityTenantContainer.remove(aName);
-        return true;
-      }
-      return false;
+     return entityTenantContainer
+      ? entityTenantContainer.remove(aName)
+      : false;
     }
   // #endregion Remove tenant
 }

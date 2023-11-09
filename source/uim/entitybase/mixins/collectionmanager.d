@@ -18,6 +18,7 @@ mixin template EntityCollectionContainerTemplate() {
       if (auto myManager = cast(IEntityCollectionManager)this.manager) {
         return myManager.entityCollectionContainer;
       }
+      
       return null; 
     }  
     void entityCollectionContainer(DEntityCollectionContainer aContainer) {    
@@ -54,7 +55,9 @@ mixin template EntityCollectionManagerTemplate() {
     }
 
     bool hasEntityCollections(IEntityCollection[] someCollections) {
-      if (someCollections.isEmpty) return false;
+      if (someCollections.isEmpty) { 
+      return false; 
+    }
 
       foreach(myCollection; someCollections) {
         if (!hasEntityCollection(myCollection)) {
@@ -69,14 +72,13 @@ mixin template EntityCollectionManagerTemplate() {
     }
 
     bool hasEntityCollections(string[] someNames) {
-      if (someNames.isEmpty) return false;
+      if (someNames.isEmpty) { 
+      return false; 
+    }
 
-      foreach(myName; someNames) {
-        if (!hasEntityCollection(myName)) {
-          return false;
-        } 
-      }
-      return true;
+      return someNames
+        .filter!(n => hasEntityCollection(n))
+        .array.length == someNames.length;
     }
 
     bool hasEntityCollection(IEntityCollection aCollection) {
@@ -90,10 +92,14 @@ mixin template EntityCollectionManagerTemplate() {
 
   // #region Add collection 
     bool addEntityCollections(IEntityCollection[string] someCollections) {
-      if (someCollections.isEmpty) return false;
+      if (someCollections.isEmpty) { 
+      return false; 
+    }
 
       foreach(myName, myCollection; someCollections) {
-        if (!addEntityCollection(myName, myCollection)) return false;
+        if (!addEntityCollection(myName, myCollection)) { 
+      return false; 
+    }
       }
 
       return true;
@@ -104,34 +110,37 @@ mixin template EntityCollectionManagerTemplate() {
     }
 
     bool addEntityCollections(IEntityCollection[] someCollections) {
-      if (someCollections.isEmpty) return false;
+      if (someCollections.isEmpty) { 
+      return false; 
+    }
 
-      foreach( myCollection; someCollections) {
-        if (!addEntityCollection(myCollection)) return false;
-      }
-
-      return true;
+      return someCollections
+        .filter!(c => addEntityCollection(c))
+        .array.length == someCollections.length;
     }
 
     bool addEntityCollection(IEntityCollection aCollection) {
-      return (aCollection ? addEntityCollection(aCollection.name, aCollection) : false);
+      return (aCollection 
+        ? addEntityCollection(aCollection.name, aCollection) 
+        : false);
     }
 
     bool addEntityCollection(string aName, IEntityCollection aCollection) {
-      if (entityCollectionContainer) {
-        entityCollectionContainer.add(aName, aCollection);
-        return true;
-      }
-      return false;
+      return entityCollectionContainer
+        ? entityCollectionContainer.add(aName, aCollection)
+        : false;
     }
   // #endregion Add collection
 
   // #region Update collection
     bool updateEntityCollections(IEntityCollection[string] someCollections) {
-    if (someCollections.isEmpty) return false;
+    if (someCollections.isEmpty) { 
+      return false; 
+    }
 
     foreach(myName, myCollection; someCollections) {
-      if (!updateEntityCollection(myName, myCollection)) return false;
+      if (!updateEntityCollection(myName, myCollection)) { 
+      return false; 
     }
 
     return true;
@@ -142,24 +151,30 @@ mixin template EntityCollectionManagerTemplate() {
   }
 
   bool updateEntityCollections(IEntityCollection[] someCollections) {
-    if (someCollections.isEmpty) return false;
-
-    foreach(myCollection; someCollections) {
-      if (!updateEntityCollection(myCollection)) return false;
+    if (someCollections.isEmpty) { 
+      return false; 
     }
 
-    return true;
+    return someCollections
+      .filter!(c => updateEntityCollection(c))
+      .array.length == someCollections.length;
+    }
   }
 
   bool updateEntityCollection(IEntityCollection aCollection) {
     return (aCollection ? updateEntityCollection(aCollection.name, aCollection) : false);
   }
   bool updateEntityCollection(string aName, IEntityCollection aCollection) {
-    if (entityCollectionContainer) {
-      entityCollectionContainer.update(aName, aCollection);
-      return true;
-    } 
-    return false;
+    if (aName.isEmpty || aCollection.isNull) {
+      return false;
+    }
+
+    if (entityCollectionContainer.isNull) {
+      return false;
+    }
+
+    entityCollectionContainer.update(aName, aCollection);
+    return true;
   }
   // #endregion Update collection
 
@@ -169,10 +184,12 @@ mixin template EntityCollectionManagerTemplate() {
     }
 
     bool removeEntityCollections(IEntityCollection[] someCollections) {
-      if (someCollections.isEmpty) return false;
+      if (someCollections.isEmpty) { 
+        return false; 
+      }
 
       foreach(myCollection; someCollections) {
-        if (!removeEntityCollection(myCollection)) return false;
+        if (!removeEntityCollection(myCollection)) { return false; }
       }
       return true;
     }
@@ -182,10 +199,12 @@ mixin template EntityCollectionManagerTemplate() {
     }
 
     bool removeEntityCollections(string[] someNames) {
-      if (someNames.isEmpty) return false;
+      if (someNames.isEmpty) { 
+        return false; 
+      }
 
       foreach(myName; someNames) {
-        if (!removeEntityCollection(myName)) return false;
+        if (!removeEntityCollection(myName)) { return false; }
       }
 
       return true;
