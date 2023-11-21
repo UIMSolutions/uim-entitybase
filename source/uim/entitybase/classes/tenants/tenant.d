@@ -46,11 +46,10 @@ class DEntityTenant : IEntityTenant, IEntityCollectionManager {
     // debug writeln(moduleName!DEntityTenant, ":DEntityTenant::importTenant()");
     // debug writeln(jbTenant.collectionNames);
 
-    if (jbTenant is null) return;
+    if (jbTenant.isNull) return;
 
-    foreach (name, jsCollection; jbTenant.collections) {
-      this.addEntityCollection(name, EntityCollection(jsCollection));
-    }     
+    jbTenant.collections.byKeyValue
+      .each!(kv => this.addEntityCollection(kv.key, EntityCollection(kv.value)));
   }
 }
 auto EntityTenant() { return new DEntityTenant; }

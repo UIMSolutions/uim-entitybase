@@ -31,20 +31,22 @@ interface IEntityTenantManager {
   bool addEntityTenant(IEntityTenant aTenant);
   bool addEntityTenant(string aName, IEntityTenant aTenant);
 
-  // Update existing entitytenant
-  bool updateEntityTenants(IEntityTenant[] aTenant...);
-  bool updateEntityTenants(IEntityTenant[] aTenant);
+  // #region Update existing entitytenant
+    bool updateEntityTenants(IEntityTenant[] aTenant...);
+    bool updateEntityTenants(IEntityTenant[] aTenant);
 
-  bool updateEntityTenant(IEntityTenant aTenant);
-  bool updateEntityTenant(string aName, IEntityTenant aTenant);
+    bool updateEntityTenant(IEntityTenant aTenant);
+    bool updateEntityTenant(string aName, IEntityTenant aTenant);
+  // #endregion Update existing entitytenant
 
-  // Remove existing entitytenant
-  bool removeEntityTenants(IEntityTenant[] aTenant...);
-  bool removeEntityTenants(IEntityTenant[] aTenant);
+  // #region Remove existing entitytenant
+    bool removeEntityTenants(IEntityTenant[] aTenant...);
+    bool removeEntityTenants(IEntityTenant[] aTenant);
 
-  bool removeEntityTenants(string[] aName...);
-  bool removeEntityTenants(string[] aName);
+    bool removeEntityTenants(string[] aName...);
+    bool removeEntityTenants(string[] aName);
 
-  bool removeEntityTenant(IEntityTenant aTenant);
-  bool removeEntityTenant(string aName);
+    bool removeEntityTenant(IEntityTenant aTenant);
+    bool removeEntityTenant(string aName);
+  // #endregion Remove existing entitytenant
 }

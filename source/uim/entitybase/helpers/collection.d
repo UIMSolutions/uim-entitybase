@@ -4,7 +4,7 @@ import uim.entitybase;
 @safe:
 
 auto collection(IEntityTenantManager aTenantManager, string aTenantName, string aCollectionName) {
-  if (!aTenantManager) return null;
+  if (aTenantManager.isNull) { return null; }
 
   auto myTenant = aTenantManager.entityTenant(aTenantName);
   if (!myTenant) return null;

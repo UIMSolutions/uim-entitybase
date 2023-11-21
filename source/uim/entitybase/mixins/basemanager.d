@@ -107,7 +107,9 @@ mixin template EntityBaseManagerTemplate() {
       return (aBase ? addEntityBase(aBase.name, aBase) : false);
     }
     bool addEntityBase(string aName, IEntityBase aEntityBase) {
-      if (_entityBaseContainer && aEntityBase && !hasEntityBase(aName)) 
+      if (_entityBaseContainer.isNull || aEntityBase.isNull) { return false; }
+
+      if (!hasEntityBase(aName)) 
         _entityBaseContainer.add(aName, aEntityBase);
     }
   // #endregion add EntityBase
