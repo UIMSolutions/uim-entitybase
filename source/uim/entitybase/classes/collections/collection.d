@@ -3,6 +3,12 @@ module uim.entitybase.classes.collections.collection;
 @safe:
 import uim.entitybase;
 
+version(testUimEntitybase) { 
+  unittest {
+    debug writeln("\n", __MODULE__~":"~__PRETTY_FUNCTION__); 
+  }
+}
+
 class DEntityCollection : IEntityCollection {
   this() { this.jsCollection(JSBNullCollection); }
   this(IJsonCollection col) { 
@@ -103,27 +109,33 @@ class DEntityCollection : IEntityCollection {
     /// Count all items in the collection with ids and versionNumber.
     /// allVersion = true include versions; = false results in existing ids 
     size_t count(UUID[] ids, size_t versionNumber) {
-      return jsCollection.count(ids, versionNumber); }
+      return jsCollection.count(ids, versionNumber); 
+    }
 
     // Searching for existing id
     size_t count(UUID id, size_t versionNumber) {
-      return jsCollection.count(id, versionNumber); }
+      return jsCollection.count(id, versionNumber); 
+    }
 
     // Searching for existing selects
     size_t count(STRINGAA[] selects, bool allVersions = false) {
-      return jsCollection.count(selects, allVersions); }
+      return jsCollection.count(selects, allVersions); 
+    }
 
     // Searching based on parameter "select":string[string]
     size_t count(STRINGAA select, bool allVersions = false) {
-      return jsCollection.count(select, allVersions); }
+      return jsCollection.count(select, allVersions); 
+    }
 
     // Searching for existing selects:dEntity[]
     size_t count(Json[] selects, bool allVersions = false) {
-      return jsCollection.count(selects, allVersions); }
+      return jsCollection.count(selects, allVersions);
+    }
 
     // Searching based on parameter "select":DEntity[]
     size_t count(Json select, bool allVersions = false) {
-      return jsCollection.count(select, allVersions); }
+      return 0; // jsCollection.count(select, allVersions); 
+    }
   // #endregion count
 
   // #region findMany

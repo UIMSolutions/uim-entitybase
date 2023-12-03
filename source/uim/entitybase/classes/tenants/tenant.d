@@ -2,6 +2,12 @@ module uim.entitybase.classes.tenants.tenant;
 
 import uim.entitybase;
 
+version(testUimEntitybase) { 
+  unittest {
+    debug writeln("\n", __MODULE__~":"~__PRETTY_FUNCTION__); 
+  }
+}
+
 @safe:
 class DEntityTenant : IEntityTenant, IEntityCollectionManager {
   this() {

@@ -4,7 +4,7 @@ module uim.entitybase.classes.bases.tests;
 import uim.entitybase;
 
 auto createTestDB(string mode) {
-  switch(mode) {
+/*   switch(mode) {
     case "file":
       auto jsBase = new DJSBFileBase("./tests");
       // debug writeln("Tenants: ", jsBase.tenantNames);
@@ -12,5 +12,5 @@ auto createTestDB(string mode) {
       return EntityBase(jsBase);
     //break;
     default: return EntityBase();
-  }
+  } */
 }

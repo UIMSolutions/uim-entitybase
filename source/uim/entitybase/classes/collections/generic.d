@@ -1,8 +1,14 @@
 module uim.entitybase.classes.collections.generic;
 
-@safe:
 import uim.entitybase;
 
+version(testUimEntitybase) { 
+  unittest {
+    debug writeln("\n", __MODULE__~":"~__PRETTY_FUNCTION__); 
+  }
+}
+
+@safe:
 class DEntityGenericCollection(T) : DEntityCollection {
   this() { }
   

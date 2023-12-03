@@ -35,8 +35,8 @@
 			"name": "default"
 		},
 		{
-			"name": "uim_entitybase",
-			"versions": ["test_uim_entitybase"]
+			"name": "testLib",
+			"versions": ["testUimEntitybase"]
 		}
 	]
 }

@@ -1,8 +1,14 @@
 module uim.entitybase.classes.tenants.null_;
 
-@safe:
 import uim.entitybase;
 
+version(testUimEntitybase) { 
+  unittest {
+    debug writeln("\n", __MODULE__~":"~__PRETTY_FUNCTION__); 
+  }
+}
+
+@safe:
 /* class DEntityNullTenant : DEntityTenant {
   this() {}
 

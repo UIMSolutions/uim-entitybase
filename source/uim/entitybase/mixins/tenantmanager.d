@@ -177,12 +177,10 @@ mixin template EntityTenantManagerTemplate() {
     }
 
     bool removeEntityTenants(string[] someNames) {
-      // IN Check
       if (someNames.isEmpty) { return false; }
 
-      // Body & final
       return someNames
-        .count!(name => removeEntityTenant(name)) == someTenants.length;
+        .map!(name => removeEntityTenant(name)).sum == someNames.length;
     }
 
     bool removeEntityTenant(IEntityTenant aTenant) {
