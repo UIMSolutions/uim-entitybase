@@ -122,7 +122,7 @@ class DEntityCollection : IEntityCollection {
       return jsCollection.count(selects, allVersions); 
     }
 
-    // Searching based on parameter "select":string[string]
+    // Searching based on parameter "select":STRINGAA
     size_t count(STRINGAA select, bool allVersions = false) {
       return jsCollection.count(select, allVersions); 
     }
@@ -197,7 +197,7 @@ class DEntityCollection : IEntityCollection {
     DEntity findOne(STRINGAA[] selects, bool allVersions = false) {
       return toEntity(jsCollection.findOne(selects, allVersions)); }
 
-    // Searching based on parameter "select":string[string]
+    // Searching based on parameter "select":STRINGAA
     DEntity findOne(STRINGAA select, bool allVersions = false) {
       return toEntity(jsCollection.findOne(select, allVersions)); }
 
@@ -304,7 +304,7 @@ class DEntityCollection : IEntityCollection {
     bool removeOne(UUID id, size_t versionNumber) {
       return jsCollection.removeOne(id, versionNumber); }
 
-    /// RemoveMany by select (string[string])
+    /// RemoveMany by select (STRINGAA)
     bool removeOne(STRINGAA[] selects, bool allVersions = false) {
       return jsCollection.removeOne(selects, allVersions); }
 
